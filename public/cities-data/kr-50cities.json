@@ -1,0 +1,352 @@
+[
+  {
+    "id": 1835848,
+    "name_en": "Seoul",
+    "name_kr": "서울",
+    "lat": 37.5665,
+    "lon": 126.978
+  },
+  {
+    "id": 1838524,
+    "name_en": "Busan",
+    "name_kr": "부산",
+    "lat": 35.1028,
+    "lon": 129.0403
+  },
+  {
+    "id": 1843561,
+    "name_en": "Incheon",
+    "name_kr": "인천",
+    "lat": 37.45,
+    "lon": 126.4161
+  },
+  {
+    "id": 1835327,
+    "name_en": "Daegu",
+    "name_kr": "대구",
+    "lat": 35.8,
+    "lon": 128.55
+  },
+  {
+    "id": 1835224,
+    "name_en": "Daejeon",
+    "name_kr": "대전",
+    "lat": 36.3333,
+    "lon": 127.4167
+  },
+  {
+    "id": 1832973,
+    "name_en": "Gwangju",
+    "name_kr": "광주광역시",
+    "lat": 35.1303,
+    "lon": 126.8158
+  },
+  {
+    "id": 1835553,
+    "name_en": "Suwon",
+    "name_kr": "수원",
+    "lat": 37.2911,
+    "lon": 127.0089
+  },
+  {
+    "id": 1833742,
+    "name_en": "Ulsan",
+    "name_kr": "울산",
+    "lat": 35.5667,
+    "lon": 129.2667
+  },
+  {
+    "id": 1846326,
+    "name_en": "Changwon",
+    "name_kr": "창원",
+    "lat": 35.2281,
+    "lon": 128.6811
+  },
+  {
+    "id": 1897000,
+    "name_en": "Seongnam",
+    "name_kr": "성남",
+    "lat": 37.4386,
+    "lon": 127.1378
+  },
+  {
+    "id": 1842485,
+    "name_en": "Goyang",
+    "name_kr": "고양",
+    "lat": 37.6564,
+    "lon": 126.835
+  },
+  {
+    "id": 1832427,
+    "name_en": "Yongin",
+    "name_kr": "용인",
+    "lat": 37.2342,
+    "lon": 127.2064
+  },
+  {
+    "id": 1843847,
+    "name_en": "Hwaseong",
+    "name_kr": "화성",
+    "lat": 37.2068,
+    "lon": 126.8169
+  },
+  {
+    "id": 1840898,
+    "name_en": "Paju",
+    "name_kr": "파주",
+    "lat": 37.7611,
+    "lon": 126.775
+  },
+  {
+    "id": 1839071,
+    "name_en": "Pohang",
+    "name_kr": "포항",
+    "lat": 36.0322,
+    "lon": 129.365
+  },
+  {
+    "id": 1845457,
+    "name_en": "Jeonju",
+    "name_kr": "전주",
+    "lat": 35.8219,
+    "lon": 127.1489
+  },
+  {
+    "id": 1845604,
+    "name_en": "Cheongju",
+    "name_kr": "청주",
+    "lat": 36.6372,
+    "lon": 127.4897
+  },
+  {
+    "id": 1845136,
+    "name_en": "Chuncheon",
+    "name_kr": "춘천",
+    "lat": 37.8747,
+    "lon": 127.7342
+  },
+  {
+    "id": 1843137,
+    "name_en": "Gangneung",
+    "name_kr": "강릉",
+    "lat": 37.7556,
+    "lon": 128.8961
+  },
+  {
+    "id": 1833105,
+    "name_en": "Wonju",
+    "name_kr": "원주",
+    "lat": 37.3514,
+    "lon": 127.9453
+  },
+  {
+    "id": 1842943,
+    "name_en": "Gimhae",
+    "name_kr": "김해",
+    "lat": 35.2285,
+    "lon": 128.8894
+  },
+  {
+    "id": 1842225,
+    "name_en": "Gumi",
+    "name_kr": "구미",
+    "lat": 36.1136,
+    "lon": 128.336
+  },
+  {
+    "id": 1841066,
+    "name_en": "Mokpo",
+    "name_kr": "목포",
+    "lat": 34.7936,
+    "lon": 126.3886
+  },
+  {
+    "id": 1835648,
+    "name_en": "Suncheon",
+    "name_kr": "순천",
+    "lat": 34.9481,
+    "lon": 127.4895
+  },
+  {
+    "id": 1840536,
+    "name_en": "Naju",
+    "name_kr": "나주",
+    "lat": 35.0283,
+    "lon": 126.7175
+  },
+  {
+    "id": 1846986,
+    "name_en": "Andong",
+    "name_kr": "안동",
+    "lat": 36.5656,
+    "lon": 128.725
+  },
+  {
+    "id": 1841149,
+    "name_en": "Miryang",
+    "name_kr": "밀양",
+    "lat": 35.4933,
+    "lon": 128.7489
+  },
+  {
+    "id": 1846265,
+    "name_en": "Jeju",
+    "name_kr": "제주",
+    "lat": 33.4167,
+    "lon": 126.5
+  },
+  {
+    "id": 1949757,
+    "name_en": "Geoje",
+    "name_kr": "거제",
+    "lat": 34.8847,
+    "lon": 128.6208
+  },
+  {
+    "id": 1839726,
+    "name_en": "Asan",
+    "name_kr": "아산",
+    "lat": 36.7836,
+    "lon": 127.0042
+  },
+  {
+    "id": 1842025,
+    "name_en": "Gunsan",
+    "name_kr": "군산",
+    "lat": 35.9786,
+    "lon": 126.7114
+  },
+  {
+    "id": 1843491,
+    "name_en": "Iksan",
+    "name_kr": "익산",
+    "lat": 35.9439,
+    "lon": 126.9544
+  },
+  {
+    "id": 1833788,
+    "name_en": "Uijeongbu",
+    "name_kr": "의정부",
+    "lat": 37.7415,
+    "lon": 127.0474
+  },
+  {
+    "id": 1846898,
+    "name_en": "Anyang",
+    "name_kr": "안양",
+    "lat": 37.3925,
+    "lon": 126.9269
+  },
+  {
+    "id": 1842936,
+    "name_en": "Gimpo",
+    "name_kr": "김포",
+    "lat": 37.6236,
+    "lon": 126.7142
+  },
+  {
+    "id": 1839652,
+    "name_en": "Osan",
+    "name_kr": "오산",
+    "lat": 37.1522,
+    "lon": 127.0706
+  },
+  {
+    "id": 1948005,
+    "name_en": "Gwangmyeong",
+    "name_kr": "광명",
+    "lat": 37.4785,
+    "lon": 126.8643
+  },
+  {
+    "id": 1846918,
+    "name_en": "Ansan",
+    "name_kr": "안산",
+    "lat": 37.3219,
+    "lon": 126.8309
+  },
+  {
+    "id": 1846919,
+    "name_en": "Siheung",
+    "name_kr": "시흥",
+    "lat": 37.3799,
+    "lon": 126.8031
+  },
+  {
+    "id": 1846889,
+    "name_en": "Pyeongtaek",
+    "name_kr": "평택",
+    "lat": 36.9947,
+    "lon": 127.0889
+  },
+  {
+    "id": 1841810,
+    "name_en": "Gwangju Gyeonggi",
+    "name_kr": "광주(경기)",
+    "lat": 37.41,
+    "lon": 127.2572
+  },
+  {
+    "id": 1897122,
+    "name_en": "Namyangju",
+    "name_kr": "남양주",
+    "lat": 37.6367,
+    "lon": 127.2142
+  },
+  {
+    "id": 1841988,
+    "name_en": "Guri",
+    "name_kr": "구리",
+    "lat": 37.5986,
+    "lon": 127.1394
+  },
+  {
+    "id": 6799737,
+    "name_en": "Dongducheon",
+    "name_kr": "동두천",
+    "lat": 37.9014,
+    "lon": 127.0603
+  },
+  {
+    "id": 1832847,
+    "name_en": "Yangju",
+    "name_kr": "양주",
+    "lat": 37.8331,
+    "lon": 127.0617
+  },
+  {
+    "id": 1842030,
+    "name_en": "Gunpo",
+    "name_kr": "군포",
+    "lat": 37.3675,
+    "lon": 126.9469
+  },
+  {
+    "id": 1846882,
+    "name_en": "Uiwang",
+    "name_kr": "의왕",
+    "lat": 37.3448,
+    "lon": 126.9682
+  },
+  {
+    "id": 1897007,
+    "name_en": "Hanam",
+    "name_kr": "하남",
+    "lat": 37.54,
+    "lon": 127.2056
+  },
+  {
+    "id": 1846882,
+    "name_en": "Sejong",
+    "name_kr": "세종",
+    "lat": 36.4681,
+    "lon": 127.2735
+  },
+  {
+    "id": 1846882,
+    "name_en": "Gongju",
+    "name_kr": "공주",
+    "lat": 36.4849,
+    "lon": 127.1297
+  }
+]
