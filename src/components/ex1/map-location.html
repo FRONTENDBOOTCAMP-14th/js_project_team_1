@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>장소 검색 및 지도</title>
+  <link rel="stylesheet" href="map-location.css">
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30dd49c7e09da88d4b22c2494ba40808&libraries=services"></script>
+</head>
+<body>
+  <div class="location-card">
+    <div class="location-card__info">
+      <img id="place-image" src="https://www.seoul.go.kr/upload/plant/2021/10/20211018101112_1.jpg" alt="서울식물원" class="location-card__image">
+      <div class="location-card__text-group">
+        <h2 id="place-name" class="location-card__title">서울식물원 <span class="location-card__subtitle">(마곡)</span></h2>
+        <div class="location-card__temp-group">
+          <span class="location-card__temp">00°C</span>
+        </div>
+        <div class="location-card__weather">흐림 <span class="location-card__minmax">최저24° 최고29°</span></div>
+        <div class="location-card__etc">
+          체감 00.0° · 습도 00% · 풍속 0.0m/s
+        </div>
+      </div>
+    </div>
+    <div class="location-card__map-group">
+      <form class="location-card__search-bar" onsubmit="return false;">
+        <input id="search-input" class="location-card__search-input" type="text" placeholder="장소를 검색하세요" autocomplete="off">
+        <button id="search-btn" class="location-card__search-btn" aria-label="검색">🔍</button>
+        <button id="copy-btn" class="location-card__copy-btn" aria-label="주소 복사">🗒️</button>
+      </form>
+      <div id="map-container" class="location-card__map"></div>
+      <div class="location-card__address-bar">
+        <span id="place-address" class="location-card__address">서울 강서구 마곡동로 161 서울식물원</span>
+      </div>
+    </div>
+  </div>
+  <script src="./map-location.js"></script>
+</body>
+</html> 
