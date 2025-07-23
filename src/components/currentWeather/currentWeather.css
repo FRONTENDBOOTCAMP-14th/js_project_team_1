@@ -1,0 +1,255 @@
+.current-header-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  gap: 0.9375rem;
+  padding-inline-start: 3.875rem;
+}
+
+.current-weather-title {
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: var(--black);
+}
+
+.current-weather-time {
+  font-weight: 600;
+  font-size: 1.875rem;
+  color: var(--black);
+}
+
+.weather-container {
+  background-color: transparent;
+  display: flex;
+  flex-flow: row nowrap;
+  padding: 3.875rem;
+  gap: 3.875rem;
+}
+
+.weather-left {
+  flex: 1;
+  max-width: 80%;
+}
+
+.weather-search-form {
+  inline-size: 100%;
+  block-size: 5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.search-wrapper {
+  flex: 1;
+  block-size: 100%;
+  position: relative;
+
+  .search-input:not(:placeholder-shown) + .search-label {
+    display: block;
+    top: 0;
+    background-color: #000;
+    color: #fff;
+  }
+
+  .search-input:not(:placeholder-shown)::placeholder {
+    color: transparent;
+  }
+}
+
+.search-wrapper:focus-within {
+  .search-label {
+    display: block;
+    top: 0;
+    background-color: #000;
+    color: #fff;
+  }
+
+  .search-input::placeholder {
+    color: transparent;
+  }
+
+  .search-input {
+    border-color: #000;
+    /* border-bottom-color: #0000001a; */
+  }
+
+  .search-lists {
+    border-color: #000;
+  }
+}
+
+.search-input {
+  inline-size: 100%;
+  block-size: 100%;
+  padding: 0.625rem 0.625rem 0.625rem 2rem;
+  border: 1px solid #0000001a;
+  border-radius: 1.5rem;
+  background-color: #f5f7fa;
+  font-size: 1.75rem;
+  font-weight: 400;
+  outline: 0;
+
+  &.remove-border {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &::placeholder {
+    color: #000000;
+    opacity: 0.5;
+    font-size: 1.75rem;
+    font-weight: 400;
+  }
+}
+
+.search-label {
+  position: absolute;
+  top: 50%;
+  left: 2rem;
+  transform: translate(0%, -50%);
+  color: transparent;
+  background-color: transparent;
+  font-size: 1.25rem;
+  font-weight: 800;
+  transition: top 300ms ease;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.search-lists {
+  background-color: #f5f7fa;
+  font-size: 1.75rem;
+  border: 1px solid #0000001a;
+  border-top: 0;
+  border-bottom-left-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
+  color: #000;
+  cursor: default;
+
+  li {
+    padding: 1.4375rem 2rem;
+
+    &:hover {
+      background-color: #e2e4e7;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 1.5rem;
+      border-bottom-right-radius: 1.5rem;
+    }
+  }
+}
+
+.search-button {
+  padding: 1.125rem 1.25rem;
+  block-size: 100%;
+  border-radius: 1.5rem;
+  color: #fff;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background-color: #000;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.weather-info {
+  margin-block-start: 3.875rem;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.weather-summary {
+  display: flex;
+  flex-flow: column nowrap;
+
+  .weather-location {
+    font-size: 3.5rem;
+    font-weight: 400;
+
+    .data-time {
+      font-size: 1.5625rem;
+    }
+  }
+
+  .weather-temp {
+    font-size: 7.5rem;
+    font-weight: 600;
+  }
+
+  .weather-detail {
+    span {
+      font-size: 2.5rem;
+    }
+
+    span:first-child {
+      font-weight: 700;
+    }
+
+    .weather-temp {
+      display: flex;
+      align-items: center;
+      flex-flow: row nowrap;
+      gap: 1.5625rem;
+
+      span {
+        font-weight: 400;
+      }
+    }
+  }
+
+  .weather-detail-sub {
+    margin-top: 7.75rem;
+
+    span {
+      display: inline-block;
+      background-color: #f5f7fa;
+      padding: 1rem 18px;
+      font-size: 1.75rem;
+      font-weight: 400;
+      border-radius: 1.5rem;
+    }
+
+    span:nth-child(2) {
+      margin-inline: 0.75rem;
+    }
+  }
+}
+
+.weather-hourly {
+  inline-size: auto;
+  max-inline-size: 16.25rem;
+}
+
+.hourly-item {
+  padding-inline: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  font-size: 1.75rem;
+  letter-spacing: 0;
+
+  .hourly-icon {
+    display: inline-block;
+    inline-size: 2.875rem;
+    block-size: 2.875rem;
+  }
+
+  .hourly-temp {
+    font-weight: 700;
+  }
+  &:first-child {
+    padding-block-end: 1.25rem;
+  }
+
+  &:not(:first-child) {
+    padding-block: 1.25rem;
+  }
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #0000001a;
+  }
+}
