@@ -1,4 +1,4 @@
-const forecast_data = [
+export const forecast_data = [
   {
     cod: '200',
     message: 0,
