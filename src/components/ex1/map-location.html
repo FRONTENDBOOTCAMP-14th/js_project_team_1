@@ -4,35 +4,50 @@
   <meta charset="UTF-8">
   <title>장소 검색 및 지도</title>
   <link rel="stylesheet" href="map-location.css">
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=30dd49c7e09da88d4b22c2494ba40808&libraries=services"></script>
 </head>
 <body>
-  <div class="location-card">
-    <div class="location-card__info">
-      <img id="place-image" src="https://www.seoul.go.kr/upload/plant/2021/10/20211018101112_1.jpg" alt="서울식물원" class="location-card__image">
-      <div class="location-card__text-group">
-        <h2 id="place-name" class="location-card__title">서울식물원 <span class="location-card__subtitle">(마곡)</span></h2>
-        <div class="location-card__temp-group">
-          <span class="location-card__temp">00°C</span>
+  <div class="map-location">
+    <aside class="map-location__sidebar">
+      <div class="place-card__image-container">
+        <img id="place-image" src="./서울식물원.jpg" alt="서울식물원" class="place-card__image">
+      </div>
+      
+      <div class="place-card__info">
+        <h1 id="place-name" class="place-card__title">서울식물원 (마곡)</h1>
+        
+        <div class="weather-card__temperature-section">
+          <span id="place-temp" class="weather-card__temperature">00°C</span>
         </div>
-        <div class="location-card__weather">흐림 <span class="location-card__minmax">최저24° 최고29°</span></div>
-        <div class="location-card__etc">
-          체감 00.0° · 습도 00% · 풍속 0.0m/s
+        
+        <div class="weather-card__info">
+          <div id="weather-description" class="weather-card__description">
+            <span class="weather-card__main">흐림</span>
+            <span class="weather-card__minmax">최저24° 최고29°</span>
+          </div>
+          <div id="weather-details" class="weather-card__details">
+            <div class="weather-card__detail-item">체감 00.0°</div>
+            <div class="weather-card__detail-item">습도 00%</div>
+            <div class="weather-card__detail-item">동풍 0.0m/s</div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="location-card__map-group">
-      <form class="location-card__search-bar" onsubmit="return false;">
-        <input id="search-input" class="location-card__search-input" type="text" placeholder="장소를 검색하세요" autocomplete="off">
-        <button id="search-btn" class="location-card__search-btn" aria-label="검색">🔍</button>
-        <button id="copy-btn" class="location-card__copy-btn" aria-label="주소 복사">🗒️</button>
-      </form>
-      <div id="map-container" class="location-card__map"></div>
-      <div class="location-card__address-bar">
-        <span id="place-address" class="location-card__address">서울 강서구 마곡동로 161 서울식물원</span>
+    </aside>
+
+    <main class="map-location__content">
+      <div id="map-container" class="map-location__container"></div>
+      
+      <div class="map-location__address-bar">
+        <div id="place-address" class="map-location__address">서울 강서구 마곡동로 161 서울식물원</div>
+        <button id="copy-btn" class="map-location__copy-btn" type="button" aria-label="주소 복사"></button>
       </div>
-    </div>
+    </main>
   </div>
+  
+  <script>
+    const OPENWEATHER_API_KEY = "98129ab835d44fbb73be2fefccf636f2";
+  </script>
   <script src="./map-location.js"></script>
 </body>
-</html> 
+</html>

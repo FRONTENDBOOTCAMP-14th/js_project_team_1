@@ -1,96 +1,295 @@
-// map-location.js
+class MapLocationApp {
+  constructor() {
+    this.CONFIG = {
+      DEFAULT_MAP_LEVEL: 3,
+      PLACE_SEARCH_RADIUS: 50,
+      CORS_PROXY_URL: 'https://corsproxy.io/?',
+      KAKAO_CATEGORY_CODE: 'AT4',
+      MAP_INITIALIZATION_DELAY: 100,
+      MAP_RELAYOUT_DELAY: 200,
+      WEATHER_API_LANGUAGE: 'kr',
+      WEATHER_API_UNITS: 'metric'
+    };
 
-// 기본 장소 정보
-let currentPlace = {
-  name: '서울식물원',
-  address: '서울 강서구 마곡동로 161 서울식물원',
-  image: 'https://www.seoul.go.kr/upload/plant/2021/10/20211018101112_1.jpg',
-  lat: 37.5683,
-  lng: 126.8346
-};
-
-// 지도 및 마커 초기화
-let map, marker;
-function initMap(place) {
-  var mapContainer = document.getElementById('map-container');
-  var mapOption = {
-    center: new kakao.maps.LatLng(place.lat, place.lng),
-    level: 3
-  };
-  map = new kakao.maps.Map(mapContainer, mapOption);
-  marker = new kakao.maps.Marker({
-    position: new kakao.maps.LatLng(place.lat, place.lng),
-    map: map
-  });
-}
-
-// 장소 정보 업데이트
-function updatePlaceInfo(place) {
-  document.getElementById('place-name').innerHTML = place.name;
-  document.getElementById('place-address').textContent = place.address;
-  document.getElementById('place-image').src = place.image || 'https://via.placeholder.com/340x180?text=No+Image';
-}
-
-// 카카오 장소 검색 + og:image fetch
-function fetchOgImage(url, callback) {
-  fetch('https://corsproxy.io/?' + encodeURIComponent(url))
-    .then(res => res.text())
-    .then(html => {
-      const ogImageMatch = html.match(/<meta property=\"og:image\" content=\"([^\"]+)\"/);
-      if (ogImageMatch && ogImageMatch[1]) {
-        callback(ogImageMatch[1]);
-      } else {
-        callback(null);
+    this.state = {
+      kakaoMap: null,
+      mapMarker: null,
+      currentPlace: {
+        name: '서울식물원',
+        address: '서울 강서구 마곡동로 161 서울식물원',
+        image: './서울식물원.jpg',
+        latitude: 37.5683,
+        longitude: 126.8346
       }
-    })
-    .catch(() => callback(null));
-}
+    };
 
-function searchPlace(query) {
-  var ps = new kakao.maps.services.Places();
-  ps.keywordSearch(query, function(data, status) {
-    if (status === kakao.maps.services.Status.OK) {
-      var first = data[0];
-      let image = 'https://via.placeholder.com/340x180?text=No+Image';
-      fetchOgImage(first.place_url, function(ogImg) {
-        if (ogImg) image = ogImg;
-        const place = {
-          name: first.place_name,
-          address: first.road_address_name || first.address_name,
-          image: image,
-          lat: parseFloat(first.y),
-          lng: parseFloat(first.x)
-        };
-        updatePlaceInfo(place);
-        map.setCenter(new kakao.maps.LatLng(place.lat, place.lng));
-        marker.setPosition(new kakao.maps.LatLng(place.lat, place.lng));
-        currentPlace = place;
+    this.domElements = {};
+    this.initialize();
+  }
+
+  initialize() {
+    this.cacheDomElements();
+    this.bindEventListeners();
+    
+    setTimeout(() => {
+      this.initializeKakaoMap();
+      this.updatePlaceInformation();
+    }, this.CONFIG.MAP_INITIALIZATION_DELAY);
+  }
+
+  cacheDomElements() {
+    this.domElements = {
+      mapContainer: document.getElementById('map-container'),
+      placeName: document.getElementById('place-name'),
+      placeAddress: document.getElementById('place-address'),
+      placeImage: document.getElementById('place-image'),
+      placeTemperature: document.getElementById('place-temp'),
+      weatherDescription: document.getElementById('weather-description'),
+      weatherDetails: document.getElementById('weather-details'),
+      copyButton: document.getElementById('copy-btn')
+    };
+  }
+
+  bindEventListeners() {
+    this.domElements.copyButton?.addEventListener('click', (event) => {
+      this.handleAddressCopy(event);
+    });
+  }
+
+  initializeKakaoMap() {
+    const { latitude, longitude } = this.state.currentPlace;
+    const mapOptions = {
+      center: new kakao.maps.LatLng(latitude, longitude),
+      level: this.CONFIG.DEFAULT_MAP_LEVEL
+    };
+
+    this.state.kakaoMap = new kakao.maps.Map(this.domElements.mapContainer, mapOptions);
+    
+    setTimeout(() => {
+      this.state.kakaoMap.relayout();
+    }, this.CONFIG.MAP_RELAYOUT_DELAY);
+
+    this.state.mapMarker = new kakao.maps.Marker({
+      position: new kakao.maps.LatLng(latitude, longitude),
+      map: this.state.kakaoMap
+    });
+
+    this.attachMapEventListeners();
+  }
+
+  attachMapEventListeners() {
+    kakao.maps.event.addListener(this.state.kakaoMap, 'click', (mouseEvent) => {
+      const clickedPosition = mouseEvent.latLng;
+      this.handleMapClick(clickedPosition.getLat(), clickedPosition.getLng());
+    });
+  }
+
+  updatePlaceInformation() {
+    const { name, address, image } = this.state.currentPlace;
+    
+    if (this.domElements.placeName) {
+      this.domElements.placeName.textContent = name;
+    }
+    
+    if (this.domElements.placeAddress) {
+      this.domElements.placeAddress.textContent = address;
+    }
+    
+    if (this.domElements.placeImage) {
+      this.domElements.placeImage.src = image || this.getPlaceholderImageUrl();
+    }
+    
+    this.fetchAndDisplayWeatherData();
+  }
+
+  getPlaceholderImageUrl() {
+    return 'https://via.placeholder.com/340x180?text=No+Image';
+  }
+
+  renderWeatherInformation(weatherData) {
+    const {
+      temperature = 0,
+      description = '정보없음',
+      minimumTemperature = 0,
+      maximumTemperature = 0,
+      feelsLikeTemperature = 0,
+      humidity = 0,
+      windSpeed = 0
+    } = weatherData;
+
+    if (this.domElements.placeTemperature) {
+      this.domElements.placeTemperature.textContent = `${Math.round(temperature)}°C`;
+    }
+
+    if (this.domElements.weatherDescription) {
+      this.domElements.weatherDescription.innerHTML = 
+        `<span class="weather-card__main">${description}</span> ` +
+        `<span class="weather-card__minmax">최저${Math.round(minimumTemperature)}° 최고${Math.round(maximumTemperature)}°</span>`;
+    }
+
+    if (this.domElements.weatherDetails) {
+      this.domElements.weatherDetails.innerHTML = `
+        <div class="weather-card__detail-item">체감 ${Math.round(feelsLikeTemperature * 10) / 10}°</div>
+        <div class="weather-card__detail-item">습도 ${humidity}%</div>
+        <div class="weather-card__detail-item">풍속 ${windSpeed}m/s</div>
+      `;
+    }
+  }
+
+  async fetchAndDisplayWeatherData() {
+    const { latitude, longitude } = this.state.currentPlace;
+    const weatherApiUrl = this.buildWeatherApiUrl(latitude, longitude);
+
+    try {
+      const response = await fetch(weatherApiUrl);
+      
+      if (!response.ok) {
+        throw new Error(`Weather API request failed with status: ${response.status}`);
+      }
+      
+      const weatherResponse = await response.json();
+      const parsedWeatherData = this.parseWeatherApiResponse(weatherResponse);
+      this.renderWeatherInformation(parsedWeatherData);
+    } catch (error) {
+      console.warn('날씨 정보를 가져올 수 없습니다:', error);
+      this.renderWeatherInformation({});
+    }
+  }
+
+  buildWeatherApiUrl(latitude, longitude) {
+    const urlParams = new URLSearchParams({
+      lat: latitude.toString(),
+      lon: longitude.toString(),
+      appid: OPENWEATHER_API_KEY,
+      units: this.CONFIG.WEATHER_API_UNITS,
+      lang: this.CONFIG.WEATHER_API_LANGUAGE
+    });
+    
+    return `https://api.openweathermap.org/data/2.5/weather?${urlParams}`;
+  }
+
+  parseWeatherApiResponse(apiResponse) {
+    return {
+      temperature: apiResponse.main?.temp || 0,
+      feelsLikeTemperature: apiResponse.main?.feels_like || 0,
+      minimumTemperature: apiResponse.main?.temp_min || 0,
+      maximumTemperature: apiResponse.main?.temp_max || 0,
+      humidity: apiResponse.main?.humidity || 0,
+      windSpeed: apiResponse.wind?.speed || 0,
+      description: apiResponse.weather?.[0]?.description || '정보없음'
+    };
+  }
+
+  updateMapPosition(latitude, longitude) {
+    const newPosition = new kakao.maps.LatLng(latitude, longitude);
+    this.state.kakaoMap.setCenter(newPosition);
+    this.state.mapMarker.setPosition(newPosition);
+  }
+
+  async handleMapClick(clickedLatitude, clickedLongitude) {
+    try {
+      const geocoder = new kakao.maps.services.Geocoder();
+      const addressFromCoordinates = await this.getAddressFromCoordinates(geocoder, clickedLatitude, clickedLongitude);
+      const nearbyPlaceName = await this.findNearbyPlaceName(clickedLatitude, clickedLongitude);
+      
+      this.state.currentPlace = {
+        ...this.state.currentPlace,
+        name: nearbyPlaceName || addressFromCoordinates,
+        address: addressFromCoordinates,
+        latitude: clickedLatitude,
+        longitude: clickedLongitude,
+        image: this.getPlaceholderImageUrl()
+      };
+
+      this.updatePlaceInformation();
+      this.updateMapPosition(clickedLatitude, clickedLongitude);
+    } catch (error) {
+      console.warn('위치 정보를 가져올 수 없습니다:', error);
+    }
+  }
+
+  getAddressFromCoordinates(geocoder, latitude, longitude) {
+    return new Promise((resolve, reject) => {
+      geocoder.coord2Address(longitude, latitude, (geocodingResult, geocodingStatus) => {
+        if (geocodingStatus === kakao.maps.services.Status.OK && geocodingResult.length > 0) {
+          const addressInfo = geocodingResult[0];
+          const formattedAddress = addressInfo.road_address ? 
+            addressInfo.road_address.address_name : 
+            addressInfo.address.address_name;
+          resolve(formattedAddress);
+        } else {
+          reject(new Error('Reverse geocoding failed'));
+        }
       });
-    } else {
-      alert('검색 결과가 없습니다.');
+    });
+  }
+
+  findNearbyPlaceName(latitude, longitude) {
+    return new Promise((resolve) => {
+      const placesService = new kakao.maps.services.Places();
+      const searchLocation = new kakao.maps.LatLng(latitude, longitude);
+      
+      placesService.categorySearch(this.CONFIG.KAKAO_CATEGORY_CODE, (searchResults, searchStatus) => {
+        if (searchStatus === kakao.maps.services.Status.OK && searchResults.length > 0) {
+          resolve(searchResults[0].place_name);
+        } else {
+          resolve(null);
+        }
+      }, { 
+        location: searchLocation, 
+        radius: this.CONFIG.PLACE_SEARCH_RADIUS 
+      });
+    });
+  }
+
+  handleAddressCopy(event) {
+    event.preventDefault();
+    const addressToCopy = this.state.currentPlace.address;
+    this.copyTextToClipboard(addressToCopy);
+  }
+
+  async copyTextToClipboard(textToCopy) {
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(textToCopy);
+        this.displayCopySuccessMessage(textToCopy);
+      } else {
+        this.fallbackCopyMethod(textToCopy);
+      }
+    } catch (clipboardError) {
+      console.warn('클립보드 복사 실패:', clipboardError);
+      this.fallbackCopyMethod(textToCopy);
     }
-  });
+  }
+
+  fallbackCopyMethod(textToCopy) {
+    const temporaryTextArea = document.createElement('textarea');
+    temporaryTextArea.value = textToCopy;
+    temporaryTextArea.style.cssText = 'position:fixed;left:-9999px;top:-9999px;opacity:0;';
+    
+    document.body.appendChild(temporaryTextArea);
+    temporaryTextArea.focus();
+    temporaryTextArea.select();
+
+    try {
+      document.execCommand('copy');
+      this.displayCopySuccessMessage(textToCopy);
+    } catch (commandError) {
+      this.displayCopyErrorMessage(textToCopy);
+    } finally {
+      document.body.removeChild(temporaryTextArea);
+    }
+  }
+
+  displayCopySuccessMessage(copiedText) {
+    alert(`주소가 복사되었습니다!\n${copiedText}`);
+  }
+
+  displayCopyErrorMessage(failedText) {
+    alert(`복사에 실패했습니다. 주소: ${failedText}`);
+  }
 }
 
-// 지도/정보 초기화
-window.addEventListener('DOMContentLoaded', function() {
-  initMap(currentPlace);
-  updatePlaceInfo(currentPlace);
-  // 검색 버튼 클릭/엔터
-  document.getElementById('search-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    searchPlace(document.getElementById('search-input').value);
-  });
-  document.getElementById('search-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      searchPlace(this.value);
-    }
-  });
-  // 주소 복사 버튼
-  document.getElementById('copy-btn').addEventListener('click', function(e) {
-    e.preventDefault();
-    navigator.clipboard.writeText(currentPlace.address);
-    alert('주소가 복사되었습니다!');
-  });
-}); 
+document.addEventListener('DOMContentLoaded', () => {
+  new MapLocationApp();
+});
