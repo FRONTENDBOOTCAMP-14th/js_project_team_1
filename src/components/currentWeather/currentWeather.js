@@ -11,9 +11,9 @@ const weatherSearchForm = document.querySelector(".weather-search-form");
 const weatherInfo = document.querySelector(".weather-info");
 const weatherHourly = document.querySelector(".weather-hourly");
 const inputResetButton = document.querySelector(".input-reset-button");
+const searchWrapper = document.querySelector(".search-wrapper");
 
 /* 유틸 상수 */
-
 // API에서 밭은 icon 코드변환의 목적으로 만든 상수
 const iconMap = {
   "01d": "01",
@@ -63,23 +63,10 @@ renderView();
 // .search-input에 디바운스 유틸 함수를 사용하여 이벤트 등록
 searchInput.addEventListener("input", debounce(typeAhead));
 // 키보드 조작으로 자동완성 포커스
-searchInput.addEventListener("keydown", (e) => {
-  // 아랫키 입력시
-  if (e.key === "ArrowDown") {
-    // 브라우저 기본 동작 막음
-    e.preventDefault();
-    // .search-lists의 버튼가져옴
-    const firstFocus = searchLists.querySelector("button");
-    // 없으면 빠른 반환
-    if (!firstFocus) return;
-    // 처음 버튼 포커스
-    firstFocus.focus();
-  }
-});
-// 키보드 조작으로 자동완성 포커스
-searchLists.addEventListener("keydown", (e) => {
+searchWrapper.addEventListener("keydown", (e) => {
   // .search-lists의 모든 버튼을 가져와 Nodelist가 아닌 Array로 가져옴
   const focusButtons = Array.from(searchLists.querySelectorAll("button"));
+
   // 현재 문서에 포커스 되어있는 요소를 가져와 index number를 가져옴
   const index = focusButtons.indexOf(document.activeElement);
 
@@ -93,7 +80,7 @@ searchLists.addEventListener("keydown", (e) => {
       const nextItem = focusButtons[index + 1];
       nextItem.focus();
     } else {
-      // 위 조건이 참이 아닐시
+      // 위 조건이 거짓일시
       // 입력창으로 다시 포커스
       searchInput.focus();
     }
@@ -103,13 +90,13 @@ searchLists.addEventListener("keydown", (e) => {
   if (e.key === "ArrowUp") {
     // 브라우저 기본 동작 막음
     e.preventDefault();
-    // index가 0이상 일때
-    if (index) {
+    // index가 0보다 클때
+    if (index > 0) {
       // 이전 리스트아이템으로 포커스
       const prevItem = focusButtons[index - 1];
       prevItem.focus();
     } else {
-      // index가 0일시 입력창으로 다시 포커스
+      // 위 조건이 거짓일시 Input 포커스
       searchInput.focus();
     }
   }
