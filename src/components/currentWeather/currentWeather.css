@@ -166,6 +166,10 @@
     opacity: 0.8;
   }
 
+  &:focus {
+    outline: 3px solid #f9004d;
+  }
+
   &:disabled {
     visibility: hidden;
     opacity: 0;
