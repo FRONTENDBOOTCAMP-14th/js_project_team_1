@@ -1,4 +1,15 @@
 /* main index css파일 */
+@import "/src/components/currentWeather/currentWeather.css";
+@import "/src/components/weeklyforecast/weeklyforecast.css";
+@import "/src/components/playlist/playlist.css";
+
 body {
-  background-color: var(--blue-100);
+  padding: 3.875rem;
+  background-color: transparent;
+}
+
+.web-main {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 10rem;
 }

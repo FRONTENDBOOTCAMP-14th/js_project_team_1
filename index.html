@@ -1,14 +1,192 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="kr">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/common/index.css" />
     <link rel="stylesheet" href="/src/styles/main.css" />
+    <script type="module" src="/src/components/currentWeather/currentWeather.js"></script>
+    <script type="module" src="/src/components/playlist/playlist.js"></script>
     <title>날씨</title>
   </head>
   <body>
-    <h1>날씨</h1>
+    <header class="web-header">
+      <h1 class="web-title">TITLE</h1>
+      <h2 class="current-time"></h2>
+    </header>
+
+    <main class="web-main">
+      <section class="current-weather-section" aria-labelledby="current-weather-title">
+        <h2 class="current-weather-title" id="current-weather-title">🌈오늘의 날씨</h2>
+        <div class="weather-container">
+          <!-- 좌측 form, 날씨 정보 -->
+          <div class="weather-left">
+            <form class="weather-search-form" autocomplete="off">
+              <div class="search-wrapper">
+                <input
+                  class="search-input"
+                  type="search"
+                  name="search-input"
+                  placeholder="도시검색"
+                  id="search-input"
+                />
+                <label class="search-label" for="search-input">도시검색</label>
+                <button
+                  type="button"
+                  class="input-reset-button"
+                  aria-label="검색어 지우기"
+                  disabled
+                ></button>
+                <ul class="search-lists" hidden role="listbox"></ul>
+              </div>
+
+              <button class="search-button" type="submit">검색</button>
+            </form>
+
+            <div class="weather-info">
+              <div class="weather-summary">
+                <h3 class="weather-location">
+                  지역명<span class="data-time">(<time></time>기준)</span>
+                </h3>
+                <p class="weather-temp">00°C</p>
+                <div class="weather-detail">
+                  <span>흐림</span>
+                  <div class="weather-temp">
+                    <span>최저 24°C</span>
+                    <span>최고 29°C</span>
+                  </div>
+                </div>
+                <div class="weather-detail-sub">
+                  <span>체감 00.0°C</span>
+                  <span>습도 00%</span>
+                  <span>풍속 0.0m/s</span>
+                </div>
+              </div>
+
+              <div class="weather-icon">
+                <img src="/src/assets/weatherIcon/01.svg" alt="날씨 아이콘" aria-hidden="true" />
+              </div>
+            </div>
+          </div>
+          <!-- ---- -->
+
+          <!-- 우측 시간별 날씨 -->
+          <div class="weather-hourly">
+            <ul class="hourly-lists">
+              <!-- <li class="hourly-item">
+              <time class="hourly-time">00시</time>
+              <span class="hourly-icon">
+                <span class="sr-only">흐림</span>
+                <img src="/src/assets/clouds.png" alt="날씨 아이콘" aria-hidden="true" />
+              </span>
+              <span class="hourly-temp">00℃</span>
+            </li> -->
+            </ul>
+          </div>
+          <!-- ---- -->
+        </div>
+      </section>
+
+      <section>
+        <div class="weekly-forecast-wrap">
+          <h2 class="sub-title">🗓️ 주간예보</h2>
+          <div class="weekly-forecast">
+            <div class="weekly-forecast-item">
+              <p class="forecast-label">내일</p>
+              <p class="forecast-date">00.00</p>
+              <div class="day-weather">
+                <div class="day-weather-cell">
+                  <p>오전</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+                <div class="day-weather-cell">
+                  <p>오후</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+              </div>
+              <div class="minmax-temp">
+                <span class="min-temp">00°</span>/<span class="max-temp">00°</span>
+              </div>
+            </div>
+            <div class="weekly-forecast-item">
+              <p class="forecast-label">O요일</p>
+              <p class="forecast-date">00.00</p>
+              <div class="day-weather">
+                <div class="day-weather-cell">
+                  <p>오전</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+                <div class="day-weather-cell">
+                  <p>오후</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+              </div>
+              <div class="minmax-temp">
+                <span class="min-temp">00°</span>/<span class="max-temp">00°</span>
+              </div>
+            </div>
+            <div class="weekly-forecast-item">
+              <p class="forecast-label">O요일</p>
+              <p class="forecast-date">00.00</p>
+              <div class="day-weather">
+                <div class="day-weather-cell">
+                  <p>오전</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+                <div class="day-weather-cell">
+                  <p>오후</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+              </div>
+              <div class="minmax-temp">
+                <span class="min-temp">00°</span>/<span class="max-temp">00°</span>
+              </div>
+            </div>
+            <div class="weekly-forecast-item">
+              <p class="forecast-label">O요일</p>
+              <p class="forecast-date">00.00</p>
+              <div class="day-weather">
+                <div class="day-weather-cell">
+                  <p>오전</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+                <div class="day-weather-cell">
+                  <p>오후</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+              </div>
+              <div class="minmax-temp">
+                <span class="min-temp">00°</span>/<span class="max-temp">00°</span>
+              </div>
+            </div>
+            <div class="weekly-forecast-item">
+              <p class="forecast-label">O요일</p>
+              <p class="forecast-date">00.00</p>
+              <div class="day-weather">
+                <div class="day-weather-cell">
+                  <p>오전</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+                <div class="day-weather-cell">
+                  <p>오후</p>
+                  <img src="" alt="현재 날씨" />
+                </div>
+              </div>
+              <div class="minmax-temp">
+                <span class="min-temp">00°</span>/<span class="max-temp">00°</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="playlist">
+        <h2 class="playlist__describe">🎧 흐린 날씨에 이런 노래 어떠세요?</h2>
+        <div class="playlist__inner">
+          <!-- js로 동적 생성 -->
+        </div>
+      </section>
+    </main>
   </body>
 </html>

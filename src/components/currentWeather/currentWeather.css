@@ -7,7 +7,6 @@
 }
 
 .web-header {
-  padding-inline: 3.875rem;
   display: flex;
   flex-flow: column nowrap;
   gap: 1.5rem;
@@ -32,14 +31,13 @@
   font-weight: 700;
   font-size: 2.5rem;
   color: var(--black);
-  padding-inline: 3.875rem;
+  margin-bottom: 3.875rem;
 }
 
 .weather-container {
   background-color: transparent;
   display: flex;
   flex-flow: row nowrap;
-  padding: 3.875rem;
   gap: 4.375rem;
 }
 

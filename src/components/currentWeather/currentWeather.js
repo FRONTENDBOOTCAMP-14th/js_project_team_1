@@ -79,6 +79,9 @@ searchWrapper.addEventListener("keydown", (e) => {
       // 다음 리스트아이템으로 포커스
       const nextItem = focusButtons[index + 1];
       nextItem.focus();
+      setTimeout(() => {
+        searchInput.value = nextItem.textContent;
+      }, 300);
     } else {
       // 위 조건이 거짓일시
       // 입력창으로 다시 포커스
@@ -95,6 +98,9 @@ searchWrapper.addEventListener("keydown", (e) => {
       // 이전 리스트아이템으로 포커스
       const prevItem = focusButtons[index - 1];
       prevItem.focus();
+      setTimeout(() => {
+        searchInput.value = prevItem.textContent;
+      }, 300);
     } else {
       // 위 조건이 거짓일시 Input 포커스
       searchInput.focus();
