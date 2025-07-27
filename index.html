@@ -12,7 +12,15 @@
   </head>
   <body>
     <header class="web-header">
-      <h1 class="web-title">TITLE</h1>
+      <div class="web-title-wrapper">
+        <h1 class="web-title">TITLE</h1>
+        <button
+          type="button"
+          class="darkmode-toggle-button"
+          aria-describedby="darkmode-description"
+        ></button>
+        <span id="darkmode-description" class="sr-only">다크모드 버튼</span>
+      </div>
       <h2 class="current-time"></h2>
     </header>
 
@@ -75,13 +83,13 @@
           <div class="weather-hourly">
             <ul class="hourly-lists">
               <!-- <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img src="/src/assets/clouds.png" alt="날씨 아이콘" aria-hidden="true" />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li> -->
+                <time class="hourly-time">00시</time>
+                <span class="hourly-icon">
+                  <span class="sr-only">흐림</span>
+                  <img src="/src/assets/clouds.png" alt="날씨 아이콘" aria-hidden="true" />
+                </span>
+                <span class="hourly-temp">00℃</span>
+              </li> -->
             </ul>
           </div>
           <!-- ---- -->
