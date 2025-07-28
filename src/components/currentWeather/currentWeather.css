@@ -31,7 +31,7 @@
     border: 0;
     inline-size: 3.125rem;
     block-size: 3.125rem;
-    background: url("/src/assets/weatherIcon/04.svg") center / cover no-repeat;
+    background: url("/src/assets/weatherIcon/14.svg") center / cover no-repeat;
 
     &.dark {
       background: url("/src/assets/weatherIcon/01.svg") center / cover no-repeat;
