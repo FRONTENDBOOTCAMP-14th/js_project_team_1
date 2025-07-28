@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>가기 좋은 장소 추천 컴포넌트</title>
+    <link rel="stylesheet" href="./woohyeun.css" />
+    <script src="./woohyeun.js" defer></script>
+  </head>
+  <body>
+    <div class="header-area">
+      <h2>📍 흐린 날씨에 가기 좋은 장소를 추천해드릴게요</h2>
+    </div>
+    <div class="carousel-wrap">
+      <button class="arrow" onclick="move(-1)">&lt;</button>
+      <div class="carousel-track-frame">
+        <div class="track" id="track"></div>
+      </div>
+      <button class="arrow" onclick="move(1)">&gt;</button>
+    </div>
+    <div id="detail-area"></div>
+    <script src="script.js"></script>
+  </body>
+</html>

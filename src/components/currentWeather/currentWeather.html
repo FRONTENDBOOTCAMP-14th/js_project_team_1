@@ -5,10 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/common/index.css" />
-    <link
-      rel="stylesheet"
-      href="/src/components/currentWeather/currentWeather.css"
-    />
+    <link rel="stylesheet" href="/src/components/currentWeather/currentWeather.css" />
     <script type="module" src="./currentWeather.js"></script>
     <title>Current Weather Components</title>
   </head>
@@ -16,17 +13,23 @@
     <h1 style="border-bottom: 2px solid black; margin-bottom: 3.125rem">
       Current Weather Components
     </h1>
+    <!-- ---------------- -->
 
-    <section
-      class="current-weather-section"
-      aria-labelledby="current-weather-title"
-    >
-      <div class="current-header-wrapper">
-        <h2 class="current-weather-title" id="current-weather-title">
-          🌈오늘의 날씨
-        </h2>
-        <h3 class="current-weather-time"></h3>
+    <header class="web-header">
+      <div class="web-title-wrapper">
+        <h1 class="web-title">TITLE</h1>
+        <button
+          type="button"
+          class="darkmode-toggle-button"
+          aria-describedby="darkmode-description"
+        ></button>
+        <span id="darkmode-description" class="sr-only">다크모드 버튼</span>
       </div>
+      <h2 class="current-time"></h2>
+    </header>
+
+    <section class="current-weather-section" aria-labelledby="current-weather-title">
+      <h2 class="current-weather-title" id="current-weather-title">🌈오늘의 날씨</h2>
       <div class="weather-container">
         <!-- 좌측 form, 날씨 정보 -->
         <div class="weather-left">
@@ -40,7 +43,13 @@
                 id="search-input"
               />
               <label class="search-label" for="search-input">도시검색</label>
-              <ul class="search-lists" hidden></ul>
+              <button
+                type="button"
+                class="input-reset-button"
+                aria-label="검색어 지우기"
+                disabled
+              ></button>
+              <ul class="search-lists" hidden role="listbox"></ul>
             </div>
 
             <button class="search-button" type="submit">검색</button>
@@ -67,11 +76,7 @@
             </div>
 
             <div class="weather-icon">
-              <img
-                src="/src/assets/clouds.png"
-                alt="날씨 아이콘"
-                aria-hidden="true"
-              />
+              <img src="/src/assets/weatherIcon/01.svg" alt="날씨 아이콘" aria-hidden="true" />
             </div>
           </div>
         </div>
@@ -80,122 +85,14 @@
         <!-- 우측 시간별 날씨 -->
         <div class="weather-hourly">
           <ul class="hourly-lists">
-            <li class="hourly-item">
+            <!-- <li class="hourly-item">
               <time class="hourly-time">00시</time>
               <span class="hourly-icon">
                 <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
+                <img src="/src/assets/clouds.png" alt="날씨 아이콘" aria-hidden="true" />
               </span>
               <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
-
-            <li class="hourly-item">
-              <time class="hourly-time">00시</time>
-              <span class="hourly-icon">
-                <span class="sr-only">흐림</span>
-                <img
-                  src="/src/assets/clouds.png"
-                  alt="날씨 아이콘"
-                  aria-hidden="true"
-                />
-              </span>
-              <span class="hourly-temp">00℃</span>
-            </li>
+            </li> -->
           </ul>
         </div>
         <!-- ---- -->
