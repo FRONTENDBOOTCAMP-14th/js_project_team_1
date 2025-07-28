@@ -1,94 +1,91 @@
-const total = 10; // ← 카드 개수
-const cardDetails = [
-  { title: "1번카드 제목", desc: "1번카드 내용" },
-  { title: "2번카드 제목", desc: "2번카드 내용" },
-  { title: "3번카드 제목", desc: "3번카드 내용" },
-  { title: "4번카드 제목", desc: "4번카드 내용" },
-  { title: "5번카드 제목", desc: "5번카드 내용" },
-  { title: "6번카드 제목", desc: "6번카드 내용" },
-  { title: "7번카드 제목", desc: "7번카드 내용" },
-  { title: "8번카드 제목", desc: "8번카드 내용" },
-  { title: "9번카드 제목", desc: "9번카드 내용" },
-  { title: "10번카드 제목", desc: "10번카드 내용" },
-];
+function getArrowSvg(direction, size) {
+  const arrow =
+    direction === "left"
+      ? `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
+       <path d="M${size * 0.63} ${size * 0.78}L${size * 0.375} ${size / 2}L${size * 0.63} ${
+          size * 0.22
+        }"
+             stroke="white" stroke-width="${
+               size / 11
+             }" stroke-linecap="round" stroke-linejoin="round"/>`
+      : `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
+       <path d="M${size * 0.375} ${size * 0.78}L${size * 0.63} ${size / 2}L${size * 0.375} ${
+          size * 0.22
+        }"
+             stroke="white" stroke-width="${
+               size / 11
+             }" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none"
+           xmlns="http://www.w3.org/2000/svg">${arrow}</svg>`;
+}
 
-let centerIdx = 2;
-const VISIBLE = 5;
-const mid = Math.floor(VISIBLE / 2);
-const track = document.getElementById("track");
-const detailArea = document.getElementById("detail-area");
-let moving = false;
-let cardElems = [];
+function updateArrows() {
+  let size = 60;
+  if (window.innerWidth <= 600) size = 28;
+  else if (window.innerWidth <= 900) size = 38;
+  else if (window.innerWidth <= 1400) size = 56;
 
-function renderCards() {
-  if (cardElems.length === 0) {
-    for (let i = 0; i < total; i++) {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.textContent = i + 1;
-      card.tabIndex = -1;
-      card.addEventListener("click", () => {
-        if (!moving)
-          move(
-            (i - centerIdx + total) % total <= total / 2 ? i - centerIdx : i - centerIdx - total
-          );
-      });
-      track.appendChild(card);
-      cardElems.push(card);
-    }
+  document.querySelector(".carousel-arrow.left .arrow-svg").innerHTML = getArrowSvg("left", size);
+  document.querySelector(".carousel-arrow.right .arrow-svg").innerHTML = getArrowSvg("right", size);
+
+  const outer = document.getElementById("carouselOuter");
+  const rect = outer.getBoundingClientRect();
+  const buttonLeft = document.getElementById("arrowLeft");
+  const buttonRight = document.getElementById("arrowRight");
+  const y = rect.top + rect.height / 2 + window.scrollY;
+  buttonLeft.style.top = `${y}px`;
+  buttonRight.style.top = `${y}px`;
+  buttonLeft.style.transform = "translateY(-50%)";
+  buttonRight.style.transform = "translateY(-50%)";
+}
+updateArrows();
+window.addEventListener("resize", updateArrows);
+window.addEventListener("scroll", updateArrows);
+window.addEventListener("DOMContentLoaded", updateArrows);
+
+const carousel = document.getElementById("carousel");
+const card = document.querySelector(".place-card");
+
+function getCardWidth() {
+  return card.offsetWidth + 8;
+}
+let currentIndex = 0;
+const totalCards = document.querySelectorAll(".place-card").length;
+const visibleCount = () => {
+  if (window.innerWidth <= 600) return 1;
+  if (window.innerWidth <= 900) return 2;
+  if (window.innerWidth <= 1400) return 3;
+  return 4;
+};
+
+function scrollToIndex(idx) {
+  const scrollX = idx * getCardWidth();
+  carousel.parentNode.scrollTo({
+    left: scrollX,
+    behavior: "smooth",
+  });
+}
+document.getElementById("arrowLeft").onclick = function () {
+  if (currentIndex === 0) {
+    currentIndex = totalCards - visibleCount();
+  } else {
+    currentIndex = Math.max(currentIndex - 1, 0);
   }
-  updateCards();
-}
-
-function updateCards() {
-  for (let i = 0; i < total; i++) {
-    const card = cardElems[i];
-    let diff = (i - centerIdx + total) % total;
-    if (diff > total / 2) diff -= total;
-
-    if (Math.abs(diff) > mid) {
-      card.style.opacity = 0;
-      card.style.pointerEvents = "none";
-      card.style.zIndex = 0;
-      card.style.transform = `translateX(0px) scale(0.5)`;
-      card.classList.remove("visible", "center");
-    } else {
-      const baseX = diff * 230;
-      card.style.transform = `translateX(${baseX}px) scale(${diff === 0 ? 1.16 : 0.78})`;
-      card.style.opacity = diff === 0 ? 1 : 0.68;
-      card.style.zIndex = diff === 0 ? 10 : 2;
-      card.classList.toggle("center", diff === 0);
-      card.classList.toggle("visible", diff !== 0);
-      card.style.pointerEvents = "auto";
-    }
+  scrollToIndex(currentIndex);
+};
+document.getElementById("arrowRight").onclick = function () {
+  if (currentIndex >= totalCards - visibleCount()) {
+    currentIndex = 0;
+  } else {
+    currentIndex = Math.min(currentIndex + 1, totalCards - visibleCount());
   }
-}
-
-function showDetail(idx) {
-  const data = cardDetails[idx];
-  detailArea.innerHTML = `
-    <div class="detail-title">${data.title}</div>
-    <div class="detail-desc">${data.desc}</div>
-  `;
-  detailArea.style.animation = "none";
-  void detailArea.offsetWidth;
-  detailArea.style.animation = "";
-}
-
-function move(dir) {
-  if (moving) return;
-  moving = true;
-  centerIdx = (centerIdx + dir + total) % total;
-  updateCards();
-  showDetail(centerIdx);
-  setTimeout(() => {
-    moving = false;
-  }, 480);
-}
-
-renderCards();
-showDetail(centerIdx);
-
-window.addEventListener("resize", updateCards);
-
-window.move = move;
+  scrollToIndex(currentIndex);
+};
+window.addEventListener("resize", () => {
+  currentIndex = Math.min(currentIndex, totalCards - visibleCount());
+  scrollToIndex(currentIndex);
+});
+window.addEventListener("DOMContentLoaded", () => {
+  currentIndex = 0;
+  scrollToIndex(0);
+});
