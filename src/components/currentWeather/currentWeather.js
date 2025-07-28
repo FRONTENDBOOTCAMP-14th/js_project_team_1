@@ -3,6 +3,9 @@ import axios from "axios";
 import { getCurrentWeather, getForecastWeather } from "../../service/openWeatherMap";
 import { getCurrentLocation } from "../../service/kakaoMap";
 
+//플레이리스트 추천함수
+import { updatePlaylist } from "../playlist/playlist";
+
 /* 요소 선택 */
 const toggleButton = document.querySelector(".darkmode-toggle-button");
 const currentTime = document.querySelector(".current-time");
@@ -146,6 +149,7 @@ weatherSearchForm.addEventListener("submit", (e) => {
   // 랜더함수에 matchCity에서 구조분해 할당한 값을 파라미터로 전달
   renderView(lat, lon, name_kr);
 });
+
 // input reset button 이벤트 등록
 inputResetButton.addEventListener("click", () => {
   // button 클릭시 인풋값 없앰
@@ -157,6 +161,7 @@ inputResetButton.addEventListener("click", () => {
   // reset button에 disabled 속성 추가
   inputResetButton.setAttribute("disabled", "true");
 });
+
 // 다크모드, 라이트모드 토글 버튼 이벤트 등록
 toggleButton.addEventListener("click", () => {
   // body class에 toggle 메서드 추가
@@ -206,10 +211,14 @@ async function renderView(lat = SEOUL.lat, lon = SEOUL.lon, city = SEOUL.city) {
     createIcon(currentWeather);
     // hourly 생성 함수에 list 파라미터로 전달
     forecastData(forecastWeather.list);
+
+    //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
+    updatePlaylist(currentWeather);
   } catch (error) {
     console.error("데이터 로딩 실패..", error);
   }
 }
+
 // 현재 위치 정보 수락시 실행될 함수, position을 파라미터로 받음
 async function successLocation(position) {
   // 위도, 경도 정보를 구조분해할당으로 가져옴
@@ -371,8 +380,8 @@ function createTemplate(data, city) {
   template.innerHTML = `
     <h3 class="weather-location">
     ${city}<span class="data-time"><time>(${
-    new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
-  }기준)</time>
+      new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
+    }기준)</time>
     </span>
     </h3>
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>
