@@ -7,15 +7,14 @@ export default defineConfig([
     files: ["**/*.{js,mjs,cjs}"],
     plugins: { js },
     extends: ["js/recommended"],
-    languageOptions: { globals: globals.browser },
-    env: {
-      browser: true,
-      es2021: true, //ES2021 문법 허용
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: "latest",
+        sourceType: "module",
+      },
     },
-    parserOptions: {
-      ecmaVersion: 12,
-      sourceType: "module",
-    },
+
     rules: {
       //엄격모드 강제
       strict: ["error", "global"],
