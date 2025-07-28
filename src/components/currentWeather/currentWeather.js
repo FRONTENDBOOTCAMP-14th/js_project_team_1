@@ -309,10 +309,16 @@ function typeAhead(e) {
   // filter()메서드를 이용하여 search값으로 시작하는 도시 이름 필터링
   const searchList = cities.filter(({ name_kr }) => name_kr.startsWith(search));
 
-  // 만약 필터링된 배열이 존재하지 않을때 빠른 반환
+  // 만약 필터링된 배열이 존재하지 않을때
   if (searchList.length === 0) {
-    searchLists.setAttribute("hidden", "true");
-    searchInput.classList.remove("remove-border");
+    // 자동완성 리스트목록을 보여주어야 하기 때문에 hidden 속성 제거
+    searchLists.removeAttribute("hidden");
+    // .search-input 보더 style class 추가
+    searchInput.classList.add("remove-border");
+    // .search-lists에 HTML 삽입
+    searchLists.innerHTML = `
+      <li role="option">검색 결과가 없습니다.</li>
+    `;
     return;
   }
 
@@ -369,8 +375,13 @@ function getDateRender() {
     second: "2-digit",
     hour12: false, // 24시간제로 표기
   }).format(time);
+
+  const toLocaleString = time.toLocaleString();
+
+  const timeTag = currentTime.querySelector("time");
   // .current-weather-time DOM요소에 포맷된 문자열 삽입
-  currentTime.textContent = getDay;
+  timeTag.textContent = getDay;
+  timeTag.setAttribute("datetime", toLocaleString);
 }
 // Main DOM 요소 생성 함수
 function createTemplate(data, city) {
@@ -380,8 +391,8 @@ function createTemplate(data, city) {
   template.innerHTML = `
     <h3 class="weather-location">
     ${city}<span class="data-time"><time>(${
-      new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
-    }기준)</time>
+    new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
+  }기준)</time>
     </span>
     </h3>
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>

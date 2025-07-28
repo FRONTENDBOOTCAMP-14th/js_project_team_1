@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/src/styles/main.css" />
     <script type="module" src="/src/components/currentWeather/currentWeather.js"></script>
     <script type="module" src="/src/components/playlist/playlist.js"></script>
+    <script type="module" src="/src/components/placeRecommand/woohyeun.js"></script>
     <title>날씨</title>
   </head>
   <body>
@@ -21,7 +22,9 @@
         ></button>
         <span id="darkmode-description" class="sr-only">다크모드 버튼</span>
       </div>
-      <h2 class="current-time"></h2>
+      <h2 class="current-time">
+        <time aria-live="off"></time>
+      </h2>
     </header>
 
     <main class="web-main">
@@ -194,6 +197,20 @@
         <div class="playlist__inner">
           <!-- js로 동적 생성 -->
         </div>
+      </section>
+
+      <section>
+        <div class="header-area">
+          <h2>📍 흐린 날씨에 가기 좋은 장소를 추천해드릴게요</h2>
+        </div>
+        <div class="carousel-wrap">
+          <button class="arrow" onclick="move(-1)">&lt;</button>
+          <div class="carousel-track-frame">
+            <div class="track" id="track"></div>
+          </div>
+          <button class="arrow" onclick="move(1)">&gt;</button>
+        </div>
+        <div id="detail-area"></div>
       </section>
     </main>
   </body>
