@@ -1,38 +1,72 @@
+:root {
+  --bg: #edf0f5;
+  --header-color: #1d2f5c;
+  --title: #222;
+  --address: #666;
+  --desc: #999;
+  --img-bg: #eaeaea;
+  --button-border: #222;
+  --button-text: #222;
+}
+
+[data-theme="dark"] {
+  --bg: #121212;
+  --header-color: #f5f5f5;
+  --title: #eeeeee;
+  --address: #cccccc;
+  --desc: #aaaaaa;
+  --img-bg: #333333;
+  --button-border: #eeeeee;
+  --button-text: #eeeeee;
+}
+
 body {
-  background: #edf0f5;
+  background: var(--bg);
   margin: 0;
 }
+
+#theme-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  background: transparent;
+  border: 1px solid var(--button-border);
+  color: var(--button-text);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .header-area {
   width: 100vw;
-  max-width: 1720px;
-  min-width: 360px;
   height: 48px;
   margin: 0 auto 40px auto;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
+
 .header-area h2 {
-  font-family: "Pretendard", "Noto Sans KR", sans-serif;
   font-size: 40px;
   font-weight: 700;
-  color: #1d2f5c;
+  color: var(--header-color);
   margin: 0;
   text-align: left;
   width: 100%;
 }
+
 .carousel-area {
   width: 100vw;
-  max-width: 1720px;
-  min-width: 360px;
   margin: 0 auto 60px auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .carousel-outer {
   width: 94vw;
-  max-width: 1720px;
   height: 495px;
   overflow-x: auto;
   overflow-y: hidden;
@@ -40,9 +74,11 @@ body {
   position: relative;
   scrollbar-width: none;
 }
+
 .carousel-outer::-webkit-scrollbar {
   display: none;
 }
+
 .place-list {
   display: flex;
   gap: 32px;
@@ -53,6 +89,7 @@ body {
   height: 300px;
   scroll-behavior: smooth;
 }
+
 .place-card,
 .place-card a {
   display: flex;
@@ -67,6 +104,7 @@ body {
   margin: 0;
   overflow: hidden;
 }
+
 .place-card a {
   width: 100%;
   height: 100%;
@@ -76,25 +114,27 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
 .place-card a:hover {
   transform: scale(1.045);
   box-shadow: 0 8px 32px rgba(60, 60, 150, 0.13);
   z-index: 2;
 }
+
 .place-card a:active {
   transform: scale(0.97);
   box-shadow: 0 3px 12px rgba(80, 80, 120, 0.1);
 }
+
 .place-img-wrap {
   width: 100%;
   height: 300px;
   min-height: 80px;
   border-radius: 32px;
-  background: #eaeaea;
+  background: var(--img-bg);
   box-shadow: 0 2px 16px rgba(48, 56, 81, 0.1);
-  flex-shrink: 0;
-  flex-grow: 0;
 }
+
 .place-title,
 .place-address,
 .place-desc {
@@ -102,27 +142,28 @@ body {
   text-align: center;
   justify-content: center;
 }
+
 .place-title {
   min-height: 24px;
   font-size: 28px;
   font-weight: 700;
-  color: #222;
+  color: var(--title);
   margin-top: 32px;
-  flex-shrink: 0;
 }
+
 .place-address {
   min-height: 20px;
   font-size: 28px;
-  color: #666;
-  flex-shrink: 0;
+  color: var(--address);
 }
+
 .place-desc {
   min-height: 28px;
   font-size: 18px;
-  color: #999;
+  color: var(--desc);
   margin-bottom: 2px;
-  flex-shrink: 0;
 }
+
 .carousel-arrow {
   position: fixed;
   left: 10px;
@@ -136,167 +177,14 @@ body {
   justify-content: center;
   cursor: pointer;
 }
+
 .carousel-arrow.right {
   left: auto;
   right: 10px;
 }
+
 .arrow-svg {
   width: 60px;
   height: 60px;
   pointer-events: none;
-}
-
-/* 반응형 */
-@media (max-width: 1400px) {
-  .header-area,
-  .carousel-area {
-    max-width: 1056px;
-  }
-  .header-area h2 {
-    font-size: 28px;
-  }
-  .carousel-outer {
-    max-width: 854px;
-    height: 250px;
-  }
-  .place-card,
-  .place-card a {
-    width: 224px !important;
-    height: 250px !important;
-  }
-  .place-img-wrap {
-    height: 144px;
-    min-height: 40px;
-  }
-  .place-title {
-    font-size: 15px;
-    min-height: 16px;
-  }
-  .place-address,
-  .place-desc {
-    font-size: 11px;
-    min-height: 12px;
-  }
-  .arrow-svg {
-    width: 56px;
-    height: 56px;
-  }
-}
-@media (max-width: 900px) {
-  .header-area,
-  .carousel-area {
-    max-width: 712px;
-  }
-  .header-area h2 {
-    font-size: 22px;
-  }
-  .carousel-outer {
-    max-width: 620px;
-    height: 200px;
-  }
-  .place-card,
-  .place-card a {
-    width: 144px !important;
-    height: 200px !important;
-  }
-  .place-img-wrap {
-    height: 95px;
-    min-height: 28px;
-  }
-  .place-title {
-    font-size: 13px;
-    min-height: 13px;
-  }
-  .place-address,
-  .place-desc {
-    font-size: 9px;
-    min-height: 10px;
-  }
-  .arrow-svg {
-    width: 38px;
-    height: 38px;
-  }
-}
-@media (max-width: 600px) {
-  .header-area,
-  .carousel-area {
-    max-width: 100vw;
-  }
-  .header-area h2 {
-    font-size: 16px;
-  }
-  .carousel-outer {
-    max-width: 98vw;
-    width: 98vw;
-    height: 40vw;
-    min-width: 320px;
-  }
-  .place-list {
-    gap: 2vw;
-  }
-  .place-card,
-  .place-card a {
-    width: 22vw !important;
-    max-width: none;
-    height: 40vw !important;
-  }
-  .place-img-wrap {
-    height: 20vw;
-    min-height: 18px;
-  }
-  .place-title {
-    font-size: 10px;
-    min-height: 9px;
-  }
-  .place-address,
-  .place-desc {
-    font-size: 7px;
-    min-height: 7px;
-  }
-  .arrow-svg {
-    width: 28px;
-    height: 28px;
-  }
-}
-@media (max-width: 400px) {
-  .place-list {
-    gap: 0; /* 카드 사이 여백 제거 */
-  }
-
-  .place-card,
-  .place-card a {
-    width: 100vw !important;
-    height: auto !important;
-  }
-
-  .place-img-wrap {
-    width: 100%;
-    height: auto;
-    min-height: 180px;
-  }
-
-  .place-title {
-    font-size: 22px;
-    min-height: 20px;
-  }
-
-  .place-address {
-    font-size: 18px;
-    min-height: 18px;
-  }
-
-  .place-desc {
-    font-size: 14px;
-    min-height: 18px;
-  }
-
-  .arrow-svg {
-    width: 28px;
-    height: 28px;
-  }
-
-  .carousel-outer {
-    overflow-x: hidden;
-    height: auto;
-  }
 }

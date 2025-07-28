@@ -2,21 +2,20 @@ function getArrowSvg(direction, size) {
   const arrow =
     direction === "left"
       ? `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
-       <path d="M${size * 0.63} ${size * 0.78}L${size * 0.375} ${size / 2}L${size * 0.63} ${
+         <path d="M${size * 0.63} ${size * 0.78}L${size * 0.375} ${size / 2}L${size * 0.63} ${
           size * 0.22
         }"
-             stroke="white" stroke-width="${
-               size / 11
-             }" stroke-linecap="round" stroke-linejoin="round"/>`
+         stroke="white" stroke-width="${
+           size / 11
+         }" stroke-linecap="round" stroke-linejoin="round"/>`
       : `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
-       <path d="M${size * 0.375} ${size * 0.78}L${size * 0.63} ${size / 2}L${size * 0.375} ${
+         <path d="M${size * 0.375} ${size * 0.78}L${size * 0.63} ${size / 2}L${size * 0.375} ${
           size * 0.22
         }"
-             stroke="white" stroke-width="${
-               size / 11
-             }" stroke-linecap="round" stroke-linejoin="round"/>`;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none"
-           xmlns="http://www.w3.org/2000/svg">${arrow}</svg>`;
+         stroke="white" stroke-width="${
+           size / 11
+         }" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">${arrow}</svg>`;
 }
 
 function updateArrows() {
@@ -89,3 +88,11 @@ window.addEventListener("DOMContentLoaded", () => {
   currentIndex = 0;
   scrollToIndex(0);
 });
+
+document.getElementById("theme-toggle").onclick = function () {
+  const html = document.documentElement;
+  const current = html.getAttribute("data-theme");
+  const next = current === "dark" ? "light" : "dark";
+  html.setAttribute("data-theme", next);
+  this.textContent = next === "dark" ? "☀️ 라이트 모드" : "🌙 다크 모드";
+};
