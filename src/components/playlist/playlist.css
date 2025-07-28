@@ -35,6 +35,7 @@ body {
       flex-flow: column;
       align-items: start;
       justify-content: center;
+      height: auto;
     }
     .playlist__cover {
       width: 300px;
@@ -67,8 +68,6 @@ body {
     display: flex;
     flex-flow: column;
     gap: 40px;
-    width: 100%;
-    height: 480px;
 
     .playlist__describe {
       font-family: Pretendard;
@@ -89,6 +88,7 @@ body {
         flex-flow: column;
         align-items: start;
         justify-content: center;
+        gap: 0.625rem;
       }
       .playlist__cover {
         width: 150px;
