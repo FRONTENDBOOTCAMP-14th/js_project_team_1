@@ -1,11 +1,6 @@
-"use strict";
-
-import axios from "axios";
 import { getSpotifyAccessToken, getPlaylistTracks } from "../../service/spotify";
 
 // const WEATHER_PLAYLIST_MAP = {};
-
-let userWeather = null;
 
 export async function updatePlaylist(currentUserWeather) {
   const playlist = document.querySelector(".playlist");
@@ -19,8 +14,6 @@ export async function updatePlaylist(currentUserWeather) {
   }
 
   playlistDescribe.textContent = `🎧 현재 날씨 ${nowtWeather}, 이런 노래 어떠세요? `;
-
-  userWeather = currentUserWeather;
 }
 
 //playlist HTML 앨범 커버 업데이트 함수
@@ -41,8 +34,8 @@ function updateTrackInfo(track) {
 
 // 실행
 async function main() {
-  const CLIENT_ID = "bc6c563254204f2ebfd697ab17cb810e";
-  const CLIENT_SECRET = "98e4060962fd47e88e2eb8fb89d60d62";
+  const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+  const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
   const PLAYLIST_ID = "3cEYpjA9oz9GiPac4AsH4n"; // weekly recommendation
 
   // 1) 토큰 발급
