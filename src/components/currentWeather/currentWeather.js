@@ -1,7 +1,6 @@
-"use strict";
 import axios from "axios";
-import { getCurrentWeather, getForecastWeather } from "../../service/openWeatherMap";
 import { getCurrentLocation } from "../../service/kakaoMap";
+import { getCurrentWeather, getForecastWeather } from "../../service/openWeatherMap";
 
 //플레이리스트 추천함수
 import { updatePlaylist } from "../playlist/playlist";
@@ -51,6 +50,8 @@ const SEOUL = {
 /* 상태 변수 */
 let cities = [];
 
+let currentIndex = -1;
+
 /* 초기 실행 */
 // 현재 시간 가져옴
 getDateRender();
@@ -67,50 +68,55 @@ loadDarkMode();
 
 /* 이벤트 리스너 */
 // .search-input에 디바운스 유틸 함수를 사용하여 이벤트 등록
-searchInput.addEventListener("input", debounce(typeAhead));
+searchInput.addEventListener("input", (e) => {
+  currentIndex = -1; // 입력시 인덱스 초기화
+  debounce(typeAhead(e));
+});
 // 키보드 조작으로 자동완성 포커스
 searchWrapper.addEventListener("keydown", (e) => {
-  // .search-lists의 모든 버튼을 가져와 Nodelist가 아닌 Array로 가져옴
-  const focusButtons = Array.from(searchLists.querySelectorAll("button"));
+  // .searchLists에서 li태그 모두 가져옴
+  const items = searchLists.querySelectorAll("li");
+  // items길이의 -1로 계산하여 인덱스를 저장
+  const itemsIndex = items.length - 1;
 
-  // 현재 문서에 포커스 되어있는 요소를 가져와 index number를 가져옴
-  const index = focusButtons.indexOf(document.activeElement);
-
-  // 아랫키 입력시
+  // 화살표 아래방향키 입력시
   if (e.key === "ArrowDown") {
-    // 브라우저 기본 동작 막음
-    e.preventDefault();
-    // index가 버튼배열의 길이 - 1보다 작을때
-    if (index < focusButtons.length - 1) {
-      // 다음 리스트아이템으로 포커스
-      const nextItem = focusButtons[index + 1];
-      nextItem.focus();
-      setTimeout(() => {
-        searchInput.value = nextItem.textContent;
-      }, 300);
-    } else {
-      // 위 조건이 거짓일시
-      // 입력창으로 다시 포커스
-      searchInput.focus();
+    // 만약 검색결과가 없는 item일시 빠른 반환
+    if (items[0].classList.contains("no-search")) {
+      return;
     }
+    // 브라우저 기본동작 막음
+    e.preventDefault();
+    // items 목록에서 순환하기 위한 로직
+    currentIndex = currentIndex >= itemsIndex ? 0 : currentIndex + 1;
+    searchInput.value = items[currentIndex].textContent;
+    updateHighlight(items);
+  }
+  // 화살표 윗방향키 입력시
+  if (e.key === "ArrowUp") {
+    // 만약 검색결과가 없는 item일시 빠른 반환
+    if (items[0].classList.contains("no-search")) {
+      return;
+    }
+    e.preventDefault();
+    // items 목록에서 순환하기 위한 로직
+    currentIndex = currentIndex <= 0 ? itemsIndex : currentIndex - 1;
+    searchInput.value = items[currentIndex].textContent;
+    updateHighlight(items);
   }
 
-  // 윗키 입력시
-  if (e.key === "ArrowUp") {
-    // 브라우저 기본 동작 막음
-    e.preventDefault();
-    // index가 0보다 클때
-    if (index > 0) {
-      // 이전 리스트아이템으로 포커스
-      const prevItem = focusButtons[index - 1];
-      prevItem.focus();
-      setTimeout(() => {
-        searchInput.value = prevItem.textContent;
-      }, 300);
-    } else {
-      // 위 조건이 거짓일시 Input 포커스
-      searchInput.focus();
-    }
+  // 엔터 입력시
+  if (e.key === "Enter" && currentIndex >= 0) {
+    e.preventDefault(); // 브라우저 기본동작 막음
+    // 하이라이트된 목록의 textContent를 인붓 값에 넣어줌
+    searchInput.value = items[currentIndex].textContent;
+    // 이후 자동완성 리스트 목록 hidden으로 감춤
+    searchLists.setAttribute("hidden", "true");
+    // .search-input 보더 style class 제거
+    searchInput.classList.remove("remove-border");
+
+    // 자동완성 목록 아이템에서 Enter누를시 강제 Submit
+    weatherSearchForm.requestSubmit();
   }
 });
 // 자동완성 리스트 이벤트 등록
@@ -268,7 +274,7 @@ async function successLocation(position) {
 }
 // 현재 위치 정보 거절시 실행될 함수
 function errorLocation() {
-  console.log("현재 위치 검색을 거절 하여, 서울 날씨 데이터를 보여줍니다.");
+  alert("현재 위치 검색을 거절 하여, 서울 날씨 데이터를 보여줍니다.");
 }
 
 /* 함수 (일반)*/
@@ -277,18 +283,6 @@ function errorLocation() {
 function typeAhead(e) {
   // input의 value를 search 상수에 할당
   const search = e.target.value.trim();
-
-  // 포커스 인덱스 변수 => -1은 어떠한 포커스에도 잡히지않았다는 의미
-  let focusedIndex = -1;
-
-  // .search-lists안 모든 버튼을 가져와 Nodelist가 아닌 Array로 만듬
-  const buttons = Array.from(searchLists.querySelectorAll("button"));
-
-  // 문서에 포커스가 되어있는 요소 가져옴
-  const activeEl = document.activeElement;
-  // 포커스가 되어있는 요소의 버튼을 버튼배열에서 인덱스로 번호를 찾아
-  // 변수에 할당
-  focusedIndex = buttons.indexOf(activeEl);
 
   // .search-lists에 DOM이 무제한 추가되는 현상 방지 (초기화)
   searchLists.innerHTML = "";
@@ -301,6 +295,7 @@ function typeAhead(e) {
     searchInput.classList.remove("remove-border");
     // reset button에 disabled 속성 추가
     inputResetButton.setAttribute("disabled", "true");
+
     return;
   }
 
@@ -311,14 +306,16 @@ function typeAhead(e) {
 
   // 만약 필터링된 배열이 존재하지 않을때
   if (searchList.length === 0) {
+    e.preventDefault();
     // 자동완성 리스트목록을 보여주어야 하기 때문에 hidden 속성 제거
     searchLists.removeAttribute("hidden");
     // .search-input 보더 style class 추가
     searchInput.classList.add("remove-border");
     // .search-lists에 HTML 삽입
     searchLists.innerHTML = `
-      <li role="option">검색 결과가 없습니다.</li>
+      <li role="option" class="no-search">검색 결과가 없습니다.</li>
     `;
+
     return;
   }
 
@@ -328,7 +325,7 @@ function typeAhead(e) {
     const li = document.createElement("li");
     li.setAttribute("role", "option");
     // li태그에 부분강조 함수를 이용하여 내부 컨텐츠 삽입
-    li.innerHTML = `<button type="submit">${highLight(cur.name_kr, search)}</button>`;
+    li.innerHTML = `<button type="submit" tabindex="-1">${highLight(cur.name_kr, search)}</button>`;
     // 콜백의 반환값을 누적시킨 acc에 push()메서드를 사용하여 li태그 추가
     acc.push(li);
     // acc 반환
@@ -340,14 +337,6 @@ function typeAhead(e) {
   searchLists.removeAttribute("hidden");
   // .search-input 보더 style class 추가
   searchInput.classList.add("remove-border");
-
-  // .search-lists에 생성된 li>button 요소 모두 가져와 배열로 만듬
-  const newButtons = Array.from(searchLists.querySelectorAll("button"));
-  // focusedIndex가 -1이면 포커스 복원 X
-  // 0이상이면 버튼에 포커스 복원
-  if (focusedIndex >= 0 && focusedIndex < newButtons.length) {
-    newButtons[focusedIndex].focus();
-  }
 }
 // .search-wrapper를 제외한 다른 영역 클릭시 목록 hidden처리되는 함수
 function outsideClick() {
@@ -390,9 +379,9 @@ function createTemplate(data, city) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <h3 class="weather-location">
-    ${city}<span class="data-time"><time>(${
-    new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
-  }기준)</time>
+    ${city}<span class="data-time"><time>(${new Date(
+    data.dt * 1000
+  ).toLocaleTimeString()}기준)</time>
     </span>
     </h3>
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>
@@ -529,6 +518,16 @@ function loadDarkMode() {
     document.body.classList.add("dark");
     toggleButton.classList.add("dark");
   }
+}
+// highlight 클래스 추가 함수
+function updateHighlight(items) {
+  items.forEach((item, index) => {
+    if (index === currentIndex) {
+      item.classList.add("highlight");
+    } else {
+      item.classList.remove("highlight");
+    }
+  });
 }
 
 /* 유틸 함수 */

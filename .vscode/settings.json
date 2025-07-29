@@ -7,12 +7,13 @@
     "**/Thumbs.db": false,
     "**/node_modules": false
   },
-  "explorerExclude.backup": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/node_modules": true
-  }
+  "editor.tabSize": 2,
+  "eslint.enable": true,
+  "eslint.validate": ["javascript"],
+  "editor.codeActionsOnSave": [
+    "editor.formatOnSave",
+    "source.organizeImports",
+    "source.sortImports",
+    "source.fixAll"
+  ]
 }
