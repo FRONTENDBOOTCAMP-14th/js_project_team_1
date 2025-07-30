@@ -1,5 +1,5 @@
 import axios from "axios";
-import { renderView } from "../../js/main";
+import { iconMap, renderView } from "../../js/main";
 import { debounce, highLight, updateHighlight } from "../../js/utils";
 
 /* 요소 선택 */
@@ -12,27 +12,6 @@ const inputResetButton = document.querySelector(".input-reset-button");
 const searchWrapper = document.querySelector(".search-wrapper");
 
 /* 유틸 상수 */
-// API에서 밭은 icon 코드변환의 목적으로 만든 상수
-const iconMap = {
-  "01d": "01",
-  "01n": "01",
-  "02d": "02",
-  "02n": "02",
-  "03d": "03",
-  "03n": "03",
-  "04d": "04",
-  "04n": "04",
-  "09d": "09",
-  "09n": "09",
-  "10d": "10",
-  "10n": "10",
-  "11d": "11",
-  "11n": "11",
-  "13d": "13",
-  "13n": "13",
-  "50d": "50",
-  "50n": "50",
-};
 // UTC 시간을 한국시간으로 바꾸기위한 상수
 const TIMEZONE = 9 * 60 * 60 * 1000;
 

@@ -7,18 +7,17 @@
     <link rel="stylesheet" href="/src/common/index.css" />
     <link rel="stylesheet" href="/src/styles/main.css" />
     <script type="module" src="/src/js/main.js"></script>
+    <script type="module" src="/src/components/placeRecommand/woohyeun.js"></script>
     <title>날씨</title>
   </head>
   <body>
     <header class="web-header">
       <div class="web-title-wrapper">
         <h1 class="web-title">TITLE</h1>
-        <button
-          type="button"
-          class="darkmode-toggle-button"
-          aria-describedby="darkmode-description"
-        ></button>
-        <span id="darkmode-description" class="sr-only">다크모드 버튼</span>
+        <button id="theme-toggle" type="button" tabindex="0">
+          <span class="btn-bg" aria-hidden="true"></span>
+          <span class="btn-text">다크 모드</span>
+        </button>
       </div>
       <h2 class="current-time">
         <time aria-live="off"></time>
@@ -199,16 +198,19 @@
 
       <section>
         <div class="header-area">
-          <h2>📍 흐린 날씨에 가기 좋은 장소를 추천해드릴게요</h2>
+          <h2>📍 날씨에 어울리는 장소를 추천드릴게요</h2>
         </div>
-        <div class="carousel-wrap">
-          <button class="arrow" onclick="move(-1)">&lt;</button>
-          <div class="carousel-track-frame">
-            <div class="track" id="track"></div>
+        <div class="carousel-area">
+          <div class="carousel-outer" id="carouselOuter">
+            <ul class="place-list" id="carousel"></ul>
+            <button class="carousel-arrow left" id="arrowLeft" aria-label="이전">
+              <span class="arrow-svg"></span>
+            </button>
+            <button class="carousel-arrow right" id="arrowRight" aria-label="다음">
+              <span class="arrow-svg"></span>
+            </button>
           </div>
-          <button class="arrow" onclick="move(1)">&gt;</button>
         </div>
-        <div id="detail-area"></div>
       </section>
     </main>
   </body>
