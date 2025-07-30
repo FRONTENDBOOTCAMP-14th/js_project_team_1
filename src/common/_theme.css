@@ -133,4 +133,69 @@
   --pink-800: hsl(350, 45%, 20%);
   --pink-900: hsl(350, 45%, 10%);
   --pink-950: hsl(350, 45%, 5%);
+
+  /* font-size */
+  --font-xs: 20px;
+  --font-sm: 24px;
+  --font-md: 28px;
+  --font-lg: 40px;
+  --font-xl: 56px;
+  --font-2xl: 80px;
+  --font-3xl: 120px;
+
+  /* space */
+  --space-xs: 4px;
+  --space-s: 8px;
+  --space-sm: 12px;
+  --space-ms: 18px;
+  --space-md: 22px;
+  --space-ml: 24px;
+  --space-lg: 32px;
+  --space-xl: 40px;
+  --space-2xl: 56px;
+  --space-3xl: 64px;
+  --space-4xl: 80px;
+  --space-5xl: 96px;
+  --space-6xl: 128px;
+  --space-7xl: 160px;
+
+  /* radius */
+  --radius-md: 24px;
+  --radius-lg: 32px;
+  --radius-xl: 64px;
+  --radius-full: 9999px;
+}
+
+@media screen and (width <= 640px) {
+  :root {
+    /* font */
+    --font-xs: 13px;
+    --font-sm: 15px;
+    --font-md: 18px;
+    --font-lg: 25px;
+    --font-xl: 35px;
+    --font-2xl: 50px;
+    --font-3xl: 75px;
+
+    /* space */
+    --space-xs: 3px;
+    --space-s: 5px;
+    --space-sm: 8px;
+    --space-ms: 10px;
+    --space-md: 13px;
+    --space-ml: 15px;
+    --space-lg: 20px;
+    --space-xl: 25px;
+    --space-2xl: 35px;
+    --space-3xl: 40px;
+    --space-4xl: 50px;
+    --space-5xl: 60px;
+    --space-6xl: 80px;
+    --space-7xl: 100px;
+
+    /* radius */
+    --radius-md: 13px;
+    --radius-lg: 20px;
+    --radius-xl: 40px;
+  }
 }
