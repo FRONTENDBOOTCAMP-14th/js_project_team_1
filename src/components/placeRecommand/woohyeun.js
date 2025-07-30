@@ -1,51 +1,50 @@
-const iconMap = {
-  "01d": "01",
-  "01n": "01",
-  "02d": "02",
-  "02n": "02",
-  "03d": "03",
-  "03n": "03",
-  "04d": "04",
-  "04n": "04",
-  "09d": "09",
-  "09n": "09",
-  "10d": "10",
-  "10n": "10",
-  "11d": "11",
-  "11n": "11",
-  "13d": "13",
-  "13n": "13",
-  "50d": "50",
-  "50n": "50",
-};
+import axios from "axios";
+import { iconMap } from "../../js/main";
 
-const apiKey = "b654127afd92273778b454675873b1ca";
+const placeHeader = document.querySelector(".header-area");
 
-async function getWeatherIconCode() {
-  const lat = 37.5665;
-  const lon = 126.978;
-  const res = await fetch(
-    `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`
-  );
-  const data = await res.json();
-  const { icon } = data.weather.at(0);
-  return iconMap[icon];
+// 날씨 데이터를 받아 브라우저 렌더링하기 위한 함수
+export function placeRecommendView(currentWeather) {
+  // 파라미터 값이 없으면 빠른 반환
+  if (!currentWeather) return;
+  // 날씨 설명 가져옴
+  const { description } = currentWeather.weather.at(0);
+  // 아이콘 코드 가져옴
+  const { icon } = currentWeather.weather.at(0);
+  // 아이콘 코드 변환
+  const iconCode = iconMap[icon];
+
+  // 각함수 파라미터로 전달
+  placeHeaderRender(description);
+  renderPlaces(iconCode);
+}
+
+// header부분 동적으로 변환하기 위함 함수
+function placeHeaderRender(description) {
+  // 파라미터 값이 없으면 빠른 반환
+  if (!description) return;
+  // h2 요소 가져옴
+  const h2 = placeHeader.querySelector("h2");
+
+  // textContent를 이용하여 동적으로 변환
+  h2.textContent = `📍 현재 날씨 ${description}, 놀러 가기 좋은 장소를 추천드릴게요 `;
 }
 
 async function renderPlaces(iconCode) {
-  const res = await fetch("./place.json");
+  // try catch 문으로 성공, 에러처리
+  // fetch -> axios로 수정
+  try {
+    const { data } = await axios.get("/data/place.json");
 
-  const data = await res.json();
+    const matchedGroups = data.filter((item) => item.weather_code.includes(iconCode));
+    const carousel = document.getElementById("carousel");
+    carousel.innerHTML = "";
 
-  const matchedGroups = data.filter((item) => item.weather_code.includes(iconCode));
-  const carousel = document.getElementById("carousel");
-  carousel.innerHTML = "";
-
-  matchedGroups.forEach((group) => {
-    group.place_recommend.forEach((place) => {
-      const li = document.createElement("li");
-      li.className = "place-card";
-      li.innerHTML = `
+    matchedGroups.forEach((group) => {
+      group.place_recommend.forEach((place) => {
+        const li = document.createElement("li");
+        li.className = "place-card";
+        li.innerHTML = `
         <a href="#">
           <div class="place-img-wrap">
             <img src="${place.img_url}" alt="${place.place_name}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;" />
@@ -57,12 +56,15 @@ async function renderPlaces(iconCode) {
           </div>
         </a>
       `;
-      carousel.appendChild(li);
+        carousel.appendChild(li);
+      });
     });
-  });
 
-  updateArrows();
-  scrollToIndex(0);
+    updateArrows();
+    scrollToIndex(0);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 function getCardWidth() {
@@ -147,8 +149,3 @@ window.addEventListener("resize", () => {
 });
 
 window.addEventListener("scroll", updateArrows);
-
-window.addEventListener("DOMContentLoaded", async () => {
-  const iconCode = await getWeatherIconCode();
-  await renderPlaces(iconCode);
-});
