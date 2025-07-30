@@ -52,11 +52,11 @@ body {
 
 .header-area h2 {
   font-family: "Pretendard", "Noto Sans KR", sans-serif;
-  font-size: 40px;
+  font-size: 25px;
   font-weight: 700;
   color: var(--header-color);
   margin: 0;
-  text-align: left;
+  text-align: center;
   width: 100%;
 }
 
@@ -202,79 +202,7 @@ body {
 
 /* 반응형 구간 */
 
-@media (max-width: 1400px) {
-  .header-area,
-  .carousel-area {
-    max-width: 1056px;
-  }
-  .header-area h2 {
-    font-size: 28px;
-  }
-  .carousel-outer {
-    max-width: 854px;
-    height: 250px;
-  }
-  .place-card,
-  .place-card a {
-    width: 224px !important;
-    height: 250px !important;
-  }
-  .place-img-wrap {
-    height: 144px;
-    min-height: 40px;
-  }
-  .place-title {
-    font-size: 15px;
-    min-height: 16px;
-  }
-  .place-address,
-  .place-desc {
-    font-size: 11px;
-    min-height: 12px;
-  }
-  .arrow-svg {
-    width: 56px;
-    height: 56px;
-  }
-}
-
-@media (max-width: 900px) {
-  .header-area,
-  .carousel-area {
-    max-width: 712px;
-  }
-  .header-area h2 {
-    font-size: 22px;
-  }
-  .carousel-outer {
-    max-width: 620px;
-    height: 200px;
-  }
-  .place-card,
-  .place-card a {
-    width: 144px !important;
-    height: 200px !important;
-  }
-  .place-img-wrap {
-    height: 95px;
-    min-height: 28px;
-  }
-  .place-title {
-    font-size: 13px;
-    min-height: 13px;
-  }
-  .place-address,
-  .place-desc {
-    font-size: 9px;
-    min-height: 10px;
-  }
-  .arrow-svg {
-    width: 38px;
-    height: 38px;
-  }
-}
-
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .header-area,
   .carousel-area {
     max-width: 100vw;
