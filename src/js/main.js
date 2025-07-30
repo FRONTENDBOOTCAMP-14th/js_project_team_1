@@ -1,6 +1,7 @@
 import "../components/currentWeather/currentWeather.js";
 import { currentWeatherView } from "../components/currentWeather/currentWeather.js";
 import "../components/placeRecommand/woohyeun.js";
+import { placeRecommendView } from "../components/placeRecommand/woohyeun.js";
 import "../components/playlist/playlist.js";
 import { updatePlaylist } from "../components/playlist/playlist.js";
 import "./darkmode.js";
@@ -14,6 +15,28 @@ const SEOUL = {
   lat: 37.5665,
   lon: 126.978,
   city: "서울특별시",
+};
+
+// API에서 밭은 icon 코드변환의 목적으로 만든 상수
+export const iconMap = {
+  "01d": "01",
+  "01n": "01",
+  "02d": "02",
+  "02n": "02",
+  "03d": "03",
+  "03n": "03",
+  "04d": "04",
+  "04n": "04",
+  "09d": "09",
+  "09n": "09",
+  "10d": "10",
+  "10n": "10",
+  "11d": "11",
+  "11n": "11",
+  "13d": "13",
+  "13n": "13",
+  "50d": "50",
+  "50n": "50",
 };
 
 /* 초기 실행 */
@@ -52,10 +75,12 @@ function getDateRender() {
 export async function renderView(lat, lon, city) {
   // 비동기함수 getWeatherData()에 위도,경도 정보를 전달하여 데이터를 가져옴
   const { currentWeather, forecastWeather } = await getWeatherData(lat, lon);
-
   // 데이터를 파람스로 전달하여 현재날씨 렌더링
   currentWeatherView(currentWeather, forecastWeather, city);
 
   //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
   updatePlaylist(currentWeather);
+
+  // 장소추천 렌더링 함수 실행
+  placeRecommendView(currentWeather);
 }
