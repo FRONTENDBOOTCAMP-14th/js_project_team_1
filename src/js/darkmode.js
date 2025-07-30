@@ -1,34 +1,49 @@
-const toggleButton = document.querySelector(".darkmode-toggle-button");
-
+const toggleButton = document.getElementById("theme-toggle");
+const buttonBg = toggleButton.querySelector(".btn-bg");
+const buttontext = toggleButton.querySelector(".btn-text");
+const html = document.documentElement;
 // 다크모드 함수 실행
 loadDarkMode();
 
-// 다크모드, 라이트모드 토글 버튼 이벤트 등록
+// 다크모드 토글 버튼 이벤트 등록
 toggleButton.addEventListener("click", () => {
-  // body class에 toggle 메서드 추가
-  document.body.classList.toggle("dark");
-  // body에 dark클래스 포함시 dark 제거, localstorage에 dark 추가
-  // 아닐시 dark 추가, localstorage에 dark 제거
-  if (document.body.classList.contains("dark")) {
-    window.localStorage.setItem("theme", "dark");
-    toggleButton.classList.add("dark");
-  } else {
-    window.localStorage.removeItem("theme");
-    toggleButton.classList.remove("dark");
-  }
+  // html의 data-theme 속성을 가져옴
+  const currentMode = html.getAttribute("data-theme");
+  // data-theme의 속성이 "dark"이면 "light" 거짓이면 "dark"
+  const nextMode = currentMode === "dark" ? "light" : "dark";
+  //모드 설정 함수에 전달
+  setTheme(nextMode);
 });
 
-// 다크모드 실행 함수
-function loadDarkMode() {
-  // localstorage에 key값이 theme인 value를 가져옴
-  const darkMode = window.localStorage.getItem("theme");
+// 모드 설정 함수
+function setTheme(mode) {
+  // mode가 "dark"일시 불리언값 상수에 설정
+  const isDark = mode === "dark";
 
-  // key값이 theme인 value값이 없거나 다크모드 버튼이 없을시 빠른 반환
-  if (!darkMode || !toggleButton) return;
+  // HTML 속성과 localStorage 설정
+  html.setAttribute("data-theme", mode);
+  window.localStorage.setItem("data-theme", mode);
 
-  // theme값이 있으면(dark) 다크모드 클래스 추가
-  if (darkMode === "dark") {
-    document.body.classList.add("dark");
-    toggleButton.classList.add("dark");
+  // UI 텍스트 및 배경 설정
+  buttontext.textContent = isDark ? "라이트 모드" : "다크 모드";
+
+  if (isDark) {
+    // 조건이 참 일시 .button-bg의 배경이미지를 변경
+    buttonBg.style.setProperty("background-image", 'url("/src/assets/weatherIcon/01.svg")');
+  } else {
+    // 조건이 거짓 일시 .button-bg의 기본 image로 변경
+    buttonBg.style.removeProperty("background-image");
   }
+}
+
+// 페이지 로드시 저장된 테마 적용
+function loadDarkMode() {
+  // 토글버튼 없을시 빠른 반환
+  if (!toggleButton) return;
+
+  // localstorage에서 data-theme 데이터를 가져오고
+  // 없으면 light
+  const savedMode = window.localStorage.getItem("data-theme") || "light";
+  // 모드 설정 함수에 전달
+  setTheme(savedMode);
 }

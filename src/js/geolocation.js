@@ -1,5 +1,5 @@
 import { getCurrentLocation } from "../service/kakaoMap";
-import { getWeatherData } from "./getWeatherData";
+import { renderView } from "./main";
 
 getCurrentPosition();
 
@@ -51,7 +51,7 @@ async function successLocation(position) {
     }
 
     // 브라우저 렌더함수에 위도,경도,도시이름 전달
-    getWeatherData(lat, lon, cityName);
+    renderView(lat, lon, cityName);
   } catch (error) {
     console.error("위치 정보를 가져오지 못했습니다..", error);
   }

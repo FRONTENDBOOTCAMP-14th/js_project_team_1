@@ -6,7 +6,7 @@
 
 body {
   padding: 3.875rem;
-  background-color: transparent;
+  background-color: var(--body-bg-color);
 
   &.dark {
     background-color: #181818;

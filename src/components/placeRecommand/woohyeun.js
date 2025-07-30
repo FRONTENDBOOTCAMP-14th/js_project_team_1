@@ -148,14 +148,6 @@ window.addEventListener("resize", () => {
 
 window.addEventListener("scroll", updateArrows);
 
-document.getElementById("theme-toggle").onclick = function () {
-  const html = document.documentElement;
-  const current = html.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  this.textContent = next === "dark" ? "☀️ 라이트 모드" : "🌙 다크 모드";
-};
-
 window.addEventListener("DOMContentLoaded", async () => {
   const iconCode = await getWeatherIconCode();
   await renderPlaces(iconCode);

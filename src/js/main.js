@@ -1,5 +1,6 @@
 import "../components/currentWeather/currentWeather.js";
 import { currentWeatherView } from "../components/currentWeather/currentWeather.js";
+import "../components/placeRecommand/woohyeun.js";
 import "../components/playlist/playlist.js";
 import { updatePlaylist } from "../components/playlist/playlist.js";
 import "./darkmode.js";

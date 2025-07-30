@@ -25,20 +25,6 @@ body {
   margin: 0;
 }
 
-#theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999;
-  background: transparent;
-  border: 1px solid var(--button-border);
-  color: var(--button-text);
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-}
-
 .header-area {
   width: 100vw;
   max-width: 1720px;

@@ -18,12 +18,10 @@
     <header class="web-header">
       <div class="web-title-wrapper">
         <h1 class="web-title">TITLE</h1>
-        <button
-          type="button"
-          class="darkmode-toggle-button"
-          aria-describedby="darkmode-description"
-        ></button>
-        <span id="darkmode-description" class="sr-only">다크모드 버튼</span>
+        <button id="theme-toggle" type="button" tabindex="0">
+          <span class="btn-bg" aria-hidden="true"></span>
+          <span class="btn-text">다크 모드</span>
+        </button>
       </div>
       <h2 class="current-time">
         <time aria-live="off"></time>
