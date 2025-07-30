@@ -24,8 +24,13 @@ function updateArrows() {
   else if (window.innerWidth <= 900) size = 38;
   else if (window.innerWidth <= 1400) size = 56;
 
-  document.querySelector(".carousel-arrow.left .arrow-svg").innerHTML = getArrowSvg("left", size);
-  document.querySelector(".carousel-arrow.right .arrow-svg").innerHTML = getArrowSvg("right", size);
+  const left = document.querySelector(".carousel-arrow.left .arrow-svg");
+  const right = document.querySelector(".carousel-arrow.right .arrow-svg");
+
+  if (left && right) {
+    left.innerHTML = getArrowSvg("left", size);
+    right.innerHTML = getArrowSvg("right", size);
+  }
 
   const outer = document.getElementById("carouselOuter");
   const rect = outer.getBoundingClientRect();
@@ -37,10 +42,6 @@ function updateArrows() {
   buttonLeft.style.transform = "translateY(-50%)";
   buttonRight.style.transform = "translateY(-50%)";
 }
-updateArrows();
-window.addEventListener("resize", updateArrows);
-window.addEventListener("scroll", updateArrows);
-window.addEventListener("DOMContentLoaded", updateArrows);
 
 const carousel = document.getElementById("carousel");
 const card = document.querySelector(".place-card");
@@ -48,8 +49,10 @@ const card = document.querySelector(".place-card");
 function getCardWidth() {
   return card.offsetWidth + 8;
 }
+
 let currentIndex = 0;
 const totalCards = document.querySelectorAll(".place-card").length;
+
 const visibleCount = () => {
   if (window.innerWidth <= 600) return 1;
   if (window.innerWidth <= 900) return 2;
@@ -64,6 +67,7 @@ function scrollToIndex(idx) {
     behavior: "smooth",
   });
 }
+
 document.getElementById("arrowLeft").onclick = function () {
   if (currentIndex === 0) {
     currentIndex = totalCards - visibleCount();
@@ -72,6 +76,7 @@ document.getElementById("arrowLeft").onclick = function () {
   }
   scrollToIndex(currentIndex);
 };
+
 document.getElementById("arrowRight").onclick = function () {
   if (currentIndex >= totalCards - visibleCount()) {
     currentIndex = 0;
@@ -80,11 +85,17 @@ document.getElementById("arrowRight").onclick = function () {
   }
   scrollToIndex(currentIndex);
 };
+
 window.addEventListener("resize", () => {
+  updateArrows();
   currentIndex = Math.min(currentIndex, totalCards - visibleCount());
   scrollToIndex(currentIndex);
 });
+
+window.addEventListener("scroll", updateArrows);
+
 window.addEventListener("DOMContentLoaded", () => {
+  updateArrows();
   currentIndex = 0;
   scrollToIndex(0);
 });
