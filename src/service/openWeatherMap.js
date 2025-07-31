@@ -3,7 +3,7 @@ import axios from "axios";
 // axios의 get 메서드를 통해 openWeatherMap API의 날씨데이터를 가져옴
 // 위도,경도를 파라미터로 사용
 
-const apiKey = import.meta.env.VITE_OPENWEATHERMAP_API_KEY;
+const apiKey = "b654127afd92273778b454675873b1ca";
 
 // 현재날씨 가져오기
 export async function getCurrentWeather(lat, lon) {
