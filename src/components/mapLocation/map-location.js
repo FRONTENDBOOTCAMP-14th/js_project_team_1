@@ -11,8 +11,8 @@ class MapLocationApp {
       MAP_RELAYOUT_DELAY: 200,
       WEATHER_API_LANGUAGE: 'kr',
       WEATHER_API_UNITS: 'metric',
-      KAKAO_MAP_API_KEY: import.meta.env.VITE_KAKAO_MAP_API_KEY,
-      OPENWEATHER_API_KEY: import.meta.env.VITE_OPENWEATHER_API_KEY
+      KAKAO_MAP_API_KEY: import.meta.env.VITE_KAKAO_MAP_API_KEY || '30dd49c7e09da88d4b22c2494ba40808',
+      OPENWEATHER_API_KEY: import.meta.env.VITE_OPENWEATHER_API_KEY || '98129ab835d44fbb73be2fefccf636f2'
     };
 
     this.state = {
