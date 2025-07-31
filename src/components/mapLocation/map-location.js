@@ -10,7 +10,9 @@ class MapLocationApp {
       MAP_INITIALIZATION_DELAY: 100,
       MAP_RELAYOUT_DELAY: 200,
       WEATHER_API_LANGUAGE: 'kr',
-      WEATHER_API_UNITS: 'metric'
+      WEATHER_API_UNITS: 'metric',
+      KAKAO_MAP_API_KEY: import.meta.env.VITE_KAKAO_MAP_API_KEY,
+      OPENWEATHER_API_KEY: import.meta.env.VITE_OPENWEATHER_API_KEY
     };
 
     this.state = {
@@ -33,8 +35,8 @@ class MapLocationApp {
     this.cacheDomElements();
     this.bindEventListeners();
     
-    // 카카오 맵 API가 로드될 때까지 대기
-    await this.waitForKakaoMaps();
+    // 카카오 맵 API를 동적으로 로드
+    await this.loadKakaoMapsAPI();
     await this.loadPlaceFromUrl();
     
     setTimeout(() => {
@@ -166,7 +168,7 @@ class MapLocationApp {
     const urlParams = new URLSearchParams({
       lat: latitude.toString(),
       lon: longitude.toString(),
-      appid: OPENWEATHER_API_KEY,
+      appid: this.CONFIG.OPENWEATHER_API_KEY,
       units: this.CONFIG.WEATHER_API_UNITS,
       lang: this.CONFIG.WEATHER_API_LANGUAGE
     });
@@ -354,29 +356,22 @@ class MapLocationApp {
     });
   }
 
-  waitForKakaoMaps() {
+  async loadKakaoMapsAPI() {
     return new Promise((resolve, reject) => {
+      // 이미 로드되어 있으면 바로 반환
       if (typeof kakao !== 'undefined' && kakao.maps) {
         resolve();
         return;
       }
 
-      let attempts = 0;
-      const maxAttempts = 50; // 5초 대기 (100ms * 50)
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${this.CONFIG.KAKAO_MAP_API_KEY}&libraries=services`;
       
-      const checkKakao = () => {
-        attempts++;
-        
-        if (typeof kakao !== 'undefined' && kakao.maps) {
-          resolve();
-        } else if (attempts >= maxAttempts) {
-          reject(new Error('카카오 맵 API 로딩에 실패했습니다'));
-        } else {
-          setTimeout(checkKakao, 100);
-        }
-      };
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error('카카오 맵 API 로딩에 실패했습니다'));
       
-      checkKakao();
+      document.head.appendChild(script);
     });
   }
 }
