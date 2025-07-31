@@ -50,25 +50,46 @@ async function renderPlaces(iconCode) {
   }
 }
 
+// 카드 폭 + gap을 정확히 계산
 function getCardWidth() {
   const card = document.querySelector(".place-card");
-  return card ? card.offsetWidth + 32 : 400 + 32; // gap 포함
+  const list = document.querySelector(".place-list");
+  if (card && list) {
+    const style = getComputedStyle(list);
+    const gap = parseInt(style.gap) || 0;
+    return card.offsetWidth + gap;
+  }
+  return 400 + 32; // fallback
 }
 
+// 마지막 카드가 항상 완전히 보이도록 스크롤 보정
 function scrollToIndex(idx) {
   const carousel = document.getElementById("carousel");
-  const scrollX = idx * getCardWidth();
-  carousel.parentNode.scrollTo({ left: scrollX, behavior: "smooth" });
+  const outer = carousel.parentNode;
+  const totalWidth = carousel.scrollWidth;
+  const outerWidth = outer.clientWidth;
+  const maxScroll = totalWidth - outerWidth;
+  let scrollX = idx * getCardWidth();
+
+  // 마지막 인덱스면 무조건 maxScroll에 맞춰서 마지막 카드가 다 보이게
+  const maxIndex = getMaxIndex();
+  if (idx >= maxIndex) {
+    scrollX = maxScroll;
+  } else if (scrollX > maxScroll) {
+    scrollX = maxScroll;
+  }
+  if (scrollX < 0) scrollX = 0;
+  outer.scrollTo({ left: scrollX, behavior: "smooth" });
 }
 
 function getArrowSvg(direction, size = 60) {
   const arrow =
     direction === "left"
-      ? `<polyline points="50,25 30,40.5 50,56" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`
-      : `<polyline points="30,25 50,40.5 30,56" fill="none" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+      ? `<polyline points="50,25 30,40.5 50,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`
+      : `<polyline points="30,25 50,40.5 30,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
   return `
     <svg width="${size}" height="${size}" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="40.5" r="40" fill="black"/>
+      <circle cx="40" cy="40.5" r="40" fill="#ffffff"/>
       ${arrow}
     </svg>
   `;
@@ -95,24 +116,44 @@ function visibleCount() {
   return 4;
 }
 
+const MOVE_COUNT = 1;
+
+function getMaxIndex() {
+  const carousel = document.getElementById("carousel");
+  return Math.max(carousel.children.length - visibleCount(), 0);
+}
+
 document.getElementById("arrowLeft").onclick = () => {
   const carousel = document.getElementById("carousel");
-  if (currentIndex === 0) currentIndex = carousel.children.length - visibleCount();
-  else currentIndex = Math.max(currentIndex - 1, 0);
+  const maxIndex = getMaxIndex();
+  if (maxIndex === 0) {
+    currentIndex = 0;
+  } else if (currentIndex === 0) {
+    currentIndex = maxIndex;
+  } else {
+    currentIndex = Math.max(currentIndex - MOVE_COUNT, 0);
+  }
   scrollToIndex(currentIndex);
 };
 
 document.getElementById("arrowRight").onclick = () => {
   const carousel = document.getElementById("carousel");
-  if (currentIndex >= carousel.children.length - visibleCount()) currentIndex = 0;
-  else currentIndex = Math.min(currentIndex + 1, carousel.children.length - visibleCount());
+  const maxIndex = getMaxIndex();
+  if (maxIndex === 0) {
+    currentIndex = 0;
+  } else if (currentIndex >= maxIndex) {
+    currentIndex = 0;
+  } else {
+    currentIndex = Math.min(currentIndex + MOVE_COUNT, maxIndex);
+  }
   scrollToIndex(currentIndex);
 };
 
 window.addEventListener("resize", () => {
   updateArrows();
   const carousel = document.getElementById("carousel");
-  currentIndex = Math.min(currentIndex, carousel.children.length - visibleCount());
+  const maxIndex = getMaxIndex();
+  currentIndex = Math.min(currentIndex, maxIndex);
   scrollToIndex(currentIndex);
 });
 updateArrows();
