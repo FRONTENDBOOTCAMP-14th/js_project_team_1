@@ -1,3 +1,11 @@
+:root {
+  --block-size: 5rem;
+
+  @media screen and (width <= 40rem) {
+    --block-size: 3.125rem;
+  }
+}
+
 [type="search"] {
   appearance: textfield;
 }
@@ -123,15 +131,11 @@
 
 .weather-search-form {
   inline-size: 100%;
-  block-size: 5rem;
+  block-size: var(--block-size);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--space-md);
-
-  @media screen and (width <= 40rem) {
-    block-size: 3.125rem;
-  }
 }
 
 .search-wrapper {
@@ -156,6 +160,10 @@
 }
 
 .search-wrapper:focus-within {
+  .wrapper-outline {
+    outline: 3px solid var(--outline-red);
+  }
+
   .search-label {
     display: block;
     top: 0;
@@ -182,7 +190,7 @@
 
 .search-input {
   inline-size: 100%;
-  block-size: 100%;
+  block-size: var(--block-size);
   padding: 0.625rem 4rem 0.625rem 2rem;
   border: 1px solid var(--border-color);
   border-radius: 1.5rem;
@@ -284,8 +292,8 @@
   li {
     padding: 1.1875rem 2rem;
 
-    &:hover,
-    &.highlight {
+    &:hover:not(.no-search),
+    &.highlight:not(.no-search) {
       background-color: var(--bg-hover-color);
     }
 
@@ -303,6 +311,10 @@
       padding-block: 0.3125rem;
       outline: 0;
     }
+  }
+
+  .no-search {
+    cursor: auto;
   }
 
   @media screen and (width <= 40rem) {
@@ -439,8 +451,9 @@
   }
 
   @media screen and (width <= 40rem) {
+    align-self: center;
     inline-size: 100%;
-    block-size: 10.625rem;
+    block-size: 100%;
   }
 }
 
@@ -448,6 +461,13 @@
   inline-size: auto;
   max-inline-size: 16.25rem;
   color: var(--text-color);
+  white-space: nowrap;
+
+  &:focus-within {
+    .hourly-lists {
+      outline: 3px solid var(--outline-red);
+    }
+  }
 
   @media screen and (width <= 40rem) {
     max-inline-size: 100%;

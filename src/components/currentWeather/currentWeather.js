@@ -120,6 +120,7 @@ weatherSearchForm.addEventListener("submit", (e) => {
 
   // 랜더함수에 matchCity에서 구조분해 할당한 값을 파라미터로 전달
   renderView(lat, lon, name_kr);
+  hideLists();
 });
 
 /* 메인 함수 */
@@ -304,9 +305,9 @@ function hourlyTemplate(list) {
     return isToday || isTomorrow;
   });
 
-  // 많은 데이터를 가져와 화면에 보여줄때는 8개만 잘라 보여주기위해
+  // 많은 데이터를 가져와 화면에 보여줄때는 9개만 잘라 보여주기위해
   // slice로 리스트항목 재설정
-  const slicedList = filterList.slice(0, 8);
+  const slicedList = filterList.slice(0, 9);
 
   // .hourly-lists 요소 가져옴
   const hourlyLists = weatherHourly.querySelector(".hourly-lists");
