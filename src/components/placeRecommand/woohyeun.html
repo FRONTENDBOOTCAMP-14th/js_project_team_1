@@ -1,25 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>날씨 기반 장소 추천</title>
-    <link rel="stylesheet" href="woohyeun.css" />
+    <title>날씨 기반 장소 추천 캐러셀</title>
+    <link rel="stylesheet" href="./woohyeun.css" />
   </head>
   <body>
-    <button id="theme-toggle">🌙 다크 모드</button>
     <div class="header-area">
       <h2>📍 날씨에 어울리는 장소를 추천드릴게요</h2>
     </div>
     <div class="carousel-area">
-      <div class="carousel-outer" id="carouselOuter">
-        <ul class="place-list" id="carousel"></ul>
-        <button class="carousel-arrow left" id="arrowLeft" aria-label="이전">
-          <span class="arrow-svg"></span>
-        </button>
-        <button class="carousel-arrow right" id="arrowRight" aria-label="다음">
-          <span class="arrow-svg"></span>
-        </button>
+      <button class="carousel-arrow left" id="arrowLeft"><span class="arrow-svg"></span></button>
+      <div class="carousel-outer">
+        <div class="carousel-track-frame">
+          <ul class="place-list" id="carousel"></ul>
+        </div>
       </div>
+      <button class="carousel-arrow right" id="arrowRight"><span class="arrow-svg"></span></button>
     </div>
     <script src="woohyeun.js" type="module"></script>
   </body>
