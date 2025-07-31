@@ -29,7 +29,7 @@ async function renderPlaces(iconCode) {
         const li = document.createElement("li");
         li.className = "place-card";
         li.innerHTML = `
-        <a href="#">
+        <a href="/src/components/mapLocation/map-location.html?id=${place.id}">
           <div class="place-img-wrap">
             <img src="${place.img_url}" alt="${place.place_name}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;" />
           </div>
