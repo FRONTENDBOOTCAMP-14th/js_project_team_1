@@ -4,6 +4,8 @@ import "../components/placeRecommand/woohyeun.js";
 import { placeRecommendView } from "../components/placeRecommand/woohyeun.js";
 import "../components/playlist/playlist.js";
 import { updatePlaylist } from "../components/playlist/playlist.js";
+import "../components/weeklyforecast/weeklyforecast.js";
+import { renderWeeklyForecast } from "../components/weeklyforecast/weeklyforecast.js";
 import "./darkmode.js";
 import "./geolocation.js";
 import { getWeatherData } from "./getWeatherData.js";
@@ -77,6 +79,9 @@ export async function renderView(lat, lon, city) {
   const { currentWeather, forecastWeather } = await getWeatherData(lat, lon);
   // 데이터를 파람스로 전달하여 현재날씨 렌더링
   currentWeatherView(currentWeather, forecastWeather, city);
+
+  // 주간예보 렌더링
+  renderWeeklyForecast(lat, lon);
 
   //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
   updatePlaylist(currentWeather);
