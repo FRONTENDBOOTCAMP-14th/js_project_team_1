@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 class MapLocationApp {
   constructor() {
     this.CONFIG = {
@@ -31,6 +33,8 @@ class MapLocationApp {
     this.cacheDomElements();
     this.bindEventListeners();
     
+    // 카카오 맵 API가 로드될 때까지 대기
+    await this.waitForKakaoMaps();
     await this.loadPlaceFromUrl();
     
     setTimeout(() => {
@@ -300,12 +304,8 @@ class MapLocationApp {
     }
 
     try {
-      const response = await fetch('../placeRecommand/place.json');
-      if (!response.ok) {
-        throw new Error(`Failed to fetch place data: ${response.status}`);
-      }
-      
-      const placeData = await response.json();
+      const response = await axios.get('../placeRecommand/place.json');
+      const placeData = response.data;
       const place = this.findPlaceById(placeData, placeId);
       
       if (place) {
@@ -351,6 +351,32 @@ class MapLocationApp {
           reject(new Error('주소를 좌표로 변환할 수 없습니다'));
         }
       });
+    });
+  }
+
+  waitForKakaoMaps() {
+    return new Promise((resolve, reject) => {
+      if (typeof kakao !== 'undefined' && kakao.maps) {
+        resolve();
+        return;
+      }
+
+      let attempts = 0;
+      const maxAttempts = 50; // 5초 대기 (100ms * 50)
+      
+      const checkKakao = () => {
+        attempts++;
+        
+        if (typeof kakao !== 'undefined' && kakao.maps) {
+          resolve();
+        } else if (attempts >= maxAttempts) {
+          reject(new Error('카카오 맵 API 로딩에 실패했습니다'));
+        } else {
+          setTimeout(checkKakao, 100);
+        }
+      };
+      
+      checkKakao();
     });
   }
 }
