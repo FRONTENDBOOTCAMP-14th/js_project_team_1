@@ -7,6 +7,8 @@
   --outline: #f9004d;
   --bg-hover-color: #e2e4e7;
   --body-bg-color: #fff;
+  --card-bg-color: #fff;
+  --card-element-bg-color: #f5f7fa;
 
   --label-text-color: #fff;
   --label-bg-color: #000;
@@ -83,6 +85,8 @@
   --text-color-50: #ffffff80;
   --border-color: #fff;
   --body-bg-color: #181818;
+  --card-bg-color: #121212;
+  --card-element-bg-color: rgba(255, 255, 255, 0.1);
 
   --label-text-color: #000;
   --label-bg-color: #fff;
