@@ -1,7 +1,7 @@
 .playlist {
   display: flex;
   flex-flow: column;
-  gap: var(--space-xl);
+  gap: var(--space-2xl);
   width: 100%;
   height: auto;
   overflow: hidden;
