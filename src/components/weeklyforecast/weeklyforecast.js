@@ -1,38 +1,10 @@
-import { getForecastWeather } from "../../service/openWeatherMap.js";
+import { iconMap } from "../../js/main.js";
 
-// 기본값(서울)
-const defaultLat = 37.5665;
-const defaultLon = 126.978;
+// 메인 함수 (main.js에서 forecast Data 받아옴)
+export function renderWeeklyForecast(forecastWeatherList) {
+  console.log("주간예보 렌더 시작!");
 
-const iconMap = {
-  "01d": "01",
-  "01n": "01",
-  "02d": "02",
-  "02n": "02",
-  "03d": "03",
-  "03n": "03",
-  "04d": "04",
-  "04n": "04",
-  "09d": "09",
-  "09n": "09",
-  "10d": "10",
-  "10n": "10",
-  "11d": "11",
-  "11n": "11",
-  "13d": "13",
-  "13n": "13",
-  "50d": "50",
-  "50n": "50",
-};
-
-// --- 초기 실행(서울 기준)
-renderWeeklyForecast();
-
-// 메인 함수 (lat, lon 파라미터 추가! 기본값: 서울)
-async function renderWeeklyForecast(lat = defaultLat, lon = defaultLon) {
-  console.log("주간예보 렌더 시작!", lat, lon);
-  const forecastList = await fetchForecast(lat, lon);
-  const dailyArray = groupByDate(forecastList);
+  const dailyArray = groupByDate(forecastWeatherList.list);
 
   const items = document.querySelectorAll(".weekly-forecast-item");
   for (let i = 0; i < items.length && i < dailyArray.length; i++) {
@@ -41,15 +13,17 @@ async function renderWeeklyForecast(lat = defaultLat, lon = defaultLon) {
 }
 
 // (1) 데이터 받아오기 (lat, lon 파라미터로 받음)
-async function fetchForecast(lat, lon) {
-  const forecastWeather = await getForecastWeather(lat, lon);
-  console.log("예보데이터", forecastWeather);
-  return forecastWeather.list;
-}
+// async function fetchForecast(lat, lon) {
+//   const forecastWeather = await getForecastWeather(lat, lon);
+//   console.log("예보데이터", forecastWeather);
+//   return forecastWeather.list;
+// }
 
 // (2) 날짜별로 묶기
 function groupByDate(forecastList) {
   const dailyMap = {};
+
+  console.log(forecastList);
   forecastList.forEach((data) => {
     const dateStr = getDateStr(data.dt);
     if (!dailyMap[dateStr]) dailyMap[dateStr] = [];
@@ -104,7 +78,7 @@ function renderDayForecast(item, dayDataArr) {
   if (cells.length >= 1 && dayDataArr.length >= 1) {
     let morning = dayDataArr.find((d) => getKoreanHour(d.dt) === 9) || dayDataArr[0];
     const iconCode = iconMap[morning.weather[0].icon];
-    cells[0].querySelector("img").src = `/src/assets/weatherIcon/${iconCode}.svg`;
+    cells[0].querySelector("img").src = `/assets/weatherIcon/${iconCode}.svg`;
     cells[0].querySelector("img").alt = morning.weather[0].description;
     cells[0].querySelector("p").textContent = "오전";
   }
@@ -114,7 +88,7 @@ function renderDayForecast(item, dayDataArr) {
     let afternoon =
       dayDataArr.find((d) => getKoreanHour(d.dt) === 15) || dayDataArr[dayDataArr.length - 1];
     const iconCode = iconMap[afternoon.weather[0].icon];
-    cells[1].querySelector("img").src = `/src/assets/weatherIcon/${iconCode}.svg`;
+    cells[1].querySelector("img").src = `/assets/weatherIcon/${iconCode}.svg`;
     cells[1].querySelector("img").alt = afternoon.weather[0].description;
     cells[1].querySelector("p").textContent = "오후";
   }
@@ -127,4 +101,4 @@ function getKoreanHour(dt) {
   return date.getHours();
 }
 
-export { renderWeeklyForecast };
+// export { renderWeeklyForecast };

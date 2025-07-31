@@ -257,7 +257,7 @@ function createIcon(data) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <img
-      src="/src/assets/weatherIcon/${iconCode}.svg"
+      src="/assets/weatherIcon/${iconCode}.svg"
       alt="날씨 아이콘"
       aria-hidden="true"
     />
@@ -335,7 +335,7 @@ function hourlyTemplate(list) {
         <span class="hourly-icon">
           <span class="sr-only">${data.weather.at(0).description}</span>
           <img
-            src="/src/assets/weatherIcon/${iconCode}.svg"
+            src="/assets/weatherIcon/${iconCode}.svg"
             alt="날씨 아이콘"
             aria-hidden="true"
           />

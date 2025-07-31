@@ -29,7 +29,7 @@ function setTheme(mode) {
 
   if (isDark) {
     // 조건이 참 일시 .button-bg의 배경이미지를 변경
-    buttonBg.style.setProperty("background-image", 'url("/src/assets/weatherIcon/01.svg")');
+    buttonBg.style.setProperty("background-image", 'url("/assets/weatherIcon/01.svg")');
   } else {
     // 조건이 거짓 일시 .button-bg의 기본 image로 변경
     buttonBg.style.removeProperty("background-image");

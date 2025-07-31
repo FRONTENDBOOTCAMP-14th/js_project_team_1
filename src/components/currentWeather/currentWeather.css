@@ -54,7 +54,7 @@
     gap: var(--space-xs);
 
     &:focus {
-      outline: 3px solid var(--outline-red);
+      outline: 3px solid var(--outline);
     }
 
     &:hover {
@@ -65,7 +65,7 @@
       display: inline-block;
       inline-size: 1.25rem;
       block-size: 1.25rem;
-      background: url("/src/assets/weatherIcon/14.svg") center / cover no-repeat;
+      background: url("/assets/weatherIcon/14.svg") center / cover no-repeat;
     }
   }
 
@@ -161,7 +161,7 @@
 
 .search-wrapper:focus-within {
   .wrapper-outline {
-    outline: 3px solid var(--outline-red);
+    outline: 3px solid var(--outline);
   }
 
   .search-label {
@@ -189,6 +189,8 @@
 }
 
 .search-input {
+  --text-color: #000;
+
   inline-size: 100%;
   block-size: var(--block-size);
   padding: 0.625rem 4rem 0.625rem 2rem;
@@ -198,6 +200,7 @@
   font-size: var(--font-md);
   font-weight: 400;
   outline: 0;
+  color: var(--text-color);
 
   &.remove-border {
     border-bottom-left-radius: 0;
@@ -260,7 +263,7 @@
   }
 
   &:focus {
-    outline: 0.1875rem solid var(--outline-red);
+    outline: 0.1875rem solid var(--outline);
   }
 
   &:disabled {
@@ -339,7 +342,7 @@
   }
 
   &:focus {
-    outline: 3px solid var(--outline-red);
+    outline: 3px solid var(--outline);
   }
 
   @media screen and (width <= 40rem) {
@@ -403,6 +406,8 @@
   }
 
   .weather-detail-sub {
+    --text-color: #000;
+
     margin-top: 7.75rem;
     display: flex;
     align-items: center;
@@ -418,6 +423,7 @@
       font-weight: 400;
       border-radius: 1.5rem;
       white-space: nowrap;
+      color: var(--text-color);
     }
 
     span:nth-child(2) {
@@ -465,7 +471,7 @@
 
   &:focus-within {
     .hourly-lists {
-      outline: 3px solid var(--outline-red);
+      outline: 3px solid var(--outline);
     }
   }
 

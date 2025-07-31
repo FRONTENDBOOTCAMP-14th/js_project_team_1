@@ -77,11 +77,12 @@ function getDateRender() {
 export async function renderView(lat, lon, city) {
   // 비동기함수 getWeatherData()에 위도,경도 정보를 전달하여 데이터를 가져옴
   const { currentWeather, forecastWeather } = await getWeatherData(lat, lon);
+
   // 데이터를 파람스로 전달하여 현재날씨 렌더링
   currentWeatherView(currentWeather, forecastWeather, city);
 
   // 주간예보 렌더링
-  renderWeeklyForecast(lat, lon);
+  renderWeeklyForecast(forecastWeather);
 
   //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
   updatePlaylist(currentWeather);
