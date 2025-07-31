@@ -50,7 +50,6 @@ async function renderPlaces(iconCode) {
   }
 }
 
-// 카드 폭 + gap을 정확히 계산
 function getCardWidth() {
   const card = document.querySelector(".place-card");
   const list = document.querySelector(".place-list");
@@ -59,10 +58,9 @@ function getCardWidth() {
     const gap = parseInt(style.gap) || 0;
     return card.offsetWidth + gap;
   }
-  return 400 + 32; // fallback
+  return 400 + 32;
 }
 
-// 마지막 카드가 항상 완전히 보이도록 스크롤 보정
 function scrollToIndex(idx) {
   const carousel = document.getElementById("carousel");
   const outer = carousel.parentNode;
@@ -71,7 +69,6 @@ function scrollToIndex(idx) {
   const maxScroll = totalWidth - outerWidth;
   let scrollX = idx * getCardWidth();
 
-  // 마지막 인덱스면 무조건 maxScroll에 맞춰서 마지막 카드가 다 보이게
   const maxIndex = getMaxIndex();
   if (idx >= maxIndex) {
     scrollX = maxScroll;
