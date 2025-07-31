@@ -27,9 +27,11 @@ class MapLocationApp {
     this.initialize();
   }
 
-  initialize() {
+  async initialize() {
     this.cacheDomElements();
     this.bindEventListeners();
+    
+    await this.loadPlaceFromUrl();
     
     setTimeout(() => {
       this.initializeKakaoMap();
@@ -287,6 +289,69 @@ class MapLocationApp {
 
   displayCopyErrorMessage(failedText) {
     alert(`복사에 실패했습니다. 주소: ${failedText}`);
+  }
+
+  async loadPlaceFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const placeId = urlParams.get('id');
+    
+    if (!placeId) {
+      return;
+    }
+
+    try {
+      const response = await fetch('../placeRecommand/place.json');
+      if (!response.ok) {
+        throw new Error(`Failed to fetch place data: ${response.status}`);
+      }
+      
+      const placeData = await response.json();
+      const place = this.findPlaceById(placeData, placeId);
+      
+      if (place) {
+        const coordinates = await this.getCoordinatesFromAddress(place.address);
+        
+        this.state.currentPlace = {
+          name: place.place_name,
+          address: place.address,
+          image: place.img_url,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude
+        };
+      }
+    } catch (error) {
+      console.warn('장소 데이터를 불러올 수 없습니다:', error);
+    }
+  }
+
+  findPlaceById(placeData, targetId) {
+    for (const group of placeData) {
+      const place = group.place_recommend.find(place => 
+        place.place_name === targetId || 
+        place.address.includes(targetId)
+      );
+      if (place) {
+        return place;
+      }
+    }
+    return null;
+  }
+
+  async getCoordinatesFromAddress(address) {
+    return new Promise((resolve, reject) => {
+      const geocoder = new kakao.maps.services.Geocoder();
+      
+      geocoder.addressSearch(address, (result, status) => {
+        if (status === kakao.maps.services.Status.OK && result.length > 0) {
+          resolve({
+            latitude: parseFloat(result[0].y),
+            longitude: parseFloat(result[0].x)
+          });
+        } else {
+          reject(new Error('주소를 좌표로 변환할 수 없습니다'));
+        }
+      });
+    });
   }
 }
 
