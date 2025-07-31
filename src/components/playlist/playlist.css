@@ -1,22 +1,14 @@
-:root {
-  --cover-border-color: #f5f7fa;
-}
-
-body {
-  background-color: var(--blue-100);
-}
-
 .playlist {
   display: flex;
   flex-flow: column;
-  gap: 40px;
+  gap: var(--space-xl);
   width: 100%;
   height: auto;
   overflow: hidden;
 
   .playlist__describe {
     font-family: Pretendard;
-    font-size: 40px;
+    font-size: var(--font-lg);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -25,7 +17,7 @@ body {
   .playlist__inner {
     display: flex;
     flex-flow: row nowrap;
-    gap: 32px;
+    gap: var(--space-lg);
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
@@ -36,25 +28,26 @@ body {
       align-items: start;
       justify-content: center;
       height: auto;
+      gap: var(--space-ms);
     }
     .playlist__cover {
       width: 300px;
       aspect-ratio: 1;
-      border-radius: 999px;
-      border: 8px solid var(--cover-border-color);
+      border-radius: var(--radius-full);
+      border: 8px solid var(--bg-color);
 
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
     .playlist__title {
-      font-size: 28px;
+      font-size: var(--font-md);
       font-style: normal;
       font-weight: 700;
       line-height: normal;
     }
     .playlist__singer {
-      font-size: 28px;
+      font-size: var(--font-md);
       font-style: normal;
       font-weight: 400;
       line-height: normal;
@@ -65,53 +58,20 @@ body {
 
 @media (max-width: 640px) {
   .playlist {
-    display: flex;
-    flex-flow: column;
-    gap: 40px;
-
     .playlist__describe {
-      font-family: Pretendard;
-      font-size: 25px;
       text-align: center;
-      font-style: normal;
-      font-weight: 700;
-      line-height: normal;
     }
 
     .playlist__inner {
-      display: flex;
-      flex-flow: row nowrap;
-      gap: 16px;
-
       .playlist__track-container {
-        display: flex;
-        flex-flow: column;
-        align-items: start;
-        justify-content: center;
-        gap: 0.625rem;
       }
       .playlist__cover {
         width: 150px;
-        aspect-ratio: 1;
-        border-radius: 999px;
-        border: 4px solid var(--cover-border-color);
-
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        border: 4px solid var(--bg-color);
       }
       .playlist__title {
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
       }
       .playlist__singer {
-        font-size: 15px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        opacity: 0.5;
       }
     }
   }

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const apiKey = import.meta.env.VITE_KAKAO_MAP_API_KEY;
+const API_KEY = import.meta.env.VITE_KAKAO_MAP_API_KEY;
 
 // 현재 위치기반(위도,경도)로 행정구역 명칭 가져오기
 export async function getCurrentLocation(lat, lon) {
@@ -10,7 +10,7 @@ export async function getCurrentLocation(lat, lon) {
       x: lon,
     },
     headers: {
-      Authorization: `KakaoAK ${apiKey}`, // REST API_KEY
+      Authorization: `KakaoAK ${API_KEY}`, // REST API_KEY
     },
   });
 
