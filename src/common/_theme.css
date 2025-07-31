@@ -13,6 +13,8 @@
   --label-text-color: #fff;
   --label-bg-color: #000;
 
+  --svg-bg-color: #181818;
+
   /* font-size */
   --font-xs: 1.25rem;
   --font-sm: 1.5rem;
@@ -90,4 +92,6 @@
 
   --label-text-color: #000;
   --label-bg-color: #fff;
+
+  --svg-bg-color: #fff;
 }
