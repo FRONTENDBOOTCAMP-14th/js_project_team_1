@@ -5,6 +5,8 @@ const PLAYLIST_BY_WEATHER = {
   "01n": "2oxqCm5CDh0FLzRPnhnitw", // 맑은 밤
   "02d": "7q6bb9nyAeNd1s37wU5oQA", // 약간 구름 낮
   "02n": "5tSTpzKrrpZmtPfId6Sc0f", // 약간 구름 밤
+  "03d": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 낮
+  "03n": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 밤
   "04d": "6YeQxqNmJQzp9Fxtmx0KI4", //온흐림
   "04n": "0x4Tzcvz7hGYeM6q71bVJP", //온흐림
   "09d": "3W0nONHewUQeLyWjWCsNkL", // 소나기 낮
@@ -26,6 +28,11 @@ const PLAYLIST_BY_WEATHER = {
 
 export async function updatePlaylist(currentUserWeather) {
   console.log("updateplalist 실행");
+
+  //플레이리스트 섹션 앨범 커버 부분 초기화
+  const playlistInner = document.querySelector(".playlist__inner");
+  playlistInner.innerHTML = "";
+
   if (!currentUserWeather) {
     console.warn("날씨 데이터 없음");
     return;
@@ -33,11 +40,11 @@ export async function updatePlaylist(currentUserWeather) {
 
   //update section title
   updateDescibe(currentUserWeather);
-  //updateTracks
-  // updateMusic(currentUserWeather);
 
-  const PLAYLIST_ID = updateMusic(currentUserWeather);
+  // 플레이리스트 아이디 받아오기
+  const PLAYLIST_ID = getPlayListID(currentUserWeather);
 
+  //토큰발급 빛 플레이리스트 가져오기
   await main(PLAYLIST_ID);
 }
 
@@ -53,7 +60,8 @@ function updateDescibe(currentUserWeather) {
   console.log("타이틀 이름 변경");
 }
 
-function updateMusic(currentUserWeather) {
+//플레이리스트 아이디 가져오기
+function getPlayListID(currentUserWeather) {
   let weatherCode = currentUserWeather.weather[0].icon;
   const PLAYLIST_ID = PLAYLIST_BY_WEATHER[weatherCode];
   console.log("플레이리스트아이디 반환: " + weatherCode + ":" + PLAYLIST_ID);
@@ -76,7 +84,7 @@ function updateTrackInfo(track) {
   playlistInner.appendChild(trackContainer);
 }
 
-// 실행
+// API 관련 함수들(토큰발급, 플레이리스트아이디조회)
 async function main(PLAYLIST_ID) {
   const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
   const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
