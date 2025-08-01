@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="kr">
   <head>
     <meta charset="UTF-8" />
@@ -56,12 +56,13 @@
             <div class="weather-info">
               <div class="weather-summary">
                 <h3 class="weather-location">
-                  지역명<span class="data-time">(<time></time>기준)</span>
+                  <span>지역명</span>
+                  <span class="data-time">(<time></time>기준)</span>
                 </h3>
                 <p class="weather-temp">00°C</p>
                 <div class="weather-detail">
                   <span>흐림</span>
-                  <div class="weather-temp">
+                  <div class="weather-lowhight-temp">
                     <span>최저 24°C</span>
                     <span>최고 29°C</span>
                   </div>
@@ -192,9 +193,9 @@
 
       <section class="playlist">
         <h2 class="playlist__describe">🎧 흐린 날씨에 이런 노래 어떠세요?</h2>
-        <ul class="playlist__inner">
+        <div class="playlist__inner">
           <!-- js로 동적 생성 -->
-        </ul>
+        </div>
       </section>
 
       <section>
