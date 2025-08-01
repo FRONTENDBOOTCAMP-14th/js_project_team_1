@@ -9,7 +9,7 @@ body {
 
 .header-area {
   max-width: 107.5rem;
-  min-width: 22.5rem;
+
   margin: 0 auto var(--space-xl) auto;
   display: flex;
   align-items: center;
@@ -28,7 +28,7 @@ body {
 
 .carousel-area {
   max-width: 107.5rem;
-  min-width: 22.5rem;
+
   margin: 0 auto var(--space-2xl) auto;
   position: relative;
   display: flex;
