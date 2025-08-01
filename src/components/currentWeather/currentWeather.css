@@ -1,8 +1,8 @@
 :root {
-  --block-size: 5rem;
+  --form-block-size: 5rem;
 
   @media screen and (width <= 40rem) {
-    --block-size: 3.125rem;
+    --form-block-size: 3.125rem;
   }
 }
 
@@ -19,7 +19,7 @@
   flex-flow: column nowrap;
   gap: var(--space-ml);
   justify-content: center;
-  margin-block-end: 5rem;
+  margin-block: 5rem;
 
   .web-title-wrapper {
     display: flex;
@@ -78,7 +78,7 @@
 
   @media screen and (width <= 40rem) {
     text-align: center;
-    margin-block-end: 2.5rem;
+    margin-block: 2.5rem;
 
     .web-title-wrapper {
       justify-content: center;
@@ -109,14 +109,14 @@
 }
 
 .weather-container {
+  min-width: 100%;
   background-color: transparent;
   display: flex;
   flex-flow: row nowrap;
   gap: var(--space-3xl);
 
   @media screen and (width <= 40rem) {
-    display: flex;
-    flex-flow: column nowrap;
+    flex-direction: column;
   }
 }
 
@@ -131,7 +131,7 @@
 
 .weather-search-form {
   inline-size: 100%;
-  block-size: var(--block-size);
+  block-size: var(--form-block-size);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -192,7 +192,7 @@
   --text-color: #000;
 
   inline-size: 100%;
-  block-size: var(--block-size);
+  block-size: var(--form-block-size);
   padding: 0.625rem 4rem 0.625rem 2rem;
   border: 1px solid var(--border-color);
   border-radius: 1.5rem;
@@ -359,6 +359,8 @@
   gap: var(--space-7xl);
 
   @media screen and (width <= 40rem) {
+    flex-flow: column nowrap;
+    align-items: center;
     margin-block-start: 1.9375rem;
     gap: 0;
   }
@@ -433,13 +435,20 @@
   }
 
   @media screen and (width <= 40rem) {
+    align-items: center;
+
     .weather-location {
       display: flex;
       flex-flow: column nowrap;
+      align-items: center;
     }
 
     .weather-temp {
       font-size: 3.75rem;
+    }
+
+    .weather-detail {
+      text-align: center;
     }
 
     .weather-detail-sub {
@@ -457,7 +466,7 @@
 }
 
 .weather-icon {
-  inline-size: 20rem;
+  inline-size: calc(50% - 10rem);
   aspect-ratio: 1 / 1;
   object-fit: contain;
   align-self: center;
@@ -467,29 +476,40 @@
     aspect-ratio: 1 / 1;
     object-fit: contain;
   }
+
+  @media screen and (width <= 40rem) {
+    order: -1;
+    inline-size: 10rem;
+    max-inline-size: 100%;
+  }
 }
 
 .weather-hourly {
-  inline-size: auto;
   max-inline-size: 16.25rem;
   color: var(--text-color);
   white-space: nowrap;
-
-  &:focus-within {
-    .hourly-lists {
-      outline: 3px solid var(--outline);
-    }
-  }
+  align-self: center;
 
   @media screen and (width <= 40rem) {
     max-inline-size: 100%;
+  }
+}
 
-    .hourly-lists {
-      display: flex;
-      overflow: scroll hidden;
-      scrollbar-width: none;
-      gap: var(--space-lg);
-    }
+.hourly-lists {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-color);
+  column-gap: 1.25rem;
+
+  &:focus {
+    outline: 0.1875rem solid var(--outline);
+  }
+
+  @media screen and (width <= 40rem) {
+    flex-direction: row;
+    overflow: scroll;
+    scrollbar-width: none;
   }
 }
 
@@ -499,8 +519,10 @@
   gap: var(--space-ml);
   font-size: var(--font-md);
   letter-spacing: 0;
+  flex-shrink: 0;
 
   .hourly-icon {
+    position: relative;
     display: inline-block;
     inline-size: 2.875rem;
     block-size: 2.875rem;
@@ -522,12 +544,11 @@
   }
 
   @media screen and (width <= 40rem) {
-    display: flex;
-    flex-flow: column nowrap;
+    flex-direction: column;
 
     .hourly-icon {
       inline-size: 100%;
-      block-size: 100%;
+      block-size: auto;
     }
 
     &:first-child {
