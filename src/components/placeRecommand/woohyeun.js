@@ -1,109 +1,156 @@
-function getArrowSvg(direction, size) {
+import axios from "axios";
+import { iconMap } from "../../js/main";
+
+const placeHeader = document.querySelector(".header-area");
+
+export function placeRecommendView(currentWeather) {
+  if (!currentWeather) return;
+  const { description } = currentWeather.weather.at(0);
+  const { icon } = currentWeather.weather.at(0);
+  const iconCode = iconMap[icon];
+  placeHeaderRender(description);
+  renderPlaces(iconCode);
+}
+
+function placeHeaderRender(description) {
+  if (!description) return;
+  const h2 = placeHeader.querySelector("h2");
+  h2.textContent = `📍 현재 날씨 ${description}, 놀러 가기 좋은 장소를 추천드릴게요 `;
+}
+
+async function renderPlaces(iconCode) {
+  try {
+    const { data } = await axios.get("/data/place.json");
+    const matchedGroups = data.filter((item) => item.weather_code.includes(iconCode));
+    const carousel = document.getElementById("carousel");
+    carousel.innerHTML = "";
+    matchedGroups.forEach((group) => {
+      group.place_recommend.forEach((place) => {
+        const li = document.createElement("li");
+        li.className = "place-card";
+        li.innerHTML = `
+        <a href="/src/components/mapLocation/map-location.html?id=${place.id}">
+          <div class="place-img-wrap">
+            <img src="${place.img_url}" alt="${place.place_name}" style="width:100%; height:100%; object-fit:cover; border-radius:32px;" />
+          </div>
+          <div class="place-info">
+            <div class="place-title">${place.place_name}</div>
+            <div class="place-address">${place.address}</div>
+            <div class="place-desc">${place.description}</div>
+          </div>
+        </a>
+      `;
+        carousel.appendChild(li);
+      });
+    });
+    updateArrows();
+    scrollToIndex(0);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function getCardWidth() {
+  const card = document.querySelector(".place-card");
+  const list = document.querySelector(".place-list");
+  if (card && list) {
+    const style = getComputedStyle(list);
+    const gap = parseInt(style.gap) || 0;
+    return card.offsetWidth + gap;
+  }
+  return 400 + 32;
+}
+
+function scrollToIndex(idx) {
+  const carousel = document.getElementById("carousel");
+  const outer = carousel.parentNode;
+  const totalWidth = carousel.scrollWidth;
+  const outerWidth = outer.clientWidth;
+  const maxScroll = totalWidth - outerWidth;
+  let scrollX = idx * getCardWidth();
+
+  const maxIndex = getMaxIndex();
+  if (idx >= maxIndex) {
+    scrollX = maxScroll;
+  } else if (scrollX > maxScroll) {
+    scrollX = maxScroll;
+  }
+  if (scrollX < 0) scrollX = 0;
+  outer.scrollTo({ left: scrollX, behavior: "smooth" });
+}
+
+function getArrowSvg(direction, size = 60) {
   const arrow =
     direction === "left"
-      ? `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
-         <path d="M${size * 0.63} ${size * 0.78}L${size * 0.375} ${size / 2}L${size * 0.63} ${
-          size * 0.22
-        }"
-         stroke="white" stroke-width="${
-           size / 11
-         }" stroke-linecap="round" stroke-linejoin="round"/>`
-      : `<circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}" fill="#20232a"/>
-         <path d="M${size * 0.375} ${size * 0.78}L${size * 0.63} ${size / 2}L${size * 0.375} ${
-          size * 0.22
-        }"
-         stroke="white" stroke-width="${
-           size / 11
-         }" stroke-linecap="round" stroke-linejoin="round"/>`;
-  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" xmlns="http://www.w3.org/2000/svg">${arrow}</svg>`;
+      ? `<polyline points="50,25 30,40.5 50,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`
+      : `<polyline points="30,25 50,40.5 30,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
+  return `
+    <svg width="${size}" height="${size}" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40.5" r="40" fill="#ffffff"/>
+      ${arrow}
+    </svg>
+  `;
 }
 
 function updateArrows() {
   let size = 60;
-  if (window.innerWidth <= 600) size = 28;
-  else if (window.innerWidth <= 900) size = 38;
-  else if (window.innerWidth <= 1400) size = 56;
-
+  if (window.innerWidth <= 1000) size = 38;
+  if (window.innerWidth <= 640) size = 28;
   const left = document.querySelector(".carousel-arrow.left .arrow-svg");
   const right = document.querySelector(".carousel-arrow.right .arrow-svg");
-
   if (left && right) {
     left.innerHTML = getArrowSvg("left", size);
     right.innerHTML = getArrowSvg("right", size);
   }
-
-  const outer = document.getElementById("carouselOuter");
-  const rect = outer.getBoundingClientRect();
-  const buttonLeft = document.getElementById("arrowLeft");
-  const buttonRight = document.getElementById("arrowRight");
-  const y = rect.top + rect.height / 2 + window.scrollY;
-  buttonLeft.style.top = `${y}px`;
-  buttonRight.style.top = `${y}px`;
-  buttonLeft.style.transform = "translateY(-50%)";
-  buttonRight.style.transform = "translateY(-50%)";
-}
-
-const carousel = document.getElementById("carousel");
-const card = document.querySelector(".place-card");
-
-function getCardWidth() {
-  return card.offsetWidth + 8;
 }
 
 let currentIndex = 0;
-const totalCards = document.querySelectorAll(".place-card").length;
 
-const visibleCount = () => {
+function visibleCount() {
   if (window.innerWidth <= 600) return 1;
   if (window.innerWidth <= 900) return 2;
   if (window.innerWidth <= 1400) return 3;
   return 4;
-};
-
-function scrollToIndex(idx) {
-  const scrollX = idx * getCardWidth();
-  carousel.parentNode.scrollTo({
-    left: scrollX,
-    behavior: "smooth",
-  });
 }
 
-document.getElementById("arrowLeft").onclick = function () {
-  if (currentIndex === 0) {
-    currentIndex = totalCards - visibleCount();
+const MOVE_COUNT = 1;
+
+function getMaxIndex() {
+  const carousel = document.getElementById("carousel");
+  return Math.max(carousel.children.length - visibleCount(), 0);
+}
+
+document.getElementById("arrowLeft").onclick = () => {
+  const carousel = document.getElementById("carousel");
+  const maxIndex = getMaxIndex();
+  if (maxIndex === 0) {
+    currentIndex = 0;
+  } else if (currentIndex === 0) {
+    currentIndex = maxIndex;
   } else {
-    currentIndex = Math.max(currentIndex - 1, 0);
+    currentIndex = Math.max(currentIndex - MOVE_COUNT, 0);
   }
   scrollToIndex(currentIndex);
 };
 
-document.getElementById("arrowRight").onclick = function () {
-  if (currentIndex >= totalCards - visibleCount()) {
+document.getElementById("arrowRight").onclick = () => {
+  const carousel = document.getElementById("carousel");
+  const maxIndex = getMaxIndex();
+  if (maxIndex === 0) {
+    currentIndex = 0;
+  } else if (currentIndex >= maxIndex) {
     currentIndex = 0;
   } else {
-    currentIndex = Math.min(currentIndex + 1, totalCards - visibleCount());
+    currentIndex = Math.min(currentIndex + MOVE_COUNT, maxIndex);
   }
   scrollToIndex(currentIndex);
 };
 
 window.addEventListener("resize", () => {
   updateArrows();
-  currentIndex = Math.min(currentIndex, totalCards - visibleCount());
+  const carousel = document.getElementById("carousel");
+  const maxIndex = getMaxIndex();
+  currentIndex = Math.min(currentIndex, maxIndex);
   scrollToIndex(currentIndex);
 });
-
-window.addEventListener("scroll", updateArrows);
-
-window.addEventListener("DOMContentLoaded", () => {
-  updateArrows();
-  currentIndex = 0;
-  scrollToIndex(0);
-});
-
-document.getElementById("theme-toggle").onclick = function () {
-  const html = document.documentElement;
-  const current = html.getAttribute("data-theme");
-  const next = current === "dark" ? "light" : "dark";
-  html.setAttribute("data-theme", next);
-  this.textContent = next === "dark" ? "☀️ 라이트 모드" : "🌙 다크 모드";
-};
+updateArrows();

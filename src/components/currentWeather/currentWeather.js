@@ -1,14 +1,8 @@
-"use strict";
 import axios from "axios";
-import { getCurrentWeather, getForecastWeather } from "../../service/openWeatherMap";
-import { getCurrentLocation } from "../../service/kakaoMap";
-
-//플레이리스트 추천함수
-import { updatePlaylist } from "../playlist/playlist";
+import { iconMap, renderView } from "../../js/main";
+import { debounce, highLight, updateHighlight } from "../../js/utils";
 
 /* 요소 선택 */
-const toggleButton = document.querySelector(".darkmode-toggle-button");
-const currentTime = document.querySelector(".current-time");
 const searchInput = document.querySelector(".search-input");
 const searchLists = document.querySelector(".search-lists");
 const weatherSearchForm = document.querySelector(".weather-search-form");
@@ -18,99 +12,68 @@ const inputResetButton = document.querySelector(".input-reset-button");
 const searchWrapper = document.querySelector(".search-wrapper");
 
 /* 유틸 상수 */
-// API에서 밭은 icon 코드변환의 목적으로 만든 상수
-const iconMap = {
-  "01d": "01",
-  "01n": "01",
-  "02d": "02",
-  "02n": "02",
-  "03d": "03",
-  "03n": "03",
-  "04d": "04",
-  "04n": "04",
-  "09d": "09",
-  "09n": "09",
-  "10d": "10",
-  "10n": "10",
-  "11d": "11",
-  "11n": "11",
-  "13d": "13",
-  "13n": "13",
-  "50d": "50",
-  "50n": "50",
-};
 // UTC 시간을 한국시간으로 바꾸기위한 상수
 const TIMEZONE = 9 * 60 * 60 * 1000;
-// 기본 서울 위치 데이터
-const SEOUL = {
-  lat: 37.5665,
-  lon: 126.978,
-  city: "서울특별시",
-};
 
 /* 상태 변수 */
 let cities = [];
+let currentIndex = -1;
+let currentSearch = "";
 
-/* 초기 실행 */
-// 현재 시간 가져옴
-getDateRender();
-//setInterval()를 이용하여 초단위로 현재시간을 재생성
-setInterval(getDateRender, 1000);
-// 50개의 도시정보와 현재 위치 정보를 가져오기위한 함수
-initCitiesAndLocation();
 // .search-wrapper를 제외한 다른 영역 클릭시 목록 hidden처리되는 함수 실행
 outsideClick();
-// 브라우저 렌더링시 날씨 랜더함수 실행
-renderView();
-// 다크모드 함수 실행
-loadDarkMode();
+// city 데이터 가져오는 함수 실행
+citiesData();
 
 /* 이벤트 리스너 */
-// .search-input에 디바운스 유틸 함수를 사용하여 이벤트 등록
-searchInput.addEventListener("input", debounce(typeAhead));
+// 디바운스 유틸 함수를 사용하여 핸들러 함수 생성
+const debounceInputHandler = debounce((e) => {
+  const search = e.target.value.trim();
+  if (search === currentSearch) return;
+  currentSearch = search;
+  currentIndex = -1;
+  typeAhead(search);
+});
+// input 이벤트 등록
+searchInput.addEventListener("input", debounceInputHandler);
 // 키보드 조작으로 자동완성 포커스
 searchWrapper.addEventListener("keydown", (e) => {
-  // .search-lists의 모든 버튼을 가져와 Nodelist가 아닌 Array로 가져옴
-  const focusButtons = Array.from(searchLists.querySelectorAll("button"));
+  // .searchLists에서 li태그 모두 가져옴
+  const items = searchLists.querySelectorAll("li");
+  // items길이의 -1로 계산하여 인덱스를 저장
+  const itemsIndex = items.length - 1;
 
-  // 현재 문서에 포커스 되어있는 요소를 가져와 index number를 가져옴
-  const index = focusButtons.indexOf(document.activeElement);
+  // .searchLists가 hidden이거나
+  //  자동완성 목록이 없거나
+  // 겁색결과 없는 목록 출력시
+  // 빠른 반환
+  if (searchLists.hidden || items.length === 0 || items[0].classList.contains("no-search")) return;
 
-  // 아랫키 입력시
+  // 화살표 아래방향키 입력시
   if (e.key === "ArrowDown") {
-    // 브라우저 기본 동작 막음
+    // 브라우저 기본동작 막음
     e.preventDefault();
-    // index가 버튼배열의 길이 - 1보다 작을때
-    if (index < focusButtons.length - 1) {
-      // 다음 리스트아이템으로 포커스
-      const nextItem = focusButtons[index + 1];
-      nextItem.focus();
-      setTimeout(() => {
-        searchInput.value = nextItem.textContent;
-      }, 300);
-    } else {
-      // 위 조건이 거짓일시
-      // 입력창으로 다시 포커스
-      searchInput.focus();
-    }
+    // items 목록에서 순환하기 위한 로직
+    currentIndex = currentIndex >= itemsIndex ? 0 : currentIndex + 1;
+    updateHighlight(items, currentIndex);
+  }
+  // 화살표 윗방향키 입력시
+  if (e.key === "ArrowUp") {
+    e.preventDefault();
+    // items 목록에서 순환하기 위한 로직
+    currentIndex = currentIndex <= 0 ? itemsIndex : currentIndex - 1;
+    updateHighlight(items, currentIndex);
   }
 
-  // 윗키 입력시
-  if (e.key === "ArrowUp") {
-    // 브라우저 기본 동작 막음
-    e.preventDefault();
-    // index가 0보다 클때
-    if (index > 0) {
-      // 이전 리스트아이템으로 포커스
-      const prevItem = focusButtons[index - 1];
-      prevItem.focus();
-      setTimeout(() => {
-        searchInput.value = prevItem.textContent;
-      }, 300);
-    } else {
-      // 위 조건이 거짓일시 Input 포커스
-      searchInput.focus();
-    }
+  // 엔터 입력시
+  if (e.key === "Enter" && currentIndex >= 0) {
+    e.preventDefault(); // 브라우저 기본동작 막음
+    // 하이라이트된 목록의 textContent를 인붓 값에 넣어줌
+    searchInput.value = items[currentIndex].textContent;
+    // 자동완성 목록 숨김처리 함수 실행
+    hideLists();
+    // 자동완성 목록 아이템에서 Enter누를시 강제 Submit
+    weatherSearchForm.requestSubmit();
   }
 });
 // 자동완성 리스트 이벤트 등록
@@ -122,11 +85,20 @@ searchLists.addEventListener("click", (e) => {
   // li 태그안의 textContent를 가져와 .input-search 값으로 할당
   searchInput.value = e.target.closest("button").textContent;
 
-  // 이후 자동완성 리스트 목록 hidden으로 감춤
-  e.currentTarget.setAttribute("hidden", "true");
-  // .search-input 보더 style class 제거
-  searchInput.classList.remove("remove-border");
+  // 자동완성 목록 숨김처리 함수 실행
+  hideLists();
 });
+
+// input reset button 이벤트 등록
+inputResetButton.addEventListener("click", () => {
+  // button 클릭시 인풋값 없앰
+  searchInput.value = "";
+  // 자동완성 리스트 숨김 함수 실행
+  hideLists();
+  // reset button에 disabled 속성 추가
+  inputResetButton.setAttribute("disabled", "true");
+});
+
 // submit 이벤트 등록
 weatherSearchForm.addEventListener("submit", (e) => {
   e.preventDefault(); // 브라우저 기본동작 제어
@@ -148,157 +120,45 @@ weatherSearchForm.addEventListener("submit", (e) => {
 
   // 랜더함수에 matchCity에서 구조분해 할당한 값을 파라미터로 전달
   renderView(lat, lon, name_kr);
+  hideLists();
 });
 
-// input reset button 이벤트 등록
-inputResetButton.addEventListener("click", () => {
-  // button 클릭시 인풋값 없앰
-  searchInput.value = "";
-  // .searech-lists 숨김
-  searchLists.setAttribute("hidden", "true");
-  // .search-input 클래스 삭제 (보더 스타일 관련)
-  searchInput.classList.remove("remove-border");
-  // reset button에 disabled 속성 추가
-  inputResetButton.setAttribute("disabled", "true");
-});
-
-// 다크모드, 라이트모드 토글 버튼 이벤트 등록
-toggleButton.addEventListener("click", () => {
-  // body class에 toggle 메서드 추가
-  document.body.classList.toggle("dark");
-  // body에 dark클래스 포함시 dark 제거, localstorage에 dark 추가
-  // 아닐시 dark 추가, localstorage에 dark 제거
-  if (document.body.classList.contains("dark")) {
-    window.localStorage.setItem("theme", "dark");
-    toggleButton.classList.add("dark");
-  } else {
-    window.localStorage.removeItem("theme");
-    toggleButton.classList.remove("dark");
-  }
-});
-
-/* 메인 함수 (비동기) */
+/* 메인 함수 */
 
 // 도시정보, 현재위치 정보 가져오는 함수
-async function initCitiesAndLocation() {
+export async function citiesData() {
   // try..catch 문으로 비동기 함수 성공, 에러 처리
   try {
     // axios.get을 이용해 데이터를 가져오고 {data}로 구조분해 할당
     const { data } = await axios.get("/data/kr-50cities.json");
     // cities 변수안에 data 할당
     cities = data;
-    // 현재 위치의 위도와 경도를 가져오는 브라우저 기본 API
-    // 수락시 success 콜백함수 , 거절시 error 콜백함수를 실행
-    navigator.geolocation.getCurrentPosition(successLocation, errorLocation);
+
+    return cities;
   } catch (error) {
     console.error("데이터 로딩 실패..", error);
   }
 }
+
 // 브라우저 렌더링 함수
-// 초기 브라우저 로딩시 기본 서울의 날씨 정보를 사용(현재위치 정보 제공 거절시)
-async function renderView(lat = SEOUL.lat, lon = SEOUL.lon, city = SEOUL.city) {
-  // try..catch 문으로 비동기 함수 성공, 에러 처리
-  try {
-    // Promise.all()을 통해 비동기API함수 동시 호출
-    const [currentWeather, forecastWeather] = await Promise.all([
-      getCurrentWeather(lat, lon),
-      getForecastWeather(lat, lon),
-    ]);
-
-    // DOM 요소 생성 함수에 data, city 파라미터로 전달
-    createTemplate(currentWeather, city);
-    // ICON 이미지 생성 함수에 data 파라미터로 전달
-    createIcon(currentWeather);
-    // hourly 생성 함수에 list 파라미터로 전달
-    forecastData(forecastWeather.list);
-
-    //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
-    updatePlaylist(currentWeather);
-  } catch (error) {
-    console.error("데이터 로딩 실패..", error);
-  }
-}
-
-// 현재 위치 정보 수락시 실행될 함수, position을 파라미터로 받음
-async function successLocation(position) {
-  // 위도, 경도 정보를 구조분해할당으로 가져옴
-  const { latitude, longitude } = position.coords;
-
-  // 소수점 정리
-  const lat = latitude.toFixed(4); // 위도
-  const lon = longitude.toFixed(4); // 경도
-
-  // try..catch 문으로 비동기 함수 성공, 에러 처리
-  try {
-    // service폴더 내에 카카오맵 API를 사용하여 행구역 데이터를 가져옴
-    const data = await getCurrentLocation(lat, lon);
-
-    // 데이터 없을때 경고창
-    if (!data) {
-      console.error("잠시후 다시 시도해 주세요..");
-      alert("위치 정보를 가져오지 못했습니다. 잠시후 다시 시도해주세요..");
-      return;
-    }
-
-    const region1 = data.documents.at(0).region_1depth_name; // 서울시, 경기도 등
-    const region2 = data.documents.at(0).region_2depth_name; // 시흥시, 안산시 등
-
-    let cityName;
-
-    // 만약 region1 상수에 특별시 또는 광역시가 포함되어있으면 그대로 사용
-    if (region1.includes("특별시") || region1.includes("광역시")) {
-      cityName = region1;
-    } else {
-      // region2 상수 이름이 시로 끝났을때 그대로 사용
-      if (region2.endsWith("시")) {
-        cityName = region2;
-      } else {
-        // region2의 이름이 시로 끝나지 않았을때 (용인시 처인구 등)
-        // '시' 앞부분만 잘라와 '시'를 붙여서 이름 전달
-        // 예) region2 = '용인시 처인구' => '용인' + '시'
-        cityName = region2.split("시")[0] + "시";
-      }
-    }
-
-    // 브라우저 렌더함수에 위도,경도,도시이름 전달
-    renderView(lat, lon, cityName);
-  } catch (error) {
-    console.error("위치 정보를 가져오지 못했습니다..", error);
-  }
-}
-// 현재 위치 정보 거절시 실행될 함수
-function errorLocation() {
-  console.log("현재 위치 검색을 거절 하여, 서울 날씨 데이터를 보여줍니다.");
+export function currentWeatherView(currentData, forecastData, city) {
+  // DOM 요소 생성 함수에 data, city 파라미터로 전달
+  createTemplate(currentData, city);
+  // ICON 이미지 생성 함수에 data 파라미터로 전달
+  createIcon(currentData);
+  // hourly 생성 함수에 list 파라미터로 전달
+  hourlyTemplate(forecastData.list);
 }
 
 /* 함수 (일반)*/
-
 // 자동완성기능 함수
-function typeAhead(e) {
+function typeAhead(value) {
   // input의 value를 search 상수에 할당
-  const search = e.target.value.trim();
-
-  // 포커스 인덱스 변수 => -1은 어떠한 포커스에도 잡히지않았다는 의미
-  let focusedIndex = -1;
-
-  // .search-lists안 모든 버튼을 가져와 Nodelist가 아닌 Array로 만듬
-  const buttons = Array.from(searchLists.querySelectorAll("button"));
-
-  // 문서에 포커스가 되어있는 요소 가져옴
-  const activeEl = document.activeElement;
-  // 포커스가 되어있는 요소의 버튼을 버튼배열에서 인덱스로 번호를 찾아
-  // 변수에 할당
-  focusedIndex = buttons.indexOf(activeEl);
-
-  // .search-lists에 DOM이 무제한 추가되는 현상 방지 (초기화)
-  searchLists.innerHTML = "";
+  const search = value.trim();
 
   // search값이 없을때 빠른 반환
   if (!search) {
-    // .searech-lists 숨김
-    searchLists.setAttribute("hidden", "true");
-    // .search-input 클래스 삭제 (보더 스타일 관련)
-    searchInput.classList.remove("remove-border");
+    hideLists();
     // reset button에 disabled 속성 추가
     inputResetButton.setAttribute("disabled", "true");
     return;
@@ -315,9 +175,10 @@ function typeAhead(e) {
     searchLists.removeAttribute("hidden");
     // .search-input 보더 style class 추가
     searchInput.classList.add("remove-border");
+
     // .search-lists에 HTML 삽입
     searchLists.innerHTML = `
-      <li role="option">검색 결과가 없습니다.</li>
+      <li role="option" class="no-search">검색 결과가 없습니다.</li>
     `;
     return;
   }
@@ -326,28 +187,23 @@ function typeAhead(e) {
   const listTemplate = searchList.reduce((acc, cur) => {
     // li태그 생성
     const li = document.createElement("li");
+    // 속성 추가
     li.setAttribute("role", "option");
     // li태그에 부분강조 함수를 이용하여 내부 컨텐츠 삽입
-    li.innerHTML = `<button type="submit">${highLight(cur.name_kr, search)}</button>`;
+    li.innerHTML = `<button type="submit" tabindex="-1">${highLight(cur.name_kr, search)}</button>`;
     // 콜백의 반환값을 누적시킨 acc에 push()메서드를 사용하여 li태그 추가
     acc.push(li);
     // acc 반환
     return acc;
   }, []);
-  // .searchLists에 append()메서드를 이용하여 DOM요소(listTemplate[]) 추가
+  // .searchlists 초기화
+  searchLists.innerHTML = "";
+  // .searchLists에 innerHTML을 이용하여 DOM요소 추가
   searchLists.append(...listTemplate);
   // 자동완성 리스트목록을 보여주어야 하기 때문에 hidden 속성 제거
   searchLists.removeAttribute("hidden");
   // .search-input 보더 style class 추가
   searchInput.classList.add("remove-border");
-
-  // .search-lists에 생성된 li>button 요소 모두 가져와 배열로 만듬
-  const newButtons = Array.from(searchLists.querySelectorAll("button"));
-  // focusedIndex가 -1이면 포커스 복원 X
-  // 0이상이면 버튼에 포커스 복원
-  if (focusedIndex >= 0 && focusedIndex < newButtons.length) {
-    newButtons[focusedIndex].focus();
-  }
 }
 // .search-wrapper를 제외한 다른 영역 클릭시 목록 hidden처리되는 함수
 function outsideClick() {
@@ -357,31 +213,8 @@ function outsideClick() {
     // 만약 .search-wrapper가 있으면 빠른반환
     if (e.target.closest(".search-wrapper")) return;
     // .search-wrapper가 없으면 자동완성 목록 숨김 + input 보더 클래스 속성 삭제
-    searchLists.setAttribute("hidden", "true");
-    searchInput.classList.remove("remove-border");
+    hideLists();
   });
-}
-// 현재 날짜, 시간 렌더 함수
-function getDateRender() {
-  // 현재 날짜와 시간을 생성
-  const time = new Date();
-  // 지정한 옵션에 따라 포맷된 문자열 생성
-  const getDay = new Intl.DateTimeFormat("ko-KR", {
-    year: "numeric",
-    month: "2-digit",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false, // 24시간제로 표기
-  }).format(time);
-
-  const toLocaleString = time.toLocaleString();
-
-  const timeTag = currentTime.querySelector("time");
-  // .current-weather-time DOM요소에 포맷된 문자열 삽입
-  timeTag.textContent = getDay;
-  timeTag.setAttribute("datetime", toLocaleString);
 }
 // Main DOM 요소 생성 함수
 function createTemplate(data, city) {
@@ -390,9 +223,9 @@ function createTemplate(data, city) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <h3 class="weather-location">
-    ${city}<span class="data-time"><time>(${
-    new Date(data.dt * 1000).toLocaleTimeString() /* UnixTime 변환 */
-  }기준)</time>
+    ${city}<span class="data-time"><time>(${new Date(
+    data.dt * 1000
+  ).toLocaleTimeString()}기준)</time>
     </span>
     </h3>
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>
@@ -424,7 +257,7 @@ function createIcon(data) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <img
-      src="/src/assets/weatherIcon/${iconCode}.svg"
+      src="/assets/weatherIcon/${iconCode}.svg"
       alt="날씨 아이콘"
       aria-hidden="true"
     />
@@ -433,7 +266,7 @@ function createIcon(data) {
   return template;
 }
 // hourly 날씨 정보 생성 함수
-function forecastData(list) {
+function hourlyTemplate(list) {
   // 현재 날짜를 가져옴
   const currentDate = new Date();
 
@@ -472,9 +305,9 @@ function forecastData(list) {
     return isToday || isTomorrow;
   });
 
-  // 많은 데이터를 가져와 화면에 보여줄때는 8개만 잘라 보여주기위해
+  // 많은 데이터를 가져와 화면에 보여줄때는 9개만 잘라 보여주기위해
   // slice로 리스트항목 재설정
-  const slicedList = filterList.slice(0, 8);
+  const slicedList = filterList.slice(0, 9);
 
   // .hourly-lists 요소 가져옴
   const hourlyLists = weatherHourly.querySelector(".hourly-lists");
@@ -502,7 +335,7 @@ function forecastData(list) {
         <span class="hourly-icon">
           <span class="sr-only">${data.weather.at(0).description}</span>
           <img
-            src="/src/assets/weatherIcon/${iconCode}.svg"
+            src="/assets/weatherIcon/${iconCode}.svg"
             alt="날씨 아이콘"
             aria-hidden="true"
           />
@@ -516,51 +349,10 @@ function forecastData(list) {
   // innerHTML에 요소 삽입
   hourlyLists.innerHTML = template;
 }
-// 다크모드 실행 함수
-function loadDarkMode() {
-  // localstorage에 key값이 theme인 value를 가져옴
-  const darkMode = window.localStorage.getItem("theme");
-
-  // key값이 theme인 value값이 없거나 다크모드 버튼이 없을시 빠른 반환
-  if (!darkMode || !toggleButton) return;
-
-  // theme값이 있으면(dark) 다크모드 클래스 추가
-  if (darkMode === "dark") {
-    document.body.classList.add("dark");
-    toggleButton.classList.add("dark");
-  }
-}
-
-/* 유틸 함수 */
-
-// 부분강조 함수
-function highLight(name, keyword) {
-  // name문자열의 앞에서부터 keword의 길이만큼 잘라냄
-  const toBold = name.substring(0, keyword.length);
-  // keyword 길이 뒤부터 끝까지 잘라냄
-  const restName = name.substring(keyword.length);
-  // 강조해야할 부분은 <strong>태그로 감싸 반환
-  return `<strong>${toBold}</strong>${restName}`;
-}
-// 디바운스 함수
-// callback : 실제로 실행할 함수
-// delay : 연속 호출 중 마지막 호출 후에 delay값 만큼 실행할지 (기본값 300ms)
-function debounce(callback, delay = 300) {
-  // setTimeout()함수의 ID를 저장할 변수. (clearTimeout을 위해)
-  let cleanup;
-
-  // 새로운 익명의 함수를 반환
-  // 이후 반환된 함수가 callback으로 등록됨
-  // ...args => 모든 인자를 그대로 받는다 (event 등)
-  return (...args) => {
-    // 사용자가 input에 값을 입력할때마다 clearTimeout 함수를 실행
-    // 즉 이전 setTimeout()를 취소
-    clearTimeout(cleanup);
-    // 변수에 setTimeout()의 ID를 저장
-    // delay시간 만큼 callback 함수를 실행
-    cleanup = setTimeout(() => {
-      // callback함수의 모든 인자를 받아 실행
-      callback(...args);
-    }, delay);
-  };
+// 자동완성 목록 숨김 함수
+function hideLists() {
+  // .searech-lists 숨김
+  searchLists.setAttribute("hidden", "true");
+  // .search-input 클래스 삭제 (보더 스타일 관련)
+  searchInput.classList.remove("remove-border");
 }

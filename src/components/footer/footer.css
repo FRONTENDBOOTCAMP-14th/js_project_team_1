@@ -1,0 +1,37 @@
+.web-footer {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+  font-size: var(--font-md);
+  font-weight: 600;
+  padding-block: var(--space-lg);
+
+  p {
+    margin-block-end: var(--space-sm);
+  }
+}
+
+.github-link {
+  display: inline-block;
+  inline-size: 3.125rem;
+  block-size: 3.125rem;
+  transition: scale 300ms ease-in-out;
+
+  & svg {
+    fill: var(--svg-bg-color);
+  }
+
+  &:focus-within {
+    outline: 0.1875rem solid var(--outline);
+  }
+
+  &:hover {
+    scale: 1.1;
+
+    & svg {
+      fill: var(--outline);
+    }
+  }
+}

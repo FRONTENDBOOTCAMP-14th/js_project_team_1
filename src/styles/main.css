@@ -2,44 +2,16 @@
 @import "/src/components/currentWeather/currentWeather.css";
 @import "/src/components/weeklyforecast/weeklyforecast.css";
 @import "/src/components/playlist/playlist.css";
+@import "/src/components/placeRecommand/woohyeun.css";
+@import "/src/components/footer/footer.css";
 
 body {
+  background-color: var(--body-bg-color);
+}
+
+.web-header,
+section {
   padding: 3.875rem;
-  background-color: transparent;
-
-  &.dark {
-    background-color: #181818;
-    color: #fff;
-
-    h1,
-    h2,
-    h3,
-    .current-time {
-      color: #fff;
-    }
-
-    input {
-      color: #121212;
-    }
-
-    .search-wrapper:focus-within {
-      .search-input {
-        outline: 3px solid #f9004d;
-      }
-    }
-
-    .weather-detail-sub {
-      span {
-        background-color: var(--black);
-      }
-    }
-
-    .hourly-item {
-      &:not(:last-child) {
-        border-color: #fff;
-      }
-    }
-  }
 
   @media screen and (width <= 40rem) {
     padding: 2.5rem;
@@ -49,5 +21,5 @@ body {
 .web-main {
   display: flex;
   flex-flow: column nowrap;
-  gap: 10rem;
+  gap: var(--space-7xl);
 }

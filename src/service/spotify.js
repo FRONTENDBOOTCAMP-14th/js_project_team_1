@@ -1,5 +1,3 @@
-"use strict";
-
 import axios from "axios";
 
 // spotify Access Token 발급 함수
@@ -21,22 +19,29 @@ export async function getSpotifyAccessToken(clientId, clientSecret) {
         "Content-Type": "application/x-www-form-urlencoded",
       },
     });
+    console.log("스포티파이 토근 발급 성공");
     return res.data.access_token;
   } catch (error) {
-    console.error("토큰 발급 실패:", error.response?.data || error.message);
+    console.error("스포티파이 토큰 발급 실패:", error.response?.data || error.message);
   }
 }
 
 //플레이리스트 트랙 가져오는 함수
 export async function getPlaylistTracks(playlistId, accessToken) {
   try {
-    const res = await axios.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const res = await axios.get(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("플레이리스트 트랙 조회 성공");
+
     return res.data.items;
   } catch (error) {
     console.error("플레이리스트 트랙 조회 실패:", error.response?.data || error.message);
+    throw new Error(`Failed to retrieve playlist tracks = ${playlistId}`);
   }
 }

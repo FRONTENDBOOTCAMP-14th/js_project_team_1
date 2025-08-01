@@ -1,3 +1,11 @@
+:root {
+  --block-size: 5rem;
+
+  @media screen and (width <= 40rem) {
+    --block-size: 3.125rem;
+  }
+}
+
 [type="search"] {
   appearance: textfield;
 }
@@ -9,7 +17,7 @@
 .web-header {
   display: flex;
   flex-flow: column nowrap;
-  gap: 1.5rem;
+  gap: var(--space-ml);
   justify-content: center;
   margin-block-end: 5rem;
 
@@ -17,31 +25,54 @@
     display: flex;
     align-items: center;
     flex-flow: row nowrap;
-    gap: 1.25rem;
+    gap: var(--space-md);
   }
 
   .web-title {
-    font-size: 5rem;
+    font-size: var(--font-2xl);
     font-weight: 800;
     line-height: 1;
+    color: var(--text-color);
   }
 
-  .darkmode-toggle-button {
-    padding: 0;
-    border: 0;
-    inline-size: 3.125rem;
-    block-size: 3.125rem;
-    background: url("/src/assets/weatherIcon/14.svg") center / cover no-repeat;
+  #theme-toggle {
+    position: fixed;
+    top: 3.875rem;
+    right: 3.875rem;
+    z-index: 999;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    color: #000;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: var(--font-xs);
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
 
-    &.dark {
-      background: url("/src/assets/weatherIcon/01.svg") center / cover no-repeat;
+    &:focus {
+      outline: 3px solid var(--outline);
+    }
+
+    &:hover {
+      background-color: var(--bg-hover-color);
+    }
+
+    .btn-bg {
+      display: inline-block;
+      inline-size: 1.25rem;
+      block-size: 1.25rem;
+      background: url("/assets/weatherIcon/14.svg") center / cover no-repeat;
     }
   }
 
   .current-time {
     font-weight: 600;
-    font-size: 2.5rem;
-    color: #00000080;
+    font-size: var(--font-lg);
+    color: var(--text-color-50);
     line-height: 1;
   }
 
@@ -49,33 +80,29 @@
     text-align: center;
     margin-block-end: 2.5rem;
 
-    .web-title {
-      font-size: 2.5rem;
-    }
-
     .web-title-wrapper {
       justify-content: center;
     }
 
-    .darkmode-toggle-button {
-      inline-size: 2.1875rem;
-      block-size: 2.1875rem;
-    }
+    #theme-toggle {
+      top: 2.5rem;
+      right: 2.5rem;
 
-    .current-time {
-      font-size: 1.25rem;
+      .btn-bg {
+        inline-size: 0.8125rem;
+        block-size: 0.8125rem;
+      }
     }
   }
 }
 
 .current-weather-title {
   font-weight: 700;
-  font-size: 2.5rem;
-  color: var(--black);
+  font-size: var(--font-lg);
+  color: var(--text-color);
   margin-bottom: 3.875rem;
 
   @media screen and (width <= 40rem) {
-    font-size: 1.5625rem;
     text-align: center;
     margin-bottom: 1.9375rem;
   }
@@ -85,12 +112,11 @@
   background-color: transparent;
   display: flex;
   flex-flow: row nowrap;
-  gap: 4.375rem;
+  gap: var(--space-3xl);
 
   @media screen and (width <= 40rem) {
     display: flex;
     flex-flow: column nowrap;
-    gap: 1.25rem;
   }
 }
 
@@ -105,15 +131,11 @@
 
 .weather-search-form {
   inline-size: 100%;
-  block-size: 5rem;
+  block-size: var(--block-size);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-
-  @media screen and (width <= 40rem) {
-    block-size: 3.125rem;
-  }
+  gap: var(--space-md);
 }
 
 .search-wrapper {
@@ -124,8 +146,8 @@
   .search-input:not(:placeholder-shown) + .search-label {
     display: block;
     top: 0;
-    background-color: var(--black);
-    color: var(--white);
+    background-color: var(--label-bg-color);
+    color: var(--label-text-color);
 
     @media screen and (width <= 40rem) {
       top: -0.3125rem;
@@ -138,11 +160,15 @@
 }
 
 .search-wrapper:focus-within {
+  .wrapper-outline {
+    outline: 3px solid var(--outline);
+  }
+
   .search-label {
     display: block;
     top: 0;
-    background-color: var(--black);
-    color: var(--white);
+    background-color: var(--label-bg-color);
+    color: var(--label-text-color);
 
     @media screen and (width <= 40rem) {
       top: -0.3125rem;
@@ -163,15 +189,18 @@
 }
 
 .search-input {
+  --text-color: #000;
+
   inline-size: 100%;
-  block-size: 100%;
+  block-size: var(--block-size);
   padding: 0.625rem 4rem 0.625rem 2rem;
-  border: 1px solid #0000001a;
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
-  background-color: #f5f7fa;
-  font-size: 1.75rem;
+  background-color: var(--bg-color);
+  font-size: var(--font-md);
   font-weight: 400;
   outline: 0;
+  color: var(--text-color);
 
   &.remove-border {
     border-bottom-left-radius: 0;
@@ -179,18 +208,10 @@
   }
 
   &::placeholder {
-    color: var(--black);
+    color: #000;
     opacity: 0.5;
-    font-size: 1.75rem;
+    font-size: var(--font-md);
     font-weight: 400;
-  }
-
-  @media screen and (width <= 40rem) {
-    font-size: 1rem;
-
-    &::placeholder {
-      font-size: 1rem;
-    }
   }
 }
 .search-label {
@@ -200,15 +221,11 @@
   transform: translate(0%, -50%);
   color: transparent;
   background-color: transparent;
-  font-size: 1.25rem;
+  font-size: var(--font-xs);
   font-weight: 800;
   transition: top 300ms ease;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-
-  @media screen and (width <= 40rem) {
-    font-size: 0.875rem;
-  }
 }
 
 .input-reset-button {
@@ -246,7 +263,7 @@
   }
 
   &:focus {
-    outline: 0.1875rem solid #f9004d;
+    outline: 0.1875rem solid var(--outline);
   }
 
   &:disabled {
@@ -266,21 +283,21 @@
 }
 
 .search-lists {
-  background-color: #f5f7fa;
-  font-size: 1.75rem;
-  border: 0.0625rem solid #0000001a;
+  background-color: var(--bg-color);
+  font-size: var(--font-md);
+  border: 0.0625rem solid var(--border-color);
   border-top: 0;
   border-bottom-left-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
-  color: var(--black);
+  color: #000;
   cursor: pointer;
 
   li {
     padding: 1.1875rem 2rem;
 
-    &:hover,
-    &:focus-within {
-      background-color: #e2e4e7;
+    &:hover:not(.no-search),
+    &.highlight:not(.no-search) {
+      background-color: var(--bg-hover-color);
     }
 
     &:last-child {
@@ -299,9 +316,11 @@
     }
   }
 
-  @media screen and (width <= 40rem) {
-    font-size: 1rem;
+  .no-search {
+    cursor: auto;
+  }
 
+  @media screen and (width <= 40rem) {
     li {
       padding-block: 0.75rem;
     }
@@ -311,23 +330,23 @@
 .search-button {
   padding: 1.125rem 1.25rem;
   block-size: 100%;
+  border: 1px solid var(--border-color);
   border-radius: 1.5rem;
-  color: #fff;
-  font-size: 1.75rem;
+  color: #000;
+  font-size: var(--font-md);
   font-weight: 700;
-  background-color: var(--black);
+  background-color: var(--bg-color);
 
   &:hover {
     opacity: 0.8;
   }
 
   &:focus {
-    outline: 3px solid #f9004d;
+    outline: 3px solid var(--outline);
   }
 
   @media screen and (width <= 40rem) {
     padding: 0.5625rem 0.625rem;
-    font-size: 1rem;
     border-radius: 50%;
   }
 }
@@ -349,22 +368,25 @@
   flex-flow: column nowrap;
 
   .weather-location {
-    font-size: 3.5rem;
+    font-size: var(--font-xl);
     font-weight: 400;
+    color: var(--text-color);
 
     .data-time {
-      font-size: 1.5625rem;
+      font-size: var(--font-sm);
     }
   }
 
   .weather-temp {
-    font-size: 7.5rem;
+    font-size: var(--font-3xl);
     font-weight: 600;
+    color: var(--text-color);
   }
 
   .weather-detail {
+    color: var(--text-color);
     span {
-      font-size: 2.5rem;
+      font-size: var(--font-lg);
     }
 
     span:first-child {
@@ -375,7 +397,7 @@
       display: flex;
       align-items: center;
       flex-flow: row nowrap;
-      gap: 1.5625rem;
+      gap: var(--space-ml);
 
       span {
         font-weight: 400;
@@ -384,6 +406,8 @@
   }
 
   .weather-detail-sub {
+    --text-color: #000;
+
     margin-top: 7.75rem;
     display: flex;
     align-items: center;
@@ -395,10 +419,11 @@
       inline-size: 100%;
       background-color: #f5f7fa;
       padding: 1rem 1.125rem;
-      font-size: 1.75rem;
+      font-size: var(--font-md);
       font-weight: 400;
       border-radius: 1.5rem;
       white-space: nowrap;
+      color: var(--text-color);
     }
 
     span:nth-child(2) {
@@ -407,34 +432,11 @@
   }
 
   @media screen and (width <= 40rem) {
-    .weather-location {
-      font-size: 1.75rem;
-
-      .data-time {
-        font-size: 0.875rem;
-      }
-    }
-
-    .weather-temp {
-      font-size: 3.125rem;
-    }
-
-    .weather-detail {
-      span {
-        font-size: 1.25rem;
-      }
-
-      .weather-temp {
-        gap: 0.625rem;
-      }
-    }
-
     .weather-detail-sub {
       margin-top: 0.625rem;
 
       span {
         padding: 1rem 0.3125rem;
-        font-size: 0.875rem;
       }
 
       span:nth-child(2) {
@@ -455,14 +457,23 @@
   }
 
   @media screen and (width <= 40rem) {
+    align-self: center;
     inline-size: 100%;
-    block-size: 10.625rem;
+    block-size: 100%;
   }
 }
 
 .weather-hourly {
   inline-size: auto;
   max-inline-size: 16.25rem;
+  color: var(--text-color);
+  white-space: nowrap;
+
+  &:focus-within {
+    .hourly-lists {
+      outline: 3px solid var(--outline);
+    }
+  }
 
   @media screen and (width <= 40rem) {
     max-inline-size: 100%;
@@ -471,7 +482,7 @@
       display: flex;
       overflow: scroll hidden;
       scrollbar-width: none;
-      gap: 1.875rem;
+      gap: var(--space-lg);
     }
   }
 }
@@ -479,8 +490,8 @@
 .hourly-item {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  font-size: 1.75rem;
+  gap: var(--space-ml);
+  font-size: var(--font-md);
   letter-spacing: 0;
 
   .hourly-icon {
@@ -507,8 +518,6 @@
   @media screen and (width <= 40rem) {
     display: flex;
     flex-flow: column nowrap;
-    gap: 0.75rem;
-    font-size: 1rem;
 
     .hourly-icon {
       inline-size: 100%;

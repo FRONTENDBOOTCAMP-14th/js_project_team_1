@@ -1,97 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" data-theme="light">
+<html lang="ko">
   <head>
     <meta charset="UTF-8" />
-    <title>장소 추천 캐러셀</title>
-    <link rel="stylesheet" href="woohyeun.css" />
+    <title>날씨 기반 장소 추천 캐러셀</title>
+    <link rel="stylesheet" href="./woohyeun.css" />
   </head>
   <body>
-    <button id="theme-toggle">🌙 다크 모드</button>
     <div class="header-area">
-      <h2>📍 흐린 날씨에 가기 좋은 장소를 추천해드릴게요</h2>
+      <h2>📍 날씨에 어울리는 장소를 추천드릴게요</h2>
     </div>
     <div class="carousel-area">
-      <div class="carousel-outer" id="carouselOuter">
-        <ul class="place-list" id="carousel">
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">서울숲</div>
-                <div class="place-address">서울 성동구 뚝섬로 273</div>
-                <div class="place-desc">자연과 산책을 즐길 수 있는 대형 공원입니다.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">국립중앙박물관</div>
-                <div class="place-address">서울 용산구 서빙고로 137</div>
-                <div class="place-desc">한국 역사와 문화를 한눈에 볼 수 있는 공간.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">별마당도서관</div>
-                <div class="place-address">서울 강남구 영동대로 513</div>
-                <div class="place-desc">이색적인 분위기의 복합 문화공간 도서관입니다.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">롯데월드타워 전망대</div>
-                <div class="place-address">서울 송파구 올림픽로 300</div>
-                <div class="place-desc">서울 전경을 한눈에 내려다볼 수 있는 명소.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">예술의전당</div>
-                <div class="place-address">서울 서초구 남부순환로 2406</div>
-                <div class="place-desc">공연과 전시가 함께하는 종합예술공간입니다.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">커먼그라운드</div>
-                <div class="place-address">서울 광진구 아차산로 200</div>
-                <div class="place-desc">컨테이너로 만든 트렌디한 복합문화공간.</div>
-              </div>
-            </a>
-          </li>
-          <li class="place-card">
-            <a href="#">
-              <div class="place-img-wrap"></div>
-              <div class="place-info">
-                <div class="place-title">동대문디자인플라자</div>
-                <div class="place-address">서울 중구 을지로 281</div>
-                <div class="place-desc">미래지향적 디자인의 대표 건축물입니다.</div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <button class="carousel-arrow left" id="arrowLeft" aria-label="이전">
-          <span class="arrow-svg"></span>
-        </button>
-        <button class="carousel-arrow right" id="arrowRight" aria-label="다음">
-          <span class="arrow-svg"></span>
-        </button>
+      <button class="carousel-arrow left" id="arrowLeft"><span class="arrow-svg"></span></button>
+      <div class="carousel-outer">
+        <div class="carousel-track-frame">
+          <ul class="place-list" id="carousel"></ul>
+        </div>
       </div>
+      <button class="carousel-arrow right" id="arrowRight"><span class="arrow-svg"></span></button>
     </div>
-    <script src="woohyeun.js"></script>
+    <script src="woohyeun.js" type="module"></script>
   </body>
 </html>
