@@ -9,7 +9,7 @@ const PLAYLIST_BY_WEATHER = {
   "03n": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 밤
   "04d": "6YeQxqNmJQzp9Fxtmx0KI4", //온흐림
   "04n": "0x4Tzcvz7hGYeM6q71bVJP", //온흐림
-  "09d": "3W0nONHewUQeLyWjWCsNkL", // 소나기 낮
+  "09d": "1HJY60OjkA50XDErv5w20m", // 소나기 낮
   "09n": "1oHApva4PBHMd0WOpBpzK2", // 소나기 밤
   "10d": "5FT9sItEm2GtAPaahBtIJS", // 비 낮
   "10n": "5oKWX70uCr0CfN3GpMbMfz", // 비 밤
