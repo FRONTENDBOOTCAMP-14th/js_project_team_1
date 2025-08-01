@@ -9,8 +9,8 @@ body {
 
 .header-area {
   max-width: 107.5rem;
-
-  margin: 0 auto var(--space-xl) auto;
+  margin-bottom: var(--space-xl);
+  /* margin: 0 auto var(--space-xl) auto; */
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -24,12 +24,12 @@ body {
   margin: 0;
   text-align: left;
   width: 100%;
+  word-break: keep-all;
 }
 
 .carousel-area {
   max-width: 107.5rem;
-
-  margin: 0 auto var(--space-2xl) auto;
+  /* margin: 0 auto var(--space-2xl) auto; */
   position: relative;
   display: flex;
   align-items: center;
@@ -38,9 +38,9 @@ body {
 
 .carousel-outer {
   max-width: 107.5rem;
-  height: 30.9375rem;
-  overflow: hidden;
+  overflow: scroll hidden;
   margin: 0 auto;
+  padding: 0.75rem;
   scrollbar-width: none;
 }
 
@@ -57,7 +57,6 @@ body {
   margin: 0;
   list-style: none;
   width: max-content;
-  height: 18.75rem;
   scroll-behavior: smooth;
   transition: transform 0.3s cubic-bezier(0.7, 0, 0.3, 1);
 }
@@ -68,12 +67,12 @@ body {
   align-items: center;
   box-sizing: border-box;
   width: 25rem;
-  height: 29.5rem;
   background: none;
   border: none;
-  padding: 0;
+  padding: 0.9375rem;
   margin: 0;
   overflow: visible;
+  border-radius: var(--radius-xl);
 }
 
 .place-card a {
@@ -83,7 +82,7 @@ body {
   flex-direction: column;
   align-items: center;
   text-decoration: none;
-  border-radius: var(--radius-xl);
+  /* border-radius: var(--radius-xl); */
   position: relative;
   background: transparent;
   transition: transform 0.18s cubic-bezier(0.7, 0, 0.3, 1), box-shadow 0.16s, outline 0.16s;
@@ -99,9 +98,9 @@ body {
 .place-card a:focus-visible {
   transform: scale(1.045);
   z-index: 2;
-  outline: 0.19rem solid var(--outline-red);
+  outline: 0.19rem solid var(--outline);
   outline-offset: 0.13rem;
-  box-shadow: 0 0 0 0.31rem, var(--outline-red);
+  /* box-shadow: 0 0 0 0.31rem, var(--outline); */
 }
 
 .place-card a:active {
@@ -165,6 +164,10 @@ body {
   width: var(--space-4xl);
   height: var(--space-4xl);
   border-radius: var(--radius-full);
+
+  &:focus {
+    outline: 0.1875rem solid var(--outline);
+  }
 }
 
 .carousel-arrow.left {
@@ -179,15 +182,25 @@ body {
 }
 
 .arrow-svg {
-  width: var(--space-3xl);
-  height: var(--space-3xl);
-  display: block;
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+
+  & svg {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 @media (max-width: 640px) {
+  .header-area h2 {
+    text-align: center;
+  }
   .carousel-arrow {
-    width: 1.25rem;
-    height: 1.25rem;
+    /* width: 1.25rem;
+    height: 1.25rem; */
+    display: none;
+    pointer-events: none;
   }
   .carousel-arrow:active {
     transform: translateY(-50%) scale(0.93);
@@ -199,12 +212,11 @@ body {
   }
   .carousel-outer {
     min-width: 0;
-    height: 14rem;
   }
   .place-card,
   .place-card a {
-    width: 11rem;
-    height: 13rem;
+    width: 12.5rem;
+    height: auto;
   }
   .place-img-wrap {
     height: 5rem;
