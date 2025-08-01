@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>장소 검색 및 지도</title>
-  <link rel="stylesheet" href="map-location.css">
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
-  <!-- Kakao Maps API will be loaded dynamically -->
-</head>
-<body>
-  <div class="map-location">
-    <aside class="map-location__sidebar">
-      <div class="place-card__image-container">
-        <img id="place-image" src="./서울식물원.jpg" alt="서울식물원" class="place-card__image">
-      </div>
-      
-      <div class="place-card__info">
-        <h1 id="place-name" class="place-card__title">서울식물원 (마곡)</h1>
-        
-        <div class="weather-card__temperature-section">
-          <span id="place-temp" class="weather-card__temperature">00°C</span>
-        </div>
-        
-        <div class="weather-card__info">
-          <div id="weather-description" class="weather-card__description">
-            <span class="weather-card__main">흐림</span>
-            <span class="weather-card__minmax">최저24° 최고29°</span>
-          </div>
-          <div id="weather-details" class="weather-card__details">
-            <div class="weather-card__detail-item">체감 00.0°</div>
-            <div class="weather-card__detail-item">습도 00%</div>
-            <div class="weather-card__detail-item">동풍 0.0m/s</div>
-          </div>
-        </div>
-      </div>
-    </aside>
+  <head>
+    <meta charset="UTF-8" />
+    <title>장소 검색 및 지도</title>
+    <link rel="stylesheet" href="map-location.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <main class="map-location__content">
-      <div id="map-container" class="map-location__container"></div>
-      
-      <div class="map-location__address-bar">
-        <div id="place-address" class="map-location__address">서울 강서구 마곡동로 161 서울식물원</div>
-        <button id="copy-btn" class="map-location__copy-btn" type="button" aria-label="주소 복사"></button>
-      </div>
-    </main>
-  </div>
-  
-  <!-- API keys will be managed through environment variables -->
-  <script src="./map-location.js"></script>
-</body>
+    <!-- Kakao Maps API will be loaded dynamically -->
+  </head>
+  <body>
+    <div class="map-location">
+      <aside class="map-location__sidebar">
+        <div class="place-card__image-container">
+          <img id="place-image" src="./서울식물원.jpg" alt="서울식물원" class="place-card__image" />
+        </div>
+
+        <div class="place-card__info">
+          <h1 id="place-name" class="place-card__title">서울식물원 (마곡)</h1>
+
+          <div class="weather-card__temperature-section">
+            <span id="place-temp" class="weather-card__temperature">00°C</span>
+          </div>
+
+          <div class="weather-card__info">
+            <div id="weather-description" class="weather-card__description">
+              <span class="weather-card__main">흐림</span>
+              <span class="weather-card__minmax">최저24° 최고29°</span>
+            </div>
+            <div id="weather-details" class="weather-card__details">
+              <div class="weather-card__detail-item">체감 00.0°</div>
+              <div class="weather-card__detail-item">습도 00%</div>
+              <div class="weather-card__detail-item">동풍 0.0m/s</div>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="map-location__content">
+        <div id="map-container" class="map-location__container"></div>
+
+        <div class="map-location__address-bar">
+          <div id="place-address" class="map-location__address">
+            서울 강서구 마곡동로 161 서울식물원
+          </div>
+          <button
+            id="copy-btn"
+            class="map-location__copy-btn"
+            type="button"
+            aria-label="주소 복사"
+          ></button>
+        </div>
+      </main>
+    </div>
+
+    <!-- API keys will be managed through environment variables -->
+    <script type="module" src="./map-location.js"></script>
+  </body>
 </html>
