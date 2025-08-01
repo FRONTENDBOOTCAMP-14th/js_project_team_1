@@ -5,16 +5,26 @@
 @import "/src/components/placeRecommand/woohyeun.css";
 @import "/src/components/footer/footer.css";
 
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
 body {
   background-color: var(--body-bg-color);
 }
 
 .web-header,
 section {
-  padding: 3.875rem;
+  padding-inline: 3.875rem;
 
   @media screen and (width <= 40rem) {
-    padding: 2.5rem;
+    padding-inline: 2.5rem;
   }
 }
 
