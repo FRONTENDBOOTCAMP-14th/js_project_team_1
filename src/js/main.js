@@ -4,6 +4,7 @@ import "../components/placeRecommand/woohyeun.js";
 import { placeRecommendView } from "../components/placeRecommand/woohyeun.js";
 import "../components/playlist/playlist.js";
 import { updatePlaylist } from "../components/playlist/playlist.js";
+import "../components/playlist/playlist__carousel.js";
 import "../components/weeklyforecast/weeklyforecast.js";
 import { renderWeeklyForecast } from "../components/weeklyforecast/weeklyforecast.js";
 import "./darkmode.js";
