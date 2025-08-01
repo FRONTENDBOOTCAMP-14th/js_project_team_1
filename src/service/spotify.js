@@ -29,12 +29,16 @@ export async function getSpotifyAccessToken(clientId, clientSecret) {
 //플레이리스트 트랙 가져오는 함수
 export async function getPlaylistTracks(playlistId, accessToken) {
   try {
-    const res = await axios.get(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    console.log("플레이리스트 트랙 조회 성공:" + res.data);
+    const res = await axios.get(
+      `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=10`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    console.log("플레이리스트 트랙 조회 성공");
+
     return res.data.items;
   } catch (error) {
     console.error("플레이리스트 트랙 조회 실패:", error.response?.data || error.message);

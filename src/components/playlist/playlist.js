@@ -3,7 +3,7 @@ import { getPlaylistTracks, getSpotifyAccessToken } from "../../service/spotify"
 const PLAYLIST_BY_WEATHER = {
   "01d": "5bXCeNizWSMuLryalD7eOt", // 맑은 낮
   "01n": "2oxqCm5CDh0FLzRPnhnitw", // 맑은 밤
-  "02d": "7q6bb9nyAeNd1s37wU5oQA", // 약간 구름 낮
+  "02d": "3KrQbbb1QPkhm2GTAUMtd0", // 약간 구름 낮
   "02n": "5tSTpzKrrpZmtPfId6Sc0f", // 약간 구름 밤
   "03d": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 낮
   "03n": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 밤
@@ -21,17 +21,10 @@ const PLAYLIST_BY_WEATHER = {
   "50n": "2i3fDHxnwufFok3QhQyqWo", // 안개 밤
 };
 
-//업데이트 플레이리스트 하면 해야될일
-// 1. 타이틀 연동
-// 2. 플레이리스트 연동 -> 플레이리트스 아이디 연동
-// 3. 화면에 렌더링 -> main
-
 export async function updatePlaylist(currentUserWeather) {
   console.log("updateplalist 실행");
 
   //플레이리스트 섹션 앨범 커버 부분 초기화
-  const playlistInner = document.querySelector(".playlist__inner");
-  playlistInner.innerHTML = "";
 
   if (!currentUserWeather) {
     console.warn("날씨 데이터 없음");
@@ -69,16 +62,18 @@ function getPlayListID(currentUserWeather) {
 }
 
 //playlist HTML 앨범 커버 업데이트 함수
-function updateTrackInfo(track) {
+function updateTrackInfo(track, PLAYLIST_ID) {
   const playlistInner = document.querySelector(".playlist__inner");
   const trackContainer = document.createElement("li");
   trackContainer.classList.add("playlist__track-container");
 
   let albumCoverUrl = track.album.images[0].url;
   trackContainer.innerHTML = `
-  <div class="playlist__cover" style="background-image: url('${albumCoverUrl}');"></div>
-    <div class="playlist__title">${track.name}</div>
-    <div class="playlist__singer">${track.artists.map((a) => a.name).join(", ")}</div>
+  <a href="https://open.spotify.com/playlist/${PLAYLIST_ID}" target="_blank" rel="noopenner noreferrer">
+    <div class="playlist__cover" style="background-image: url('${albumCoverUrl}');"></div>
+      <div class="playlist__title">${track.name}</div>
+      <div class="playlist__singer">${track.artists.map((a) => a.name).join(", ")}</div>
+  </a>
   `;
   console.log("앨범커버업데이트");
   playlistInner.appendChild(trackContainer);
@@ -103,11 +98,16 @@ async function main(PLAYLIST_ID) {
     return;
   }
 
+  //HTML 동적 추가 전 inner 비우기
+  const playlistInner = document.querySelector(".playlist__inner");
+  playlistInner.innerHTML = "";
+  console.log("inner 삭제");
+
   // 3) HTML 에 동적 추가
   tracks.forEach((item) => {
     const track = item.track;
-    updateTrackInfo(track);
+    updateTrackInfo(track, PLAYLIST_ID);
   });
 
-  console.log("메인함수반환");
+  console.log("메인함수끝");
 }
