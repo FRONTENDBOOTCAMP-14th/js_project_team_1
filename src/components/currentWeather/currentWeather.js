@@ -223,7 +223,7 @@ function createTemplate(data, city) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <h3 class="weather-location">
-    ${city}<span class="data-time"><time>(${new Date(
+    <span>${city}</span><span class="data-time"><time>(${new Date(
     data.dt * 1000
   ).toLocaleTimeString()}기준)</time>
     </span>
@@ -231,7 +231,7 @@ function createTemplate(data, city) {
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>
     <div class="weather-detail">
       <span>${data.weather.at(0).description}</span>
-      <div class="weather-temp">
+      <div class="weather-lowhight-temp">
         <span>최저 ${data.main.temp_min.toFixed(1)}°C</span>
         <span>최고 ${data.main.temp_max.toFixed(1)}°C</span>
       </div>
