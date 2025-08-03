@@ -30,7 +30,6 @@ body {
 .carousel-area {
   max-width: 107.5rem;
   /* margin: 0 auto var(--space-2xl) auto; */
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;

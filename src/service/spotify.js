@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorModal } from "../js/utils";
 
 // spotify Access Token 발급 함수
 export async function getSpotifyAccessToken(clientId, clientSecret) {
@@ -21,7 +22,9 @@ export async function getSpotifyAccessToken(clientId, clientSecret) {
     });
     return res.data.access_token;
   } catch (error) {
-    alert("스포티파이 토큰 발급 실패:", error.response?.data || error.message);
+    const message = "스포티파이 토큰 발급에 실패 하였습니다.";
+    errorModal(message);
+    console.error("스포티파이 토큰 발급 실패:", error.response?.data || error.message);
   }
 }
 
@@ -39,6 +42,11 @@ export async function getPlaylistTracks(playlistId, accessToken) {
 
     return res.data.items;
   } catch (error) {
-    alert("플레이리스트 트랙 조회 실패 다시 시도해주세요:", error.response?.data || error.message);
+    const message = "플레이리스트 트랙 조회 실패 하였습니다.";
+    errorModal(message);
+    console.error(
+      "플레이리스트 트랙 조회 실패 다시 시도해주세요:",
+      error.response?.data || error.message
+    );
   }
 }

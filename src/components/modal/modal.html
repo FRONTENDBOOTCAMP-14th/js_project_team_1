@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/src/common/index.css" />
+    <link rel="stylesheet" href="/src/components/modal/modal.css" />
+    <title>Modal Components</title>
+  </head>
+  <body>
+    <h1 style="border-bottom: 2px solid black; margin-bottom: 3.125rem">Modal Components</h1>
+    <!-- ---------------- -->
+
+    <dialog
+      class="modal-container"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+      open
+    >
+      <section role="document">
+        <div class="modal-header">
+          <div class="modal-header-img">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+              <path
+                d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"
+              />
+            </svg>
+          </div>
+          <h3 id="modal-title">Error</h3>
+        </div>
+        <p class="modal-description" id="modal-description">
+          위치 정보를 가져오지 못했습니다.<br />
+          잠시후 다시 시도해주세요..
+        </p>
+        <div class="modal-btn">
+          <button class="continue-btn" type="button">Continue</button>
+        </div>
+      </section>
+    </dialog>
+  </body>
+</html>
