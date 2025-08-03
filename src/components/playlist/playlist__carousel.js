@@ -9,7 +9,7 @@ function getArrowSvg(direction, size = 60) {
       ? `<polyline points="50,25 30,40.5 50,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`
       : `<polyline points="30,25 50,40.5 30,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
   return `
-    <svg width="${size}" height="${size}" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="${size}" height="${size}" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="40" cy="40.5" r="40" fill="#ffffff"/>
       ${arrow}
     </svg>
@@ -38,10 +38,8 @@ updateArrows();
 playlist.addEventListener("click", (evt) => {
   console.log("click");
   if (evt.target.closest("button") === nextButton) {
-    console.log("nxt 버튼 클릭");
     playlistInner.scrollLeft += 300;
   } else if (evt.target.closest("button") === prevButton) {
-    console.log("prev button click");
     playlistInner.scrollLeft -= 300;
   }
 });
