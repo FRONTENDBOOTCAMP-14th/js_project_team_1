@@ -81,22 +81,19 @@ async function main(PLAYLIST_ID) {
   try {
     const res = await axios.get("/.netlify/functions/getSpotifyTokens");
 
-    if (res.status !== 200) {
-      return;
+    if (res.status !== 200 || !res.data.access_token) {
+      throw new Error("스포티파이 인증 실패");
     }
     token = res.data.access_token;
   } catch (error) {
-    alert("스포티파이 인증을 실패했어요 페이지 새로고침 해 주세요");
-  }
-  if (!token) {
-    alert("스포티파이 토큰없음...페이지 새로고침 해 주세요");
+    alert("스포티파이 인증 요청 중 오류가 발생했어요... 페이지를 새로고침 해주세요");
     return;
   }
 
   // 2) 플레이리스트 트랙 불러오기
   const tracks = await getPlaylistTracks(PLAYLIST_ID, token);
   if (!tracks) {
-    alert("트랙을 불러오는 데 실패했습니다. 잠시 뒤 다시 시도해주세요");
+    alert("트랙을 불러오지 못했어요... 잠시 후 다시 시도해주세요");
     return;
   }
 

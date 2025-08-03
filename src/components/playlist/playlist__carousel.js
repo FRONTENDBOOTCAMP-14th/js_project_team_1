@@ -36,7 +36,6 @@ function updateArrows() {
 updateArrows();
 
 playlist.addEventListener("click", (evt) => {
-  console.log("click");
   if (evt.target.closest("button") === nextButton) {
     playlistInner.scrollLeft += 300;
   } else if (evt.target.closest("button") === prevButton) {
