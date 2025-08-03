@@ -108,5 +108,9 @@
       .playlist__singer {
       }
     }
+
+    .carousel-arrow {
+      display: none;
+    }
   }
 }
