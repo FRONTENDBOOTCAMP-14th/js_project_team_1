@@ -136,6 +136,7 @@ export async function citiesData() {
 
     return cities;
   } catch (error) {
+    alert("도시정보 데이터를 불러오는데에 실패했습니다.. 잠시후 다시 시도해주세요.");
     console.error("데이터 로딩 실패..", error);
   }
 }
@@ -223,9 +224,9 @@ function createTemplate(data, city) {
   // innerHTML를 이용하여 DOM 작성
   template.innerHTML = `
     <h3 class="weather-location">
-    <span>${city}</span><span class="data-time"><time>(${new Date(
+    <span>${city}</span><span class="data-time">(${new Date(
     data.dt * 1000
-  ).toLocaleTimeString()}기준)</time>
+  ).toLocaleTimeString()} 기준)
     </span>
     </h3>
     <p class="weather-temp">${data.main.temp.toFixed(1) /*소수점 한자리 */}°C</p>

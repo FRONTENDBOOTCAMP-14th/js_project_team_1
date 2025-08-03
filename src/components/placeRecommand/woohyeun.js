@@ -1,5 +1,6 @@
 import axios from "axios";
 import { iconMap } from "../../js/main";
+import { updateArrows } from "../../js/utils";
 
 const placeHeader = document.querySelector(".header-area");
 
@@ -46,6 +47,7 @@ async function renderPlaces(iconCode) {
     updateArrows();
     scrollToIndex(0);
   } catch (error) {
+    alert("추천장소 데이터를 불러오는데에 실패했습니다.. 잠시후 다시 시도해주세요");
     console.error(error);
   }
 }
@@ -77,31 +79,6 @@ function scrollToIndex(idx) {
   }
   if (scrollX < 0) scrollX = 0;
   outer.scrollTo({ left: scrollX, behavior: "smooth" });
-}
-
-function getArrowSvg(direction, size = 60) {
-  const arrow =
-    direction === "left"
-      ? `<polyline points="50,25 30,40.5 50,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`
-      : `<polyline points="30,25 50,40.5 30,56" fill="none" stroke="black" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>`;
-  return `
-    <svg width="${size}" height="${size}" viewBox="0 0 80 81" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="40" cy="40.5" r="40" fill="#ffffff"/>
-      ${arrow}
-    </svg>
-  `;
-}
-
-function updateArrows() {
-  let size = 60;
-  if (window.innerWidth <= 1000) size = 38;
-  if (window.innerWidth <= 640) size = 28;
-  const left = document.querySelector(".carousel-arrow.left .arrow-svg");
-  const right = document.querySelector(".carousel-arrow.right .arrow-svg");
-  if (left && right) {
-    left.innerHTML = getArrowSvg("left", size);
-    right.innerHTML = getArrowSvg("right", size);
-  }
 }
 
 let currentIndex = 0;

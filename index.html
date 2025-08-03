@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="kr">
   <head>
     <meta charset="UTF-8" />
@@ -19,9 +19,9 @@
           <span class="btn-text">다크 모드</span>
         </button>
       </div>
-      <h2 class="current-time">
+      <p class="current-time">
         <time aria-live="off"></time>
-      </h2>
+      </p>
     </header>
 
     <main class="web-main">
@@ -58,7 +58,7 @@
               <div class="weather-summary">
                 <h3 class="weather-location">
                   <span>지역명</span>
-                  <span class="data-time">(<time></time>기준)</span>
+                  <span class="data-time">(기준)</span>
                 </h3>
                 <p class="weather-temp">00°C</p>
                 <div class="weather-detail">
@@ -207,12 +207,8 @@
         <div class="carousel-area">
           <div class="carousel-outer" id="carouselOuter">
             <ul class="place-list" id="carousel"></ul>
-            <button class="carousel-arrow left" id="arrowLeft" aria-label="이전">
-              <span class="arrow-svg"></span>
-            </button>
-            <button class="carousel-arrow right" id="arrowRight" aria-label="다음">
-              <span class="arrow-svg"></span>
-            </button>
+            <button class="carousel-arrow left" id="arrowLeft" aria-label="이전"></button>
+            <button class="carousel-arrow right" id="arrowRight" aria-label="다음"></button>
           </div>
         </div>
       </section>
