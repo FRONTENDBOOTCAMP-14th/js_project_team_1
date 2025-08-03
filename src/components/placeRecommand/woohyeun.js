@@ -96,8 +96,10 @@ function updateArrows() {
   let size = 60;
   if (window.innerWidth <= 1000) size = 38;
   if (window.innerWidth <= 640) size = 28;
-  const left = document.querySelector(".carousel-arrow.left .arrow-svg");
-  const right = document.querySelector(".carousel-arrow.right .arrow-svg");
+  const outer = document.querySelector(".carousel-outer");
+  const left = outer.querySelector(".carousel-arrow.left .arrow-svg");
+  const right = outer.querySelector(".carousel-arrow.right .arrow-svg");
+  console.log(document.querySelector(".carousel-arrow.left .arrow-svg"));
   if (left && right) {
     left.innerHTML = getArrowSvg("left", size);
     right.innerHTML = getArrowSvg("right", size);
