@@ -136,6 +136,7 @@ export async function citiesData() {
 
     return cities;
   } catch (error) {
+    alert("도시정보 데이터를 불러오는데에 실패했습니다.. 잠시후 다시 시도해주세요.");
     console.error("데이터 로딩 실패..", error);
   }
 }

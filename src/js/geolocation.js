@@ -53,6 +53,7 @@ async function successLocation(position) {
     // 브라우저 렌더함수에 위도,경도,도시이름 전달
     renderView(lat, lon, cityName);
   } catch (error) {
+    alert("위치 정보를 가져오지 못했습니다. 잠시후 다시 시도해주세요..");
     console.error("위치 정보를 가져오지 못했습니다..", error);
   }
 }
