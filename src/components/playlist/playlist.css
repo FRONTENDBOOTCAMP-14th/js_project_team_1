@@ -6,6 +6,8 @@
   height: auto;
   overflow: hidden;
 
+  position: relative;
+
   a {
     color: inherit;
     text-decoration: none;
@@ -26,6 +28,7 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
+    scroll-behavior: smooth;
 
     .playlist__track-container {
       display: flex;
@@ -69,6 +72,21 @@
       min-height: 80px;
       text-align: center;
     }
+  }
+
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 100;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--space-4xl);
+    height: var(--space-4xl);
+    border-radius: var(--radius-full);
   }
 }
 

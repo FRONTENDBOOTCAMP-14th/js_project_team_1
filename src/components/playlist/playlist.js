@@ -1,4 +1,5 @@
-import { getPlaylistTracks, getSpotifyAccessToken } from "../../service/spotify";
+import axios from "axios";
+import { getPlaylistTracks } from "../../service/spotify";
 
 const PLAYLIST_BY_WEATHER = {
   "01d": "5bXCeNizWSMuLryalD7eOt", // 맑은 낮
@@ -9,7 +10,7 @@ const PLAYLIST_BY_WEATHER = {
   "03n": "5tSTpzKrrpZmtPfId6Sc0f", // 구름조금 밤
   "04d": "6YeQxqNmJQzp9Fxtmx0KI4", //온흐림
   "04n": "0x4Tzcvz7hGYeM6q71bVJP", //온흐림
-  "09d": "3W0nONHewUQeLyWjWCsNkL", // 소나기 낮
+  "09d": "1HJY60OjkA50XDErv5w20m", // 소나기 낮
   "09n": "1oHApva4PBHMd0WOpBpzK2", // 소나기 밤
   "10d": "5FT9sItEm2GtAPaahBtIJS", // 비 낮
   "10n": "5oKWX70uCr0CfN3GpMbMfz", // 비 밤
@@ -81,13 +82,22 @@ function updateTrackInfo(track, PLAYLIST_ID) {
 
 // API 관련 함수들(토큰발급, 플레이리스트아이디조회)
 async function main(PLAYLIST_ID) {
-  const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-  const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+  // 서버리스함수에서 토큰 받아오기
+  let token;
+  try {
+    const res = await axios.get("/.netlify/functions/getSpotifyTokens");
+    console.log("함수 응답:", res.status, res.data);
 
-  // 1) 토큰 발급
-  const token = await getSpotifyAccessToken(CLIENT_ID, CLIENT_SECRET);
+    if (res.status !== 200) {
+      console.log("fail to get token" + res.status);
+      return;
+    }
+    token = res.data.access_token;
+  } catch (error) {
+    console.log("fail to get token");
+  }
   if (!token) {
-    console.error("토큰 발급 실패해서 종료");
+    console.error("토큰없음...");
     return;
   }
 
