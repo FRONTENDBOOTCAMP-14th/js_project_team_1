@@ -4,16 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/src/common/index.css" />
+    <link rel="stylesheet" href="/src/components/placeRecommand/woohyeun.css" />
     <link rel="stylesheet" href="/src/components/playlist/playlist.css" />
-    <script type="module" src="/src/components/playlist/playlist.js"></script>
+    <script type="module" src="./playlist.js"></script>
+    <script type="module" src="/src/components/playlist/playlist__carousel.js"></script>
     <title>playlist section</title>
   </head>
   <body>
     <section class="playlist">
-      <div class="playlist__describe"></div>
+      <h2 class="playlist__describe" aria-live="polite">🎧 흐린 날씨에 이런 노래 어떠세요?</h2>
+      <button class="carousel-arrow right playlist__arrow--next" aria-label="다음"></button>
       <ul class="playlist__inner">
         <!-- js로 동적 생성 -->
       </ul>
+      <button class="carousel-arrow left playlist__arrow--prev" aria-label="이전"></button>
     </section>
   </body>
 </html>

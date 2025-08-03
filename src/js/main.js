@@ -4,6 +4,7 @@ import "../components/placeRecommand/woohyeun.js";
 import { placeRecommendView } from "../components/placeRecommand/woohyeun.js";
 import "../components/playlist/playlist.js";
 import { updatePlaylist } from "../components/playlist/playlist.js";
+import "../components/playlist/playlist__carousel.js";
 import "../components/weeklyforecast/weeklyforecast.js";
 import { renderWeeklyForecast } from "../components/weeklyforecast/weeklyforecast.js";
 import "./darkmode.js";
@@ -58,19 +59,22 @@ function getDateRender() {
   const getDay = new Intl.DateTimeFormat("ko-KR", {
     year: "numeric",
     month: "2-digit",
-    day: "numeric",
+    day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
     second: "2-digit",
     hour12: false, // 24시간제로 표기
   }).format(time);
 
-  const toLocaleString = time.toLocaleString();
+  // 웹접근성을 위한 포맷
+  const titmeOffset = -time.getTimezoneOffset() * 60000;
+  const kst = new Date(time.getTime() + titmeOffset);
+  const isoTime = kst.toISOString().slice(0, 19);
 
   const timeTag = currentTime.querySelector("time");
   // .current-weather-time DOM요소에 포맷된 문자열 삽입
   timeTag.textContent = getDay;
-  timeTag.setAttribute("datetime", toLocaleString);
+  timeTag.setAttribute("datetime", isoTime);
 }
 
 // 날씨 데이터 렌더 함수
@@ -84,7 +88,7 @@ export async function renderView(lat, lon, city) {
   // 주간예보 렌더링
   renderWeeklyForecast(forecastWeather);
 
-  //사용자가 날씨를 검색하면 검색 한 곳의 플레이리스트로 업데이트
+  //사용자가 날씨를 검색하면 검색한 곳의 플레이리스트로 업데이트
   updatePlaylist(currentWeather);
 
   // 장소추천 렌더링 함수 실행
