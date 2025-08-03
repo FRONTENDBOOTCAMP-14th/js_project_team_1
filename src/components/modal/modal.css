@@ -1,13 +1,15 @@
-body {
-  background-color: #dddddd;
-}
-
 .modal-container {
+  position: fixed;
+  inset: 0;
   border: transparent;
   border-radius: 0.3125rem;
   inline-size: 100%;
   max-inline-size: 31.25rem;
   padding: 0;
+
+  section {
+    padding: 0;
+  }
 
   @media screen and (width <= 40rem) {
     max-inline-size: 80%;
@@ -55,11 +57,16 @@ body {
 .modal-btn {
   inline-size: 100%;
   background-color: transparent;
+
+  &:focus-within .continue-btn {
+    border-color: var(--modal-button-outline);
+  }
 }
 
 .continue-btn {
   padding: var(--space-lg);
-  border: 0;
+  border: 0.1875rem solid transparent;
+  outline: 0;
   inline-size: 100%;
   font-size: var(--font-sm);
   font-weight: 600;
@@ -69,9 +76,5 @@ body {
 
   &:hover {
     opacity: 0.7;
-  }
-
-  &:focus {
-    outline: 3px solid var(--outline);
   }
 }

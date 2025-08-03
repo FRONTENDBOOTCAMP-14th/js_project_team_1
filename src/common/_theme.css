@@ -16,6 +16,7 @@
   --svg-bg-color: #181818;
 
   --modal-error-color: #f7616e;
+  --modal-button-outline: #008b8b;
 
   /* font-size */
   --font-xs: 1.25rem;
@@ -96,4 +97,6 @@
   --label-bg-color: #fff;
 
   --svg-bg-color: #fff;
+
+  --modal-button-outline: #7df9ff;
 }
