@@ -7,12 +7,12 @@ export const weather_data = [
     weather: [
       {
         id: 802,
-        main: 'Clouds',
-        description: '구름조금', // 날씨 설명
-        icon: '03n', // 아이콘 id
+        main: "Clouds",
+        description: "구름조금", // 날씨 설명
+        icon: "03n", // 아이콘 id
       },
     ],
-    base: 'stations',
+    base: "stations",
     main: {
       temp: 25.76, // 현재 온도 (℃)
       feels_like: 27, // 체감 온도 (℃)
@@ -35,13 +35,13 @@ export const weather_data = [
     sys: {
       type: 1,
       id: 8105,
-      country: 'KR', // 국가 코드
+      country: "KR", // 국가 코드
       sunrise: 1752956758, // 데이터 시간 (Unix timestamp)
       sunset: 1753008630, // 데이터 시간 (Unix timestamp)
     },
     timezone: 32400,
     id: 1835848,
-    name: 'Seoul',
+    name: "Seoul",
     cod: 200,
   },
 ];
