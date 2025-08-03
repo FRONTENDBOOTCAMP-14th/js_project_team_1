@@ -1,2 +1,7 @@
 [build.environment]
 SECRETS_SCAN_ENABLED = "true"
+
+[functions]
+directory = "netlify/functions"
+external_node_modules = ["axios"]
+node_bundler = "esbuild"
