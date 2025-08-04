@@ -2,7 +2,7 @@ import { iconMap } from "../../js/main.js";
 
 // 메인 함수 (main.js에서 forecast Data 받아옴)
 export function renderWeeklyForecast(forecastWeatherList) {
-  console.log("주간예보 렌더 시작!");
+  // console.log("주간예보 렌더 시작!");
 
   const dailyArray = groupByDate(forecastWeatherList.list);
 
@@ -23,7 +23,7 @@ export function renderWeeklyForecast(forecastWeatherList) {
 function groupByDate(forecastList) {
   const dailyMap = {};
 
-  console.log(forecastList);
+  // console.log(forecastList);
   forecastList.forEach((data) => {
     const dateStr = getDateStr(data.dt);
     if (!dailyMap[dateStr]) dailyMap[dateStr] = [];
@@ -93,9 +93,6 @@ function renderDayForecast(item, dayDataArr) {
   if (cells.length >= 2 && dayDataArr.length >= 1) {
     let afternoon =
       dayDataArr.find((d) => getKoreanHour(d.dt) === 15) || dayDataArr[dayDataArr.length - 1];
-
-    console.log("afternoon data:", afternoon);
-    console.log(cells[1]);
 
     const iconCode = iconMap[afternoon.weather[0].icon];
 
