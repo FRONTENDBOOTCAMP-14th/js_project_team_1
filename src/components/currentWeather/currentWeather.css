@@ -29,10 +29,25 @@
   }
 
   .web-title {
-    font-size: var(--font-2xl);
-    font-weight: 800;
-    line-height: 1;
-    color: var(--text-color);
+    position: relative;
+    inline-size: 100%;
+    block-size: 7.5rem;
+
+    & .title-logo {
+      display: inline-block;
+      inline-size: 100%;
+      max-inline-size: 18.75rem;
+      block-size: 100%;
+      background: url("/assets/logo.png") no-repeat left / contain;
+
+      html[data-theme="dark"] & {
+        background-image: url("/assets/logo-white.png");
+      }
+
+      @media screen and (width <= 40rem) {
+        max-inline-size: 12.5rem;
+      }
+    }
   }
 
   #theme-toggle {
@@ -232,7 +247,7 @@
   position: absolute;
   inline-size: 2rem;
   block-size: 2rem;
-  background-color: #00000080;
+  background-color: #0056ab;
   border: 0;
   border-radius: 50%;
   top: 50%;
@@ -263,7 +278,7 @@
   }
 
   &:focus {
-    outline: 0.1875rem solid var(--outline);
+    outline: 0.1875rem solid #f9004d;
   }
 
   &:disabled {
@@ -332,17 +347,22 @@
   block-size: 100%;
   border: 1px solid var(--border-color);
   border-radius: 1.5rem;
-  color: #000;
+  color: #fff;
   font-size: var(--font-md);
   font-weight: 700;
-  background-color: var(--bg-color);
+  background-color: #0056ab;
+
+  html[data-theme="dark"] & {
+    color: #000;
+    background-color: #fff;
+  }
 
   &:hover {
     opacity: 0.8;
   }
 
   &:focus {
-    outline: 3px solid var(--outline);
+    outline: 3px solid #f9004d;
   }
 
   @media screen and (width <= 40rem) {

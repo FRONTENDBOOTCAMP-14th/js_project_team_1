@@ -4,19 +4,19 @@
   --text-color-50: #00000080;
   --border-color: #0000001a;
   --bg-color: #f5f7fa;
-  --outline: #f9004d;
+  --outline: #0056ab;
   --bg-hover-color: #e2e4e7;
   --body-bg-color: #fff;
   --card-bg-color: #fff;
   --card-element-bg-color: #f5f7fa;
 
   --label-text-color: #fff;
-  --label-bg-color: #000;
+  --label-bg-color: #0056ab;
 
   --svg-bg-color: #181818;
 
   --modal-error-color: #f7616e;
-  --modal-button-outline: #008b8b;
+  --modal-button-outline: #0056ab;
 
   /* font-size */
   --font-xs: 1.25rem;
@@ -92,6 +92,7 @@
   --body-bg-color: #181818;
   --card-bg-color: #121212;
   --card-element-bg-color: rgba(255, 255, 255, 0.1);
+  --outline: #f9004d;
 
   --label-text-color: #000;
   --label-bg-color: #fff;
