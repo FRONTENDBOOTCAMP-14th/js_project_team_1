@@ -1,7 +1,7 @@
 import { getSpotifyAccessToken } from "../../src/service/spotify";
 
 export async function handler(event, context) {
-  const SPOTIFY_CLIENT_ID = process.env.VITE_SPOTIFY_CLIENT_ID;
+  const SPOTIFY_CLIENT_ID = process.env.NETLIFY_SPOTIFY_CLIENT_ID;
   const SPOTIFY_SECRET = process.env.NETLIFY_SPOTIFY_SECRET;
 
   console.log("Loaded clientId:", SPOTIFY_CLIENT_ID ? "Yes" : "No");

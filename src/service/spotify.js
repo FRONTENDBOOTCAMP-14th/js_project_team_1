@@ -1,5 +1,6 @@
 import axios from "axios";
-import { errorModal } from "../js/utils";
+//오류 발생으로 주석처리
+// import { errorModal } from "../js/utils";
 
 // spotify Access Token 발급 함수
 export async function getSpotifyAccessToken(clientId, clientSecret) {
