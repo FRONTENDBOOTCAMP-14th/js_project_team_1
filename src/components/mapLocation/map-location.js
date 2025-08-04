@@ -13,6 +13,8 @@ class MapLocationApp {
       WEATHER_API_UNITS: "metric",
       KAKAO_MAP_API_KEY: import.meta.env.VITE_KAKAO_MAP_JS_API_KEY,
       OPENWEATHER_API_KEY: import.meta.env.VITE_OPENWEATHERMAP_API_KEY,
+      KAKAO_MAP_SCROLLWHEEL: false,
+      KAKAO_MAP_DRAGGABLE: false,
     };
 
     this.state = {
@@ -69,6 +71,8 @@ class MapLocationApp {
     const mapOptions = {
       center: new kakao.maps.LatLng(latitude, longitude),
       level: this.CONFIG.DEFAULT_MAP_LEVEL,
+      scrollwheel: this.CONFIG.KAKAO_MAP_SCROLLWHEEL,
+      draggable: this.CONFIG.KAKAO_MAP_DRAGGABLE,
     };
 
     this.state.kakaoMap = new kakao.maps.Map(this.domElements.mapContainer, mapOptions);
