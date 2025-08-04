@@ -1,6 +1,6 @@
 import axios from "axios";
 import { iconMap } from "../../js/main";
-import { updateArrows } from "../../js/utils";
+import { errorModal, updateArrows } from "../../js/utils";
 
 const placeHeader = document.querySelector(".header-area");
 
@@ -47,7 +47,8 @@ async function renderPlaces(iconCode) {
     updateArrows();
     scrollToIndex(0);
   } catch (error) {
-    alert("추천장소 데이터를 불러오는데에 실패했습니다.. 잠시후 다시 시도해주세요");
+    const message = "추천장소 데이터를 불러오는데에 실패했습니다.";
+    errorModal(message);
     console.error(error);
   }
 }

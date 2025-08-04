@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorModal } from "../../js/utils";
 import { getPlaylistTracks } from "../../service/spotify";
 
 const PLAYLIST_BY_WEATHER = {
@@ -22,16 +23,15 @@ const PLAYLIST_BY_WEATHER = {
   "50n": "2i3fDHxnwufFok3QhQyqWo", // 안개 밤
 };
 
-export async function updatePlaylist(currentUserWeather) {
+export async function updatePlaylist(currentUserWeather, currentUserCity) {
   //플레이리스트 섹션 앨범 커버 부분 초기화
 
-  if (!currentUserWeather) {
-    alert("날씨 데이터를 불러오지 못했어요");
+  if (!currentUserWeather || !currentUserCity) {
     return;
   }
 
   //update section title
-  updateDescibe(currentUserWeather);
+  updateDescibe(currentUserWeather, currentUserCity);
 
   // 플레이리스트 아이디 받아오기
   const PLAYLIST_ID = getPlayListID(currentUserWeather);
@@ -41,12 +41,13 @@ export async function updatePlaylist(currentUserWeather) {
 }
 
 //섹션 타이틀 변경
-function updateDescibe(currentUserWeather) {
+function updateDescibe(currentUserWeather, currentUserCity) {
   let nowtWeather = currentUserWeather.weather[0].description;
+  let nowCity = currentUserCity;
 
   const playlist = document.querySelector(".playlist");
   const playlistDescribe = playlist.querySelector(".playlist__describe");
-  playlistDescribe.textContent = `🎧 현재 날씨 ${nowtWeather}, 이런 노래 어떠세요? `;
+  playlistDescribe.textContent = `🎧 ${nowCity}는 지금 ${nowtWeather}, 이런 노래 어떠세요? `;
 }
 
 //플레이리스트 아이디 가져오기
@@ -65,7 +66,9 @@ function updateTrackInfo(track, PLAYLIST_ID) {
   let albumCoverUrl = track.album.images[0]?.url || "";
 
   trackContainer.innerHTML = `
-  <a href="https://open.spotify.com/playlist/${PLAYLIST_ID}" aria-label="${track.name}들으러 가기" target="_blank" rel="noopener noreferrer">
+  <a href="https://open.spotify.com/playlist/${PLAYLIST_ID}" aria-label="${
+    track.name
+  }들으러 가기" target="_blank" rel="noopener noreferrer">
     <div class="playlist__cover" style="background-image: url('${albumCoverUrl}');"></div>
       <div class="playlist__title">${track.name}</div>
       <div class="playlist__singer">${track.artists.map((a) => a.name).join(", ")}</div>
@@ -86,14 +89,14 @@ async function main(PLAYLIST_ID) {
     }
     token = res.data.access_token;
   } catch (error) {
-    alert("스포티파이 인증 요청 중 오류가 발생했어요... 페이지를 새로고침 해주세요");
+    const message = "스포티파이 인증 요청 중 오류가 발생했어요.";
+    errorModal(message);
     return;
   }
 
   // 2) 플레이리스트 트랙 불러오기
   const tracks = await getPlaylistTracks(PLAYLIST_ID, token);
   if (!tracks) {
-    alert("트랙을 불러오지 못했어요... 잠시 후 다시 시도해주세요");
     return;
   }
 
