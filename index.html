@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="kr">
   <head>
     <meta charset="UTF-8" />
@@ -20,7 +20,7 @@
         </button>
       </div>
       <p class="current-time">
-        <time aria-live="off"></time>
+        <time aria-live="off" datetime="2025-08-03T00:00:00"> 2025. 08. 03. 00:00:00</time>
       </p>
     </header>
 
@@ -108,11 +108,9 @@
               <div class="day-weather">
                 <div class="day-weather-cell">
                   <p>오전</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
                 <div class="day-weather-cell">
                   <p>오후</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
               </div>
               <div class="minmax-temp">
@@ -125,11 +123,9 @@
               <div class="day-weather">
                 <div class="day-weather-cell">
                   <p>오전</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
                 <div class="day-weather-cell">
                   <p>오후</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
               </div>
               <div class="minmax-temp">
@@ -142,11 +138,9 @@
               <div class="day-weather">
                 <div class="day-weather-cell">
                   <p>오전</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
                 <div class="day-weather-cell">
                   <p>오후</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
               </div>
               <div class="minmax-temp">
@@ -159,11 +153,9 @@
               <div class="day-weather">
                 <div class="day-weather-cell">
                   <p>오전</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
                 <div class="day-weather-cell">
                   <p>오후</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
               </div>
               <div class="minmax-temp">
@@ -176,11 +168,9 @@
               <div class="day-weather">
                 <div class="day-weather-cell">
                   <p>오전</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
                 <div class="day-weather-cell">
                   <p>오후</p>
-                  <img src="" alt="현재 날씨" />
                 </div>
               </div>
               <div class="minmax-temp">
@@ -194,10 +184,10 @@
       <section class="playlist">
         <h2 class="playlist__describe" aria-live="polite">🎧 흐린 날씨에 이런 노래 어떠세요?</h2>
         <button class="carousel-arrow right playlist__arrow--next" aria-label="다음"></button>
+        <button class="carousel-arrow left playlist__arrow--prev" aria-label="이전"></button>
         <ul class="playlist__inner">
           <!-- js로 동적 생성 -->
         </ul>
-        <button class="carousel-arrow left playlist__arrow--prev" aria-label="이전"></button>
       </section>
 
       <section>
@@ -206,9 +196,9 @@
         </div>
         <div class="carousel-area">
           <div class="carousel-outer" id="carouselOuter">
-            <ul class="place-list" id="carousel"></ul>
-            <button class="carousel-arrow left" id="arrowLeft" aria-label="이전"></button>
             <button class="carousel-arrow right" id="arrowRight" aria-label="다음"></button>
+            <button class="carousel-arrow left" id="arrowLeft" aria-label="이전"></button>
+            <ul class="place-list" id="carousel"></ul>
           </div>
         </div>
       </section>
@@ -230,5 +220,33 @@
         </svg>
       </a>
     </footer>
+
+    <dialog
+      class="modal-container"
+      aria-labelledby="modal-title"
+      aria-describedby="modal-description"
+    >
+      <section role="document">
+        <div class="modal-header">
+          <div class="modal-header-img">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+              <path
+                d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"
+              />
+            </svg>
+          </div>
+
+          <h3 id="modal-title">Error</h3>
+        </div>
+        <p class="modal-description" id="modal-description">
+          <span class="error-message">위치 정보를 가져오지 못했습니다.</span>
+          <br />
+          <span>잠시후 다시 시도해주세요..</span>
+        </p>
+        <div class="modal-btn">
+          <button class="continue-btn" type="button">Continue</button>
+        </div>
+      </section>
+    </dialog>
   </body>
 </html>

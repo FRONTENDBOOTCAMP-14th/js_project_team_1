@@ -1,4 +1,5 @@
 import axios from "axios";
+import { errorModal } from "../../js/utils";
 import { getPlaylistTracks } from "../../service/spotify";
 
 const PLAYLIST_BY_WEATHER = {
@@ -26,7 +27,6 @@ export async function updatePlaylist(currentUserWeather, currentUserCity) {
   //플레이리스트 섹션 앨범 커버 부분 초기화
 
   if (!currentUserWeather || !currentUserCity) {
-    alert("데이터를 불러오지 못했어요");
     return;
   }
 
@@ -66,7 +66,9 @@ function updateTrackInfo(track, PLAYLIST_ID) {
   let albumCoverUrl = track.album.images[0]?.url || "";
 
   trackContainer.innerHTML = `
-  <a href="https://open.spotify.com/playlist/${PLAYLIST_ID}" aria-label="${track.name}들으러 가기" target="_blank" rel="noopener noreferrer">
+  <a href="https://open.spotify.com/playlist/${PLAYLIST_ID}" aria-label="${
+    track.name
+  }들으러 가기" target="_blank" rel="noopener noreferrer">
     <div class="playlist__cover" style="background-image: url('${albumCoverUrl}');"></div>
       <div class="playlist__title">${track.name}</div>
       <div class="playlist__singer">${track.artists.map((a) => a.name).join(", ")}</div>
@@ -87,14 +89,14 @@ async function main(PLAYLIST_ID) {
     }
     token = res.data.access_token;
   } catch (error) {
-    alert("스포티파이 인증 요청 중 오류가 발생했어요... 페이지를 새로고침 해주세요");
+    const message = "스포티파이 인증 요청 중 오류가 발생했어요.";
+    errorModal(message);
     return;
   }
 
   // 2) 플레이리스트 트랙 불러오기
   const tracks = await getPlaylistTracks(PLAYLIST_ID, token);
   if (!tracks) {
-    alert("트랙을 불러오지 못했어요... 잠시 후 다시 시도해주세요");
     return;
   }
 

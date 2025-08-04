@@ -2,7 +2,7 @@ import { iconMap } from "../../js/main.js";
 
 // 메인 함수 (main.js에서 forecast Data 받아옴)
 export function renderWeeklyForecast(forecastWeatherList) {
-  console.log("주간예보 렌더 시작!");
+  // console.log("주간예보 렌더 시작!");
 
   const dailyArray = groupByDate(forecastWeatherList.list);
 
@@ -23,7 +23,7 @@ export function renderWeeklyForecast(forecastWeatherList) {
 function groupByDate(forecastList) {
   const dailyMap = {};
 
-  console.log(forecastList);
+  // console.log(forecastList);
   forecastList.forEach((data) => {
     const dateStr = getDateStr(data.dt);
     if (!dailyMap[dateStr]) dailyMap[dateStr] = [];
@@ -78,19 +78,32 @@ function renderDayForecast(item, dayDataArr) {
   if (cells.length >= 1 && dayDataArr.length >= 1) {
     let morning = dayDataArr.find((d) => getKoreanHour(d.dt) === 9) || dayDataArr[0];
     const iconCode = iconMap[morning.weather[0].icon];
-    cells[0].querySelector("img").src = `/assets/weatherIcon/${iconCode}.svg`;
-    cells[0].querySelector("img").alt = morning.weather[0].description;
-    cells[0].querySelector("p").textContent = "오전";
+
+    let img = cells[0].querySelector("img");
+    if (!img) {
+      img = document.createElement("img");
+      cells[0].appendChild(img);
+    }
+
+    img.src = `/assets/weatherIcon/${iconCode}.svg`;
+    img.alt = morning.weather[0].description;
   }
 
   // 오후 데이터
   if (cells.length >= 2 && dayDataArr.length >= 1) {
     let afternoon =
       dayDataArr.find((d) => getKoreanHour(d.dt) === 15) || dayDataArr[dayDataArr.length - 1];
+
     const iconCode = iconMap[afternoon.weather[0].icon];
-    cells[1].querySelector("img").src = `/assets/weatherIcon/${iconCode}.svg`;
-    cells[1].querySelector("img").alt = afternoon.weather[0].description;
-    cells[1].querySelector("p").textContent = "오후";
+
+    let img = cells[1].querySelector("img");
+    if (!img) {
+      img = document.createElement("img");
+      cells[1].appendChild(img);
+    }
+
+    img.src = `/assets/weatherIcon/${iconCode}.svg`;
+    img.alt = afternoon.weather[0].description;
   }
 }
 
