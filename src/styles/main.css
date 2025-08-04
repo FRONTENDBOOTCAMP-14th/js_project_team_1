@@ -4,7 +4,7 @@
 @import "/src/components/playlist/playlist.css";
 @import "/src/components/placeRecommand/woohyeun.css";
 @import "/src/components/footer/footer.css";
-
+@import "/src/components/modal/modal.css";
 * {
   box-sizing: border-box;
 }
@@ -26,6 +26,10 @@ section {
   @media screen and (width <= 40rem) {
     padding-inline: 2.5rem;
   }
+}
+
+section {
+  position: relative;
 }
 
 .web-main {

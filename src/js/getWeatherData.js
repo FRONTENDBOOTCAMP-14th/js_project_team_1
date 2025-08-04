@@ -1,4 +1,5 @@
 import { getCurrentWeather, getForecastWeather } from "../service/openWeatherMap";
+import { errorModal } from "./utils";
 
 export async function getWeatherData(lat, lon) {
   try {
@@ -11,7 +12,8 @@ export async function getWeatherData(lat, lon) {
     // 날씨 정보 데이터 반환
     return { currentWeather, forecastWeather };
   } catch (error) {
-    alert("날씨정보를 가져오지 못했습니다. 잠시후 다시 시도해주세요..");
+    const message = "날씨정보를 가져오지 못했습니다.";
+    errorModal(message);
     console.error("데이터 로딩 실패..", error);
   }
 }

@@ -1,4 +1,5 @@
 /* 유틸 함수 */
+const modal = document.querySelector(".modal-container");
 
 // 문자 부분강조 함수
 export function highLight(name, keyword) {
@@ -80,4 +81,21 @@ function getArrowSvg(direction, size = 60) {
       ${arrow}
     </svg>
   `;
+}
+
+// Error 모달
+export function errorModal(message) {
+  const errorMessage = modal.querySelector(".error-message");
+  const modalButton = modal.querySelector(".modal-btn");
+
+  errorMessage.textContent = message;
+  modal.showModal();
+
+  requestAnimationFrame(() => {
+    modalButton.focus();
+  });
+
+  modalButton.addEventListener("click", () => {
+    modal.close();
+  });
 }
