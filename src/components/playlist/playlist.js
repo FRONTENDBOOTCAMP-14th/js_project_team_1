@@ -23,15 +23,15 @@ const PLAYLIST_BY_WEATHER = {
   "50n": "2i3fDHxnwufFok3QhQyqWo", // 안개 밤
 };
 
-export async function updatePlaylist(currentUserWeather) {
+export async function updatePlaylist(currentUserWeather, currentUserCity) {
   //플레이리스트 섹션 앨범 커버 부분 초기화
 
-  if (!currentUserWeather) {
+  if (!currentUserWeather || !currentUserCity) {
     return;
   }
 
   //update section title
-  updateDescibe(currentUserWeather);
+  updateDescibe(currentUserWeather, currentUserCity);
 
   // 플레이리스트 아이디 받아오기
   const PLAYLIST_ID = getPlayListID(currentUserWeather);
@@ -41,12 +41,13 @@ export async function updatePlaylist(currentUserWeather) {
 }
 
 //섹션 타이틀 변경
-function updateDescibe(currentUserWeather) {
+function updateDescibe(currentUserWeather, currentUserCity) {
   let nowtWeather = currentUserWeather.weather[0].description;
+  let nowCity = currentUserCity;
 
   const playlist = document.querySelector(".playlist");
   const playlistDescribe = playlist.querySelector(".playlist__describe");
-  playlistDescribe.textContent = `🎧 현재 날씨 ${nowtWeather}, 이런 노래 어떠세요? `;
+  playlistDescribe.textContent = `🎧 ${nowCity}는 지금 ${nowtWeather}, 이런 노래 어떠세요? `;
 }
 
 //플레이리스트 아이디 가져오기

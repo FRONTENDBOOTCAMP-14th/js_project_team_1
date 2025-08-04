@@ -89,7 +89,7 @@ export async function renderView(lat, lon, city) {
   renderWeeklyForecast(forecastWeather);
 
   //사용자가 날씨를 검색하면 검색한 곳의 플레이리스트로 업데이트
-  updatePlaylist(currentWeather);
+  updatePlaylist(currentWeather, city);
 
   // 장소추천 렌더링 함수 실행
   placeRecommendView(currentWeather);
