@@ -31,9 +31,9 @@
   --shadow-main: 0 20px 60px rgba(0, 0, 0, 0.1);
   --transition-default: 0.2s ease;
   
-  --layout-max-width: 1920px;
-  --layout-max-height: 1080px;
-  --sidebar-width: 650px;
+  --layout-max-width: 1200px;
+  --layout-max-height: 800px;
+  --sidebar-width: 400px;
 }
 
 * {
@@ -55,12 +55,11 @@ body {
   border-radius: var(--border-radius-large);
   box-shadow: var(--shadow-main);
   display: flex;
-  height: var(--layout-max-height);
+  height: 100vh;
   margin: 0 auto;
+  max-width: var(--layout-max-width);
   overflow: hidden;
-  transform: scale(calc(100vh / 1080));
-  transform-origin: center center;
-  width: var(--layout-max-width);
+  width: 100vw;
 }
 
 .map-location__sidebar {
@@ -240,4 +239,132 @@ body {
   position: absolute;
   right: 0;
   top: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  :root {
+    --sidebar-width: 350px;
+    --font-size-large: 80px;
+    --font-size-xlarge: 36px;
+    --font-size-medium: 28px;
+    --font-size-base: 20px;
+    --spacing-huge: 32px;
+    --spacing-xxxl: 24px;
+  }
+  
+  .place-card__image-container {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 100%;
+    --font-size-large: 60px;
+    --font-size-xlarge: 28px;
+    --font-size-medium: 24px;
+    --font-size-base: 16px;
+    --font-size-small: 14px;
+    --spacing-huge: 20px;
+    --spacing-xxxl: 16px;
+    --spacing-xxl: 16px;
+    --spacing-xl: 12px;
+  }
+  
+  .map-location {
+    flex-direction: column;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  
+  .map-location__sidebar {
+    flex: 0 0 auto;
+    height: 300px;
+    padding: var(--spacing-xl);
+    gap: var(--spacing-xl);
+  }
+  
+  .place-card__image-container {
+    min-height: 120px;
+    flex: 0 0 120px;
+  }
+  
+  .place-card__info {
+    gap: var(--spacing-md);
+  }
+  
+  .weather-card__details {
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+  
+  .weather-card__detail-item {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-xs) var(--spacing-sm);
+  }
+  
+  .map-location__content {
+    flex: 1;
+    min-height: calc(100vh - 300px);
+  }
+  
+  .map-location__address-bar {
+    bottom: var(--spacing-xl);
+    left: var(--spacing-xl);
+    right: var(--spacing-xl);
+  }
+  
+  .map-location__address {
+    font-size: var(--font-size-small);
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+  
+  .map-location__copy-btn {
+    height: 48px;
+    width: 48px;
+    margin-left: var(--spacing-xs);
+  }
+  
+  .map-location__copy-btn::before {
+    height: 18px;
+    width: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --font-size-large: 48px;
+    --font-size-xlarge: 24px;
+    --font-size-medium: 20px;
+    --font-size-base: 14px;
+    --font-size-small: 12px;
+    --spacing-huge: 16px;
+    --spacing-xxxl: 12px;
+    --spacing-xxl: 12px;
+    --spacing-xl: 10px;
+  }
+  
+  .map-location__sidebar {  
+    height: 250px;
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+  
+  .place-card__image-container {
+    min-height: 100px;
+    flex: 0 0 100px;
+  }
+  
+  .weather-card__details {
+    gap: 4px;
+  }
+  
+  .weather-card__detail-item {
+    padding: 6px 8px;
+  }
+  
+  .map-location__content {
+    min-height: calc(100vh - 250px);
+  }
 }
